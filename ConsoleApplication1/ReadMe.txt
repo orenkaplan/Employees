@@ -1,11 +1,9 @@
 ========================================================================
-    APPLICATION : ConsoleApplication1 Project Overview
+    APPLICATION : Employees Project Overview
 ========================================================================
 
-AppWizard has created this ConsoleApplication1 Application for you.  
-
 This file contains a summary of what you will find in each of the files that
-make up your ConsoleApplication1 application.
+make up the Employees application.
 
 ConsoleApplication1.vcxproj
     This is the main project file for VC++ projects generated using an Application Wizard. 
@@ -20,7 +18,7 @@ ConsoleApplication1.vcxproj.filters
     similar extensions under a specific node (for e.g. ".cpp" files are associated with the
     "Source Files" filter).
 
-ConsoleApplication1.cpp
+Employees.cpp
     This is the main application source file.
 
 AssemblyInfo.cpp
