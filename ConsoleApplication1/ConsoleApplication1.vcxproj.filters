@@ -33,6 +33,12 @@
     <ClInclude Include="Candidate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="People.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="myMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">
@@ -56,6 +62,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Candidate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="People.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="myMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

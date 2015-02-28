@@ -84,6 +84,8 @@
   <ItemGroup>
     <ClInclude Include="Candidate.h" />
     <ClInclude Include="Employee.h" />
+    <ClInclude Include="myMenu.h" />
+    <ClInclude Include="People.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -95,6 +97,8 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Candidate.cpp" />
     <ClCompile Include="Employee.cpp" />
+    <ClCompile Include="myMenu.cpp" />
+    <ClCompile Include="People.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="Employees.cpp" />
     <ClCompile Include="stdafx.cpp">

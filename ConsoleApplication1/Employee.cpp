@@ -13,12 +13,16 @@ void Employee::selectGet(char chrWTG)
 	switch (chrWTG)
 	{
 		case 'p':
-			lngGot = lngSalary;
+		{
+			*lngGot = *lngSalary;
+			strGot = NULL;
+		}
 			break;
 		case 't':
-			{
-				strGot = chrType;
-			}
+		{
+			*strGot = *chrType;
+			lngGot = NULL;
+		}
 			break;
 		default:
 			chooseGet(chrWTG);
@@ -32,7 +36,7 @@ void Employee::get(char chrWhatToGet)
 
 void Employee::show()
 {
-	switch (chrType)
+	switch (*chrType)
 	{
 		case 'g':
 			cout << "Global ";
@@ -47,8 +51,8 @@ void Employee::show()
 			cout << "Bad employee type." << endl << "Please start over and report to author." << endl;
 			return;
 	}
-	cout << "employee " << strName << ", number " << lngSerial << " is";
-	if (!blActive)
+	cout << "employee " << *strName << ", number " << *lngSerial << " is";
+	if (!*blActive)
 	{
 		cout << "n't";
 	}
@@ -57,52 +61,58 @@ void Employee::show()
 
 void Employee::set(string strNewName)
 {
-	strName = strNewName;
+	*strName = strNewName;
 }
 
 void Employee::set(char chrNewType)
 {
-	chrType = chrNewType;
+	*chrType = chrNewType;
 }
 
 void Employee::set(long lngNewSalary)
 {
-	lngSalary = lngNewSalary;
+	*lngSalary = lngNewSalary;
 }
 
 void Employee::terminate()
 {
-	blActive = false;
+	*blActive = false;
 }
 
 void Employee::activate(long lngNewSalary)
 {
-	blActive = true;
+	*blActive = true;
 	set(lngNewSalary);
 }
 
 long Employee::operator<< (Employee & empB)
 {
-	long lngResponse;
-	empB.get('s');
-	lngResponse = lngSerial;
-	lngResponse << empB.lngGot;
-	empB.get(' ');
-	return lngResponse;
+	long lngRetVal;
+	lngRetVal = *lngSerial;
+	lngRetVal << *empB.lngSerial;
+	return lngRetVal;
+}
+
+long Employee::operator>> (Employee & empB)
+{
+	long lngRetVal;
+	lngRetVal = *lngSerial;
+	lngRetVal >> *empB.lngSerial;
+	return lngRetVal;
 }
 
 void Employee::operator= (Employee & empB)
 {
-	empB.get('a');
-	blActive = empB.lngGot;
-	empB.get('n');
-	strName = empB.strGot;
-	empB.get('t');
-	chrType = empB.strGot;
-	empB.get('p');
-	lngSalary = empB.lngGot;
-	empB.get(' ');
-	get(' ');
+	*blActive = *empB.blActive;
+	*strName = *empB.strName;
+	*chrType = *empB.chrType;
+	*lngSalary = *empB.lngSalary;
+}
+
+bool Employee::operator== (Employee & empB)
+{
+	return *blActive == *empB.blActive && *strName == *empB.strName
+		&& *chrType == *empB.chrType && *lngSalary == *empB.lngSalary;
 }
 
 
