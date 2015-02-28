@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include <stdio.h>
+#include <string>
+#include <iostream>
 #include "Employee.h"
 
 
-using namespace System;
+using namespace std;
 
 
 void Employee::selectGet(char chrWTG)
@@ -15,8 +17,7 @@ void Employee::selectGet(char chrWTG)
 			break;
 		case 't':
 			{
-				*chrGot = NULL;
-				chrGot[0] = chrType;
+				strGot = chrType;
 			}
 			break;
 		default:
@@ -34,37 +35,29 @@ void Employee::show()
 	switch (chrType)
 	{
 		case 'g':
-			Console::Write("Global ");
+			cout << "Global ";
 			break;
 		case 't':
-			Console::Write("Temporary ");
+			cout << "Temporary ";
 			break;
 		case 'h':
-			Console::Write("Hourly ");
+			cout << "Hourly ";
 			break;
 		default:
-			{
-				Console::WriteLine("Bad employee type.");
-				Console::WriteLine("Please start over and report to author.");
-			}
+			cout << "Bad employee type." << endl << "Please start over and report to author." << endl;
 			return;
 	}
-	Console::Write("employee ");
-	Console::Write(chrName);
-	Console::Write(", number ");
-	Console::Write(lngSerial);
-	Console::Write(" is ");
+	cout << "employee " << strName << ", number " << lngSerial << " is";
 	if (!blActive)
 	{
-		Console::Write("not ");
+		cout << "n't";
 	}
-	Console::WriteLine("active.");
+	cout << " active." << endl;
 }
 
-void Employee::set(char *chrNewName)
+void Employee::set(string strNewName)
 {
-	*chrName = NULL;
-	*chrName = *chrNewName;
+	strName = strNewName;
 }
 
 void Employee::set(char chrNewType)
@@ -103,10 +96,9 @@ void Employee::operator= (Employee & empB)
 	empB.get('a');
 	blActive = empB.lngGot;
 	empB.get('n');
-	*chrName = NULL;
-	*chrName = *empB.chrGot;
+	strName = empB.strGot;
 	empB.get('t');
-	chrType = *empB.chrGot;
+	chrType = empB.strGot;
 	empB.get('p');
 	lngSalary = empB.lngGot;
 	empB.get(' ');
@@ -119,7 +111,7 @@ Employee::Employee()
 
 }
 
-Employee::Employee(char *chrNewName, char chrNewType, bool blIsActive)
+Employee::Employee(string strNewName, char chrNewType, bool blIsActive)
 {
 
 }

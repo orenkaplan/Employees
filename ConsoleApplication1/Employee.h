@@ -12,12 +12,12 @@ protected:
 
 public:
 	Employee();
-	Employee(char *chrNewName, char chrNewType, bool blIsActive);
+	Employee(string strNewName, char chrNewType, bool blIsActive);
 	Employee(Employee &obj);
 	~Employee();
 	virtual void show();
 	virtual void get(char chrWhatToGet);
-	void set(char *chrNewName);
+	void set(string strNewName);
 	void set(char chrNewType);
 	void set(long lngNewSalary);
 	virtual void terminate();
