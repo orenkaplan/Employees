@@ -54,14 +54,20 @@ void Employee::setSalary(long lngNewSalary)
 	*lngSalary = lngNewSalary;
 }
 
+bool Employee::isInitialized()
+{
+	return getSerial != NULL && getName != NULL && isActive != NULL
+		&& getType !=NULL && getSalary != NULL;
+}
+
 void Employee::terminate()
 {
-	setActive(false);
+	set(false);
 }
 
 void Employee::activate(long lngNewSalary)
 {
-	setActive(true);
+	set(true);
 	setSalary(lngNewSalary);
 }
 
@@ -74,46 +80,72 @@ long Employee::operator<< (Employee & empB)
 	return lngRetVal;
 }
 
-long Employee::operator>> (Employee & empB)
-{
-	long lngRetVal;
-	lngRetVal = *lngSerial;
-	lngRetVal >> *empB.lngSerial;
-	return lngRetVal;
-}
-
 void Employee::operator= (Employee & empB)
 {
-	
-	*blActive = *empB.blActive;
-	*strName = *empB.strName;
-	*chrType = *empB.chrType;
-	*lngSalary = *empB.lngSalary;
+	set(empB.getSerial);
+	set(*empB.isActive);
+	setName(*empB.getName);
+	set(*empB.getType);
+	setSalary(*empB.getSalary);
 }
 
 bool Employee::operator== (Employee & empB)
 {
-	return *blActive == *empB.blActive && *strName == *empB.strName
-		&& *chrType == *empB.chrType && *lngSalary == *empB.lngSalary;
+	return getSerial == *empB.getSerial && isActive == *empB.isActive && getName == *empB.getName
+		&& getType == *empB.getType && getSalary == *empB.getSalary;
+}
+
+bool Employee::operator== (Candidate & cndB)
+{
+	Employee & empTemp = dynamic_cast<Employee&>(cndB);
+	if (&empTemp == nullptr)
+	{
+		return false;
+	}
+	else
+	{
+		return getSerial == empTemp.getSerial && isActive == empTemp.isActive && getName == empTemp.getName
+			&& getType == empTemp.getType && getSalary == empTemp.getSalary;
+	}
 }
 
 
 Employee::Employee()
 {
-
+	People pplGet;
+	set(pplGet.getNewSerial);
+	setName("");
+	setSalary(0);
+	set('t');
+	set(false);
+	pplGet.addPerson(*this);
 }
 
-Employee::Employee(string strNewName, char chrNewType, bool blIsActive)
+Employee::Employee(string strNewName, long lngNewSalary, char chrNewType, bool blIsActive)
 {
-
+	People pplGet;
+	set(pplGet.getNewSerial);
+	setName(strNewName);
+	setSalary(lngNewSalary);
+	set(chrNewType);
+	set(blIsActive);
+	pplGet.addPerson(*this);
 }
 
-Employee::Employee(Employee &obj)
+Employee::Employee(Employee & empB)
 {
-
+	People pplGet;
+	pplGet.addPerson(empB);
+	set(pplGet.getNewSerial);
 }
 
 Employee::~Employee()
 {
-
+	People pplDel;
+	set((long)-1);
+	setName("");
+	set(false);
+	delete lngSalary;
+	delete chrType;
+	pplDel.remPerson(*this);
 }

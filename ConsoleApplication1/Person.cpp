@@ -25,7 +25,7 @@ bool Person::isActive()
 
 bool Person::isInitialized()
 {
-	return lngSerial != NULL && strName != NULL && blActive != NULL;
+	return getSerial != NULL && getName != NULL && isActive != NULL;
 }
 
 void Person::show()
@@ -51,22 +51,22 @@ long Person::operator>> (Person & prsB)
 
 void Person::operator= (Person & prsB)
 {
-	*lngSerial = *prsB.lngSerial;
-	*blActive = *prsB.blActive;
-	*strName = *prsB.strName;
+	set(*prsB.getSerial);
+	set(*prsB.isActive);
+	setName(*prsB.getName);
 }
 
 bool Person::operator== (Person & prsB)
 {
-	return *blActive == *prsB.blActive && *strName == *prsB.strName;
+	return getSerial == *prsB.getSerial && isActive == *prsB.isActive && getName == *prsB.getName;
 }
 
-void Person::setActive(bool blValue)
+void Person::set(bool blValue)
 {
 	*blActive = blValue;
 }
 
-void Person::set(string strNewName)
+void Person::setName(string strNewName)
 {
 	*strName = strNewName;
 }
@@ -74,20 +74,22 @@ void Person::set(string strNewName)
 
 Person::Person()
 {
-
-}
-
-Person::Person(string strNewName, bool blIsActive)
-{
-
+	lngSerial = new long;
+	strName = new string;
+	blActive = new bool;
+	set((long)0);
+	set("");
+	set(false);
 }
 
 Person::Person(Person & prsB)
 {
-
+	*this = prsB;
 }
 
 Person::~Person()
 {
-
+	delete lngSerial;
+	delete strName;
+	delete blActive;
 }

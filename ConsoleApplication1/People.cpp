@@ -15,7 +15,12 @@ void People::show()
 	{
 		if (!blEmpty[i])
 		{
-			prsList[i].show;
+			Employee *empTemp = dynamic_cast<Employee*>(empList[i]);
+			Candidate *cndTemp = dynamic_cast<Candidate*>(empList[i]);
+			if (cndTemp = nullptr)
+			{
+				*empTemp;
+			}
 		}
 		else
 		{
@@ -24,35 +29,19 @@ void People::show()
 	}
 }
 
-void People::get(char chrWhatToGet)
+int People::getSize()
 {
-	switch (chrWhatToGet)
-	{
-		case 's':
-			*lngGot = intSize;
-			break;
-		case 'l':
-			*lngGot = intLastTouched;
-			break;
-		default:
-			lngGot = NULL;
-	}
+	return intSize;
 }
 
-void People::set(int intNewValue, char chrWhatToChange)
+int People::getLastTouchedIndex()
 {
-	switch (chrWhatToChange)
-	{
-	case 's':
-		intSize = intNewValue;
-		break;
-	case 'l':
-		intLastTouched = intNewValue;
-		break;
-	default:
-		*lngGot = -1;
-	}
-	lngGot = NULL;
+	return intLastTouched;
+}
+
+void People::set(int intNewIndex)
+{
+	intLastTouched = intNewIndex;
 }
 
 bool People::isEmpty()
@@ -73,64 +62,87 @@ long People::getNewSerial()
 	return lngNewSerial;
 }
 
-void People::addPerson()
+void People::addPerson(Employee **& empTempList)
 {
-
+	for (int i = 0; i < intSize; i++)
+	{
+		empTempList[i] = empList[i];
+	}
+	intSize++;
+	empList = new Employee*[intSize];
+	lngSerialList = new long[intSize];
+	blEmpty = new bool[intSize];
+	for (int i = 0; i < intSize; i++)
+	{
+		Employee empTemp = *empTempList[i];
+		empList[i] = empTempList[i];
+		lngSerialList[i] = empTemp.getSerial;
+		blEmpty[i] = empTemp.isInitialized;
+	}
+	set(intSize);
 }
 
 void People::addPerson(Employee & empB)
 {
-	prsTempList = new Employee[intSize + 1];
-	for (int i = 0; i < intSize; i++)
-	{
-		prsTempList[i] = prsList[i];
-	}
-	prsTempList[intSize + 1] = empB;
-	intSize++;
-	prsList = new Employee[intSize];
-	lngSerialList = new long[intSize];
-	for (int i = 0; i < intSize; i++)
-	{
-		prsList[i] = prsTempList[i];
-		lngSerialList[i] = *prsList[i].getSerial;
-
-	}
-
+	empTempList = new Employee*[intSize + 1];
+	empTempList[intSize + 1] = new Employee;
+	*empTempList[intSize + 1] = empB;
+	addPerson(empTempList);
+	delete empTempList;
 }
 
 void People::addPerson(Candidate & cndB)
 {
-
+	empTempList = new Employee*[intSize + 1];
+	empTempList[intSize + 1] = new Candidate;
+	*empTempList[intSize + 1] = cndB;
+	addPerson(empTempList);
+	delete empTempList;
 }
 
-void People::addPerson(long lngNewSerial)
+void People::remPerson(int intIndex)
 {
-
-}
-
-void People::remPerson()
-{
-
-}
-
-void People::remPerson(Person & prsB)
-{
-
+	lngSerialList[intIndex] = -1;
+	blEmpty[intIndex] = true;
+	intLastTouched = intIndex;
+	delete empList[intIndex];
 }
 
 void People::remPerson(Employee & empB)
 {
-
+	for (int i = 0; i < intSize; i++)
+	{
+		if (*empList[i] == empB)
+		{
+			remPerson(i);
+			break;
+		}
+	}
 }
 
 void People::remPerson(Candidate & cndB)
 {
-
+	for (int i = 0; i < intSize; i++)
+	{
+		if (*empList[i] == cndB)
+		{
+			remPerson(i);
+			break;
+		}
+	}
 }
 
 void People::remPerson(long lngExistingSerial)
 {
-
+	for (int i = 0; i < intSize; i++)
+	{
+		Employee empTemp = *empList[i];
+		if (empTemp.getSerial == lngExistingSerial)
+		{
+			remPerson(i);
+			break;
+		}
+	}
 }
 
 int People::operator<< (People & pplB)
@@ -151,19 +163,22 @@ int People::operator>> (People & pplB)
 
 void People::operator= (People & pplB)
 {
-	*lngGot = *pplB.lngGot;
-	*prsTempList = *pplB.prsTempList;
+	**empTempList = **pplB.empTempList;
 }
 
 bool People::operator== (People & pplB)
 {
-	return *lngGot == *pplB.lngGot && *prsTempList == *pplB.prsTempList;
+	return **empTempList == **pplB.empTempList;
 }
 
 
 People::People()
 {
-
+	empList = new Employee*[];
+	lngSerialList = new long[];
+	blEmpty = new bool[];
+	intSize = 0;
+	intLastTouched = -1;
 }
 
 People::People(People & pplB)
@@ -173,5 +188,12 @@ People::People(People & pplB)
 
 People::~People()
 {
-
+	for (int i = 0; i < intSize; i++)
+	{
+		delete empList[i];
+	}
+	intSize = 0;
+	delete empList;
+	delete lngSerialList;
+	delete blEmpty;
 }

@@ -10,24 +10,24 @@ protected:
 	long * lngGot;
 
 private:
-	static Employee * prsList;
-	Employee * prsTempList;
+	static Employee ** empList;
+	Employee ** empTempList;
 	static long * lngSerialList;
 	static bool * blEmpty;
 	static int intSize;
 	static int intLastTouched;
-	static void addPerson();
-	static void remPerson();
+	void addPerson(Employee **& empTempList);
+	void remPerson(int intIndex);
 
 public:
 	virtual void show();
-	virtual void get(char chrWhatToGet);
-	void set(int intNewValue, char chrWhatToChange);
-	static bool isEmpty();
+	virtual void set(int intNewIndex);
+	int getSize();
+	int getLastTouchedIndex();
+	bool isEmpty();
 	long getNewSerial();
 	void addPerson(Employee & empB);
 	void addPerson(Candidate & cndB);
-	void addPerson(long lngNewSerial);
 	void remPerson(Employee & empB);
 	void remPerson(Candidate & cndB);
 	void remPerson(long lngExistingSerial);

@@ -20,10 +20,9 @@ public:
 	virtual long operator>> (Person & prsB);
 	virtual void operator= (Person & prsB);
 	virtual bool operator== (Person & prsB);
-	void setActive(bool blValue);
-	void set(string strNewName);
+	virtual void set(bool blValue);
+	virtual void setName(string strNewName);
 	Person();
-	Person(string strNewName, bool blIsActive);
 	Person(Person & prsB);
 	virtual ~Person();
 };
