@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string>
 #include <iostream>
 #include "Employee.h"
@@ -8,30 +9,14 @@
 using namespace std;
 
 
-void Employee::selectGet(char chrWTG)
+long Employee::getSalary()
 {
-	switch (chrWTG)
-	{
-		case 'p':
-		{
-			*lngGot = *lngSalary;
-			strGot = NULL;
-		}
-			break;
-		case 't':
-		{
-			*strGot = *chrType;
-			lngGot = NULL;
-		}
-			break;
-		default:
-			chooseGet(chrWTG);
-	}
+	return *lngSalary;
 }
 
-void Employee::get(char chrWhatToGet)
+char Employee::getType()
 {
-	selectGet(chrWhatToGet);
+	return *chrType;
 }
 
 void Employee::show()
@@ -51,17 +36,12 @@ void Employee::show()
 			cout << "Bad employee type." << endl << "Please start over and report to author." << endl;
 			return;
 	}
-	cout << "employee " << *strName << ", number " << *lngSerial << " is";
-	if (!*blActive)
+	cout << "employee " << getName << ", number " << getSerial << " is";
+	if (!isActive)
 	{
 		cout << "n't";
 	}
 	cout << " active." << endl;
-}
-
-void Employee::set(string strNewName)
-{
-	*strName = strNewName;
 }
 
 void Employee::set(char chrNewType)
@@ -69,27 +49,28 @@ void Employee::set(char chrNewType)
 	*chrType = chrNewType;
 }
 
-void Employee::set(long lngNewSalary)
+void Employee::setSalary(long lngNewSalary)
 {
 	*lngSalary = lngNewSalary;
 }
 
 void Employee::terminate()
 {
-	*blActive = false;
+	setActive(false);
 }
 
 void Employee::activate(long lngNewSalary)
 {
-	*blActive = true;
-	set(lngNewSalary);
+	setActive(true);
+	setSalary(lngNewSalary);
 }
 
 long Employee::operator<< (Employee & empB)
 {
 	long lngRetVal;
-	lngRetVal = *lngSerial;
-	lngRetVal << *empB.lngSerial;
+	Employee & empTemp = *this;
+	lngRetVal = empTemp.getSerial;
+	lngRetVal << *empB.getSerial;
 	return lngRetVal;
 }
 
@@ -103,6 +84,7 @@ long Employee::operator>> (Employee & empB)
 
 void Employee::operator= (Employee & empB)
 {
+	
 	*blActive = *empB.blActive;
 	*strName = *empB.strName;
 	*chrType = *empB.chrType;

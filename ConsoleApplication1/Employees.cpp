@@ -2,13 +2,19 @@
 
 #include "stdafx.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <iostream>
+#include "myMenu.h"
 
-using namespace System;
+using namespace std;
 
 
 int main()
 {
-    Console::WriteLine(L"Hello World");
+	System::Console::Clear;
+	cout << "Welcome to Gil's HR application." << endl;
+	myMenu * mnuInterface = new myMenu;
+
+	delete mnuInterface;
     return 0;
 }

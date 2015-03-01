@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string>
 #include <iostream>
 #include "People.h"
@@ -64,11 +65,72 @@ long People::getNewSerial()
 	long lngNewSerial = 0;
 	for (int i = 0; i < intSize; i++)
 	{
-		if (lngNewSerial < lngSerialList[i])
+		if (lngNewSerial <= lngSerialList[i])
 		{
 			lngNewSerial = lngSerialList[i] + 1;
 		}
 	}
+	return lngNewSerial;
+}
+
+void People::addPerson()
+{
+
+}
+
+void People::addPerson(Employee & empB)
+{
+	prsTempList = new Employee[intSize + 1];
+	for (int i = 0; i < intSize; i++)
+	{
+		prsTempList[i] = prsList[i];
+	}
+	prsTempList[intSize + 1] = empB;
+	intSize++;
+	prsList = new Employee[intSize];
+	lngSerialList = new long[intSize];
+	for (int i = 0; i < intSize; i++)
+	{
+		prsList[i] = prsTempList[i];
+		lngSerialList[i] = *prsList[i].getSerial;
+
+	}
+
+}
+
+void People::addPerson(Candidate & cndB)
+{
+
+}
+
+void People::addPerson(long lngNewSerial)
+{
+
+}
+
+void People::remPerson()
+{
+
+}
+
+void People::remPerson(Person & prsB)
+{
+
+}
+
+void People::remPerson(Employee & empB)
+{
+
+}
+
+void People::remPerson(Candidate & cndB)
+{
+
+}
+
+void People::remPerson(long lngExistingSerial)
+{
+
 }
 
 int People::operator<< (People & pplB)
@@ -104,9 +166,9 @@ People::People()
 
 }
 
-People::People(People &obj)
+People::People(People & pplB)
 {
-
+	*this = pplB;
 }
 
 People::~People()

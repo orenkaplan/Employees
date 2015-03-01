@@ -1,37 +1,19 @@
 #include "stdafx.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string>
 #include <iostream>
 #include "Candidate.h"
+#include "People.h"
 
 
 using namespace std;
 
 
-void Candidate::get(char chrWhatToGet)
-{
-	switch (chrWhatToGet)
-	{
-		case 'f':
-		{
-			*lngGot = *blFits;
-			strGot = NULL;
-		}
-			break;
-		case 'l':
-		{
-			*strGot = chrStat(*intStatus);
-			lngGot = NULL;
-		}
-			break;
-		default:
-			selectGet(chrWhatToGet);
-	}
-}
 
 void Candidate::show()
 {
-	switch (*chrType)
+	switch (getType)
 	{
 		case 'g':
 			cout << "Global ";
@@ -46,7 +28,7 @@ void Candidate::show()
 			cout << "Bad candidate type." << endl << "Please start over and report to author." << endl;
 			return;
 	}
-	cout << "candidate " << *strName << ", number " << *lngSerial;
+	cout << "candidate " << getName << ", number " << getSerial;
 	if (*blFits)
 	{
 		cout << " fits ";
@@ -56,16 +38,16 @@ void Candidate::show()
 		cout << " doesn't fit ";
 	}
 	cout << " the position and is";
-	if (!*blActive)
+	if (!isActive)
 	{
 		cout << "n't";
 	}
 	cout << " active in status " << chrStat(*intStatus) << "." << endl;
 }
 
-void Candidate::set(int intNewStatus)
+void Candidate::set(char chrNewStatus)
 {
-	*intStatus = intNewStatus;
+	*intStatus = intStat(chrNewStatus);
 }
 
 int Candidate::intStat(char chrConvStat)
@@ -134,9 +116,12 @@ Candidate::Candidate(string strNewName, char chrNewType, bool blIsActive, bool b
 
 }
 
-Candidate::Candidate(Candidate &obj)
+Candidate::Candidate(Candidate & cndB)
 {
-
+	People pplGet;
+	lngSerial = pplGet.getNewSerial;
+	*this = cndB;
+	
 }
 
 Candidate::~Candidate()

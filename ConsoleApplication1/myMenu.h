@@ -8,9 +8,11 @@
 class myMenu
 {
 private:
-	People pplList;
+	static People * pplList;
+	static string * strOption;
 
 public:
+	void MenuInit();
 	myMenu();
 	~myMenu();
 };

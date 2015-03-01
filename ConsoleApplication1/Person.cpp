@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <iostream>
 #include <string>
 #include "Person.h"
@@ -7,49 +8,29 @@
 using namespace std;
 
 
-void Person::chooseGet(char chrWTG)
+long Person::getSerial()
 {
-	switch (chrWTG)
-	{
-		case 's':
-		{
-			*lngGot = *lngSerial;
-			strGot = NULL;
-		}
-			break;
-		case 'n':
-		{
-			*strGot = *strName;
-			lngGot = NULL;
-		}
-			break;
-		case 'a':
-		{
-			*lngGot = *blActive;
-			strGot = NULL;
-		}
-			break;
-		default:
-		{
-			strGot = NULL;
-			lngGot = NULL;
-		}
-	}
+	return *lngSerial;
 }
 
-void Person::get(char chrWhatToGet)
+string Person::getName()
 {
-	chooseGet(chrWhatToGet);
+	return *strName;
+}
+
+bool Person::isActive()
+{
+	return *blActive;
+}
+
+bool Person::isInitialized()
+{
+	return lngSerial != NULL && strName != NULL && blActive != NULL;
 }
 
 void Person::show()
 {
-	cout << "Person " << *strName << ", number " << *lngSerial << " is";
-	if (!*blActive)
-	{
-		cout << "n't";
-	}
-	cout << " active." << endl;
+	// Pure Virtual - not relevant
 }
 
 long Person::operator<< (Person & prsB)
@@ -70,6 +51,7 @@ long Person::operator>> (Person & prsB)
 
 void Person::operator= (Person & prsB)
 {
+	*lngSerial = *prsB.lngSerial;
 	*blActive = *prsB.blActive;
 	*strName = *prsB.strName;
 }
@@ -79,9 +61,14 @@ bool Person::operator== (Person & prsB)
 	return *blActive == *prsB.blActive && *strName == *prsB.strName;
 }
 
-void Person::set(bool blValue)
+void Person::setActive(bool blValue)
 {
 	*blActive = blValue;
+}
+
+void Person::set(string strNewName)
+{
+	*strName = strNewName;
 }
 
 
@@ -95,7 +82,7 @@ Person::Person(string strNewName, bool blIsActive)
 
 }
 
-Person::Person(Person &obj)
+Person::Person(Person & prsB)
 {
 
 }
