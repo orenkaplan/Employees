@@ -10,6 +10,31 @@
 using namespace std;
 
 
+void employ(Candidate & cndFitsAs, Employee & empNewEmployee)
+{
+	if (cndFitsAs.doesFit && cndFitsAs.isActive && cndFitsAs.getStatus == 'p' && cndFitsAs.getSalary != 0)
+	{
+		People pplSet;
+		empNewEmployee.set(cndFitsAs.getSerial);
+		empNewEmployee.setName(cndFitsAs.getName);
+		empNewEmployee.set(cndFitsAs.isActive);
+		empNewEmployee.set(cndFitsAs.getType);
+		empNewEmployee.setSalary(cndFitsAs.getSalary);
+		pplSet.remPerson(cndFitsAs);
+		pplSet.addPerson(empNewEmployee);
+	}
+}
+
+bool Candidate::doesFit()
+{
+	return *blFits;
+}
+
+void Candidate::changeFits(bool blValue)
+{
+	*blFits = blValue;
+}
+
 void Candidate::show()
 {
 	Candidate & cndTemp = *this;
@@ -29,7 +54,7 @@ void Candidate::show()
 			return;
 	}
 	cout << "candidate " << getName << ", number " << getSerial;
-	if (*blFits)
+	if (doesFit)
 	{
 		cout << " fits ";
 	}
@@ -42,12 +67,17 @@ void Candidate::show()
 	{
 		cout << "n't";
 	}
-	cout << " active in status " << chrStat(*intStatus) << "." << endl;
+	cout << " active in status " << getStatus << "." << endl;
 }
 
 void Candidate::setStatus(char chrNewStatus)
 {
 	*intStatus = intStat(chrNewStatus);
+}
+
+char Candidate::getStatus()
+{
+	return chrStat(*intStatus);
 }
 
 int Candidate::intStat(char chrConvStat)
@@ -101,10 +131,9 @@ char Candidate::chrStat(int intConvStat)
 
 bool Candidate::isInitialized()
 {
-	Candidate & cndThis = *this;
 	return getSerial != NULL && getName != NULL && isActive != NULL
 		&& getType != NULL && getSalary != NULL
-		&& cndThis.getStatus > -1 && doesFit != NULL;
+		&& getStatus != NULL && doesFit != NULL;
 }
 
 void Candidate::terminate()

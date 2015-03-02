@@ -26,8 +26,10 @@ public:
 	int getLastTouchedIndex();
 	bool isEmpty();
 	long getNewSerial();
+	void addPerson(Employee **& empTempList);
 	void addPerson(Employee & empB);
 	void addPerson(Candidate & cndB);
+	void remPerson(int intIndex);
 	void remPerson(Employee & empB);
 	void remPerson(Candidate & cndB);
 	void remPerson(long lngExistingSerial);

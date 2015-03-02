@@ -12,7 +12,7 @@ private:
 
 public:
 	void show();
-	int getStatus();
+	char getStatus();
 	bool doesFit();
 	void setStatus(char chrNewStatus);
 	void changeFits(bool blValue);

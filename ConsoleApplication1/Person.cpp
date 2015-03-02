@@ -61,6 +61,11 @@ bool Person::operator== (Person & prsB)
 	return getSerial == *prsB.getSerial && isActive == *prsB.isActive && getName == *prsB.getName;
 }
 
+void Person::set(long lngNewSerial)
+{
+	*lngSerial = lngNewSerial;
+}
+
 void Person::set(bool blValue)
 {
 	*blActive = blValue;

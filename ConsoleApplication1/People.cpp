@@ -15,11 +15,15 @@ void People::show()
 	{
 		if (!blEmpty[i])
 		{
-			Employee *empTemp = dynamic_cast<Employee*>(empList[i]);
-			Candidate *cndTemp = dynamic_cast<Candidate*>(empList[i]);
-			if (cndTemp = nullptr)
+			Employee & empTemp = dynamic_cast<Employee&>(*empList[i]);
+			Candidate & cndTemp = dynamic_cast<Candidate&>(*empList[i]);
+			if (&cndTemp == nullptr)
 			{
-				*empTemp;
+				empTemp.show;
+			}
+			else
+			{
+				cndTemp.show;
 			}
 		}
 		else
