@@ -1,7 +1,29 @@
+#if !defined(People_h)
+
+
 #pragma once
+#if !defined(Person_h)
 #include "Person.h"
+#endif
+
+#if !defined(Employee_h)
 #include "Employee.h"
+#endif
+
+#if !defined(Candidate_h)
 #include "Candidate.h"
+#endif
+
+
+#if !defined(string)
+#include <string>
+#endif
+#if !defined(ostream)
+#include <iostream>
+#endif
+
+
+#define People_h
 
 class People:
 	private Person
@@ -29,7 +51,7 @@ public:
 	int getLastTouchedIndex();
 	bool isEmpty();
 	long getNewSerial();
-	void addPerson(Employee **& empTempList);
+	void addPrs(Employee **& empTempList);
 	void addPerson(Employee & empB);
 	void addPerson(Candidate & cndB);
 	void remPerson(int intIndex);
@@ -41,6 +63,8 @@ public:
 	People();
 	People(People & pplB);
 	~People();
-	friend ostream & operator << (ostream & ostMyStream, const People & pplB);
+	friend std::ostream & operator << (std::ostream & ostMyStream, const People & pplB);
 };
 
+
+#endif

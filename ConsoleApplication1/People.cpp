@@ -31,27 +31,27 @@ void People::show()
 			cout << "No peron recorded." << endl;
 		}
 	}
-}
+};
 
 int People::getSize()
 {
 	return intSize;
-}
+};
 
 int People::getCount()
 {
 	return intCount;
-}
+};
 
 int People::getLastTouchedIndex()
 {
 	return intLastTouched;
-}
+};
 
 void People::set(int intNewIndex)
 {
 	intLastTouched = intNewIndex;
-}
+};
 
 void People::setLastTouched(long lngTouchedSerial)
 {
@@ -64,12 +64,12 @@ void People::setLastTouched(long lngTouchedSerial)
 		}
 	}
 	intLastTouched = -1;
-}
+};
 
 bool People::isEmpty()
 {
 	return getSize == 0 || getCount == 0;
-}
+};
 
 long People::getNewSerial()
 {
@@ -82,9 +82,9 @@ long People::getNewSerial()
 		}
 	}
 	return lngNewSerial;
-}
+};
 
-void People::addPerson(Employee **& empTempList)
+void People::addPrs(Employee **& empTempList)
 {
 	for (int i = 0; i < intSize; i++)
 	{
@@ -103,7 +103,7 @@ void People::addPerson(Employee **& empTempList)
 	}
 	set(intSize);
 	intCount++;
-}
+};
 
 void People::addPerson(Employee & empB)
 {
@@ -112,7 +112,7 @@ void People::addPerson(Employee & empB)
 	*empTempList[intSize + 1] = empB;
 	addPerson(empTempList);
 	delete empTempList;
-}
+};
 
 void People::addPerson(Candidate & cndB)
 {
@@ -121,7 +121,7 @@ void People::addPerson(Candidate & cndB)
 	*empTempList[intSize + 1] = cndB;
 	addPerson(empTempList);
 	delete empTempList;
-}
+};
 
 void People::remPerson(int intIndex)
 {
@@ -130,7 +130,7 @@ void People::remPerson(int intIndex)
 	set(intIndex);
 	intCount--;
 	delete empList[intIndex];
-}
+};
 
 void People::remPerson(Employee & empB)
 {
@@ -142,7 +142,7 @@ void People::remPerson(Employee & empB)
 			break;
 		}
 	}
-}
+};
 
 void People::remPerson(Candidate & cndB)
 {
@@ -154,7 +154,7 @@ void People::remPerson(Candidate & cndB)
 			break;
 		}
 	}
-}
+};
 
 void People::remPerson(long lngExistingSerial)
 {
@@ -167,7 +167,7 @@ void People::remPerson(long lngExistingSerial)
 			break;
 		}
 	}
-}
+};
 
 ostream & operator << (ostream & ostMyStream, const People & pplB)
 {
@@ -181,17 +181,17 @@ ostream & operator << (ostream & ostMyStream, const People & pplB)
 		ostMyStream << "The HR database is empty." << endl;
 	}
 	return ostMyStream;
-}
+};
 
 void People::operator= (People & pplB)
 {
 	**empTempList = **pplB.empTempList;
-}
+};
 
 bool People::operator== (People & pplB)
 {
 	return **empTempList == **pplB.empTempList;
-}
+};
 
 
 People::People()
@@ -202,12 +202,12 @@ People::People()
 	set((int)-1);
 	intCount = -1;
 	intLastTouched = -1;
-}
+};
 
 People::People(People & pplB)
 {
 	*this = pplB;
-}
+};
 
 People::~People()
 {
@@ -219,4 +219,4 @@ People::~People()
 	delete empList;
 	delete lngSerialList;
 	delete blEmpty;
-}
+};

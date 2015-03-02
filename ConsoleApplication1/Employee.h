@@ -1,9 +1,25 @@
+#if !defined(Employee_h)
+
+
 #pragma once
+#if !defined(Person_h)
 #include "Person.h"
-#include "People.h"
+#endif
+#if !defined(Candidate_h)
+#include "Candidate.h"
+#endif
+
+#if !defined(string)
+#include <string>
+#endif
+#if !defined(ostream)
+#include <iostream>
+#endif
 
 
-class Employee :
+#define Employee_h
+
+class Employee:
 	public Person
 {
 private:
@@ -14,7 +30,7 @@ public:
 	virtual void show();
 	long getSalary();
 	char getType();
-	virtual string getString();
+	virtual std::string getString();
 	virtual void set(char chrNewType);
 	void setSalary(long lngNewSalary);
 	virtual bool isInitialized();
@@ -24,9 +40,11 @@ public:
 	virtual bool operator== (Employee & empB);
 	virtual bool operator== (Candidate & cndB);
 	Employee();
-	Employee(string strNewName, long lngNewSalary, char chrNewType, bool blIsActive);
+	Employee(std::string strNewName, long lngNewSalary, char chrNewType, bool blIsActive);
 	Employee(Employee &obj);
 	virtual ~Employee();
-	friend ostream & operator << (ostream & ostMyStream, const Employee & empB);
+	friend std::ostream & operator << (std::ostream & ostMyStream, const Employee & empB);
 };
 
+
+#endif

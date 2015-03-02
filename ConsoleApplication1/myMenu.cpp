@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <algorithm>
 #include <iostream>
 #include "myMenu.h"
 
@@ -83,8 +84,13 @@ void myMenu::MenuInit()
 					if (cin.fail())
 					{
 						cin.clear();
-						string strErr;
+						string  strErr;
 						cin >> strErr;
+						transform(strErr.begin(), strErr.end(), strErr.begin(), ::tolower);
+						if (strErr == "x" || strErr == "q" || strErr == "exit" || strErr == "quit")
+						{
+							*intMenuSelection = -1;
+						}
 					}
 					cout << "Invalid choice, try again:";
 					cin >> *intMenuSelection;
@@ -97,8 +103,12 @@ void myMenu::MenuInit()
 				<< "-------------------------" << endl << endl;
 		}
 	}
+};
 
-}
+int myMenu::getSelection()
+{
+	return *intMenuSelection;
+};
 
 
 myMenu::myMenu()
@@ -108,7 +118,7 @@ myMenu::myMenu()
 	intMenuStatus = new int;
 	*intMenuStatus = 0;
 	MenuInit;
-}
+};
 
 
 myMenu::~myMenu()
@@ -116,4 +126,4 @@ myMenu::~myMenu()
 	delete strOption;
 	delete pplList;
 	delete intMenuStatus;
-}
+};

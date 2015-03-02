@@ -23,17 +23,17 @@ void employ(Candidate & cndFitsAs, Employee & empNewEmployee)
 		pplSet.remPerson(cndFitsAs);
 		pplSet.addPerson(empNewEmployee);
 	}
-}
+};
 
 bool Candidate::doesFit()
 {
 	return *blFits;
-}
+};
 
 void Candidate::changeFits(bool blValue)
 {
 	*blFits = blValue;
-}
+};
 
 string Candidate::getString()
 {
@@ -70,22 +70,22 @@ string Candidate::getString()
 	}
 	strRetVal = strRetVal + " active in status " + cndTemp.getStatus + ".";
 	return strRetVal;
-}
+};
 
 void Candidate::show()
 {
 	cout << *this << endl;
-}
+};
 
 void Candidate::setStatus(char chrNewStatus)
 {
 	*intStatus = intStat(chrNewStatus);
-}
+};
 
 char Candidate::getStatus()
 {
 	return chrStat(*intStatus);
-}
+};
 
 int Candidate::intStat(char chrConvStat)
 {
@@ -108,7 +108,7 @@ int Candidate::intStat(char chrConvStat)
 		intRetVal = -1;
 	}
 	return intRetVal;
-}
+};
 
 char Candidate::chrStat(int intConvStat)
 {
@@ -134,32 +134,32 @@ char Candidate::chrStat(int intConvStat)
 			chrRetVal = '\0';
 	}
 	return chrRetVal;
-}
+};
 
 bool Candidate::isInitialized()
 {
 	return getSerial != NULL && getName != NULL && isActive != NULL
 		&& getType != NULL && getSalary != NULL
 		&& getStatus != NULL && doesFit != NULL;
-}
+};
 
 void Candidate::terminate()
 {
 	changeFits(false);
 	set(false);
-}
+};
 
 void Candidate::activate()
 {
 	changeFits(true);
 	set(true);
-}
+};
 
 ostream & operator << (ostream & ostMyStream, const Candidate & cndB)
 {
 	ostMyStream << cndB.getString;
 	return ostMyStream;
-}
+};
 
 void Candidate::operator= (Candidate & cndB)
 {
@@ -170,20 +170,20 @@ void Candidate::operator= (Candidate & cndB)
 	setSalary(*cndB.getSalary);
 	changeFits(*cndB.doesFit);
 	setStatus(*cndB.getStatus);
-}
+};
 
 bool Candidate::operator== (Candidate & cndB)
 {
 	return getSerial == *cndB.getSerial && isActive == *cndB.isActive && getName == *cndB.getName
 		&& getType == *cndB.getType && getSalary == *cndB.getSalary
 		&& doesFit == *cndB.doesFit && getStatus == *cndB.getStatus;
-}
+};
 
 bool Candidate::operator== (Employee & empB)
 {
 	return getSerial == *empB.getSerial && isActive == *empB.isActive && getName == *empB.getName
 		&& getType == *empB.getType && getSalary == *empB.getSalary;
-}
+};
 
 
 Candidate::Candidate()
@@ -196,7 +196,7 @@ Candidate::Candidate()
 	changeFits(false);
 	setStatus('d');
 	pplGet.addPerson(*this);
-}
+};
 
 Candidate::Candidate(string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat)
 {
@@ -208,14 +208,14 @@ Candidate::Candidate(string strNewName, char chrNewType, bool blIsActive, bool b
 	changeFits(blDoesFit);
 	setStatus(chrNewStat);
 	pplGet.addPerson(*this);
-}
+};
 
 Candidate::Candidate(Candidate & cndB)
 {
 	People pplGet;
 	set(pplGet.getNewSerial);
 	pplGet.addPerson(*this);
-}
+};
 
 Candidate::~Candidate()
 {
@@ -228,4 +228,4 @@ Candidate::~Candidate()
 	delete intStatus;
 	delete blFits;
 	pplDel.remPerson(*this);
-}
+};

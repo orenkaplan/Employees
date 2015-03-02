@@ -12,12 +12,12 @@ using namespace std;
 long Employee::getSalary()
 {
 	return *lngSalary;
-}
+};
 
 char Employee::getType()
 {
 	return *chrType;
-}
+};
 
 string Employee::getString()
 {
@@ -45,45 +45,45 @@ string Employee::getString()
 	}
 	strRetVal = strRetVal + " active.";
 	return strRetVal;
-}
+};
 
 void Employee::show()
 {
 	cout << *this << endl;
-}
+};
 
 void Employee::set(char chrNewType)
 {
 	*chrType = chrNewType;
-}
+};;
 
 void Employee::setSalary(long lngNewSalary)
 {
 	*lngSalary = lngNewSalary;
-}
+};
 
 bool Employee::isInitialized()
 {
 	return getSerial != NULL && getName != NULL && isActive != NULL
 		&& getType !=NULL && getSalary != NULL;
-}
+};
 
 void Employee::terminate()
 {
 	set(false);
-}
+};
 
 void Employee::activate(long lngNewSalary)
 {
 	set(true);
 	setSalary(lngNewSalary);
-}
+};
 
 ostream & operator << (ostream & ostMyStream, const Employee & empB)
 {
 	ostMyStream << empB.getString;
 	return ostMyStream;
-}
+};
 
 void Employee::operator= (Employee & empB)
 {
@@ -92,27 +92,19 @@ void Employee::operator= (Employee & empB)
 	setName(*empB.getName);
 	set(*empB.getType);
 	setSalary(*empB.getSalary);
-}
+};
 
 bool Employee::operator== (Employee & empB)
 {
 	return getSerial == *empB.getSerial && isActive == *empB.isActive && getName == *empB.getName
 		&& getType == *empB.getType && getSalary == *empB.getSalary;
-}
+};
 
 bool Employee::operator== (Candidate & cndB)
 {
-	Employee & empTemp = dynamic_cast<Employee&>(cndB);
-	if (&empTemp == nullptr)
-	{
-		return false;
-	}
-	else
-	{
-		return getSerial == empTemp.getSerial && isActive == empTemp.isActive && getName == empTemp.getName
-			&& getType == empTemp.getType && getSalary == empTemp.getSalary;
-	}
-}
+	return getSerial == *cndB.getSerial && isActive == *cndB.isActive && getName == *cndB.getName
+		&& getType == *cndB.getType && getSalary == *cndB.getSalary;
+};
 
 
 Employee::Employee()
@@ -124,7 +116,7 @@ Employee::Employee()
 	set('t');
 	set(false);
 	pplGet.addPerson(*this);
-}
+};
 
 Employee::Employee(string strNewName, long lngNewSalary, char chrNewType, bool blIsActive)
 {
@@ -135,14 +127,14 @@ Employee::Employee(string strNewName, long lngNewSalary, char chrNewType, bool b
 	set(chrNewType);
 	set(blIsActive);
 	pplGet.addPerson(*this);
-}
+};
 
 Employee::Employee(Employee & empB)
 {
 	People pplGet;
 	pplGet.addPerson(empB);
 	set(pplGet.getNewSerial);
-}
+};
 
 Employee::~Employee()
 {
@@ -153,4 +145,4 @@ Employee::~Employee()
 	delete lngSalary;
 	delete chrType;
 	pplDel.remPerson(*this);
-}
+};
