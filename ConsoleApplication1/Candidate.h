@@ -13,6 +13,7 @@ private:
 public:
 	void show();
 	char getStatus();
+	virtual string getString();
 	bool doesFit();
 	void setStatus(char chrNewStatus);
 	void changeFits(bool blValue);
@@ -21,8 +22,6 @@ public:
 	virtual bool isInitialized();
 	void activate();
 	void terminate();
-	long operator<< (Candidate & cndB);
-	long operator>> (Candidate & cndB);
 	void operator= (Candidate & cndB);
 	bool operator== (Candidate & cndB);
 	bool operator== (Employee & empB);
@@ -30,6 +29,7 @@ public:
 	Candidate(string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat);
 	Candidate(Candidate & cndB);
 	~Candidate();
+	friend ostream & operator << (ostream & ostMyStream, const Candidate & cndB);
 	friend void employ(Candidate & cndFitsAs, Employee & empNewEmployee);
 };
 

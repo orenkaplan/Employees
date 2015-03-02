@@ -36,12 +36,11 @@ public:
 	void remPerson(Employee & empB);
 	void remPerson(Candidate & cndB);
 	void remPerson(long lngExistingSerial);
-	int operator<< (People & pplB);
-	int operator>> (People & pplB);
 	void operator= (People & pplB);
 	bool operator== (People & pplB);
 	People();
 	People(People & pplB);
 	~People();
+	friend ostream & operator << (ostream & ostMyStream, const People & pplB);
 };
 

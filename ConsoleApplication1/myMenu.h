@@ -11,6 +11,7 @@ private:
 	static People * pplList;
 	static string * strOption;
 	static int * intMenuStatus;
+	static int * intMenuSelection;
 
 public:
 	void MenuInit();

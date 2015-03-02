@@ -169,20 +169,18 @@ void People::remPerson(long lngExistingSerial)
 	}
 }
 
-int People::operator<< (People & pplB)
+ostream & operator << (ostream & ostMyStream, const People & pplB)
 {
-	int intRetVal;
-	intRetVal = intSize + intCount +  intLastTouched;
-	intRetVal << (pplB.getSize + pplB.getCount + pplB.getLastTouchedIndex);
-	return intRetVal;
-}
-
-int People::operator>> (People & pplB)
-{
-	int intRetVal;
-	intRetVal = intSize + intCount + intLastTouched;
-	intRetVal >> (pplB.getSize + pplB.getCount + pplB.getLastTouchedIndex);
-	return intRetVal;
+	if (!pplB.isEmpty)
+	{
+		ostMyStream << "The HR database lists " << pplB.getCount << " people in a database of size " << pplB.getSize << "." << endl
+			<< "The last slot in the database to be manipulated is " << pplB.getLastTouchedIndex << ".";
+	}
+	else
+	{
+		ostMyStream << "The HR database is empty." << endl;
+	}
+	return ostMyStream;
 }
 
 void People::operator= (People & pplB)

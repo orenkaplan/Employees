@@ -16,8 +16,6 @@ public:
 	string getName();
 	bool isActive();
 	virtual bool isInitialized();
-	virtual long operator<< (Person & prsB);
-	virtual long operator>> (Person & prsB);
 	virtual void operator= (Person & prsB);
 	virtual bool operator== (Person & prsB);
 	virtual void set(bool blValue);
@@ -25,5 +23,6 @@ public:
 	Person();
 	Person(Person & prsB);
 	virtual ~Person();
+	virtual friend ostream & operator << (ostream & ostMyStream, const Person & prsB) = 0;
 };
 

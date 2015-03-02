@@ -35,39 +35,46 @@ void Candidate::changeFits(bool blValue)
 	*blFits = blValue;
 }
 
-void Candidate::show()
+string Candidate::getString()
 {
 	Candidate & cndTemp = *this;
+	string strRetVal = "";
 	switch (cndTemp.getType)
 	{
 		case 'g':
-			cout << "Global ";
+			strRetVal = "Global ";
 			break;
 		case 't':
-			cout << "Temporary ";
+			strRetVal = "Temporary ";
 			break;
 		case 'h':
-			cout << "Hourly ";
+			strRetVal = "Hourly ";
 			break;
 		default:
 			cout << "Bad candidate type." << endl << "Please start over and report to author." << endl;
-			return;
+			return strRetVal;
 	}
-	cout << "candidate " << getName << ", number " << getSerial;
+	strRetVal = strRetVal + "candidate " + cndTemp.getName + ", number " + getSerial;
 	if (doesFit)
 	{
-		cout << " fits ";
+		strRetVal = strRetVal + " fits ";
 	}
 	else
 	{
-		cout << " doesn't fit ";
+		strRetVal = strRetVal + " doesn't fit ";
 	}
-	cout << " the position and is";
+	strRetVal = strRetVal + " the position and is";
 	if (!isActive)
 	{
-		cout << "n't";
+		strRetVal = strRetVal + "n't";
 	}
-	cout << " active in status " << getStatus << "." << endl;
+	strRetVal = strRetVal + " active in status " + cndTemp.getStatus + ".";
+	return strRetVal;
+}
+
+void Candidate::show()
+{
+	cout << *this << endl;
 }
 
 void Candidate::setStatus(char chrNewStatus)
@@ -148,22 +155,10 @@ void Candidate::activate()
 	set(true);
 }
 
-long Candidate::operator<< (Candidate & cndB)
+ostream & operator << (ostream & ostMyStream, const Candidate & cndB)
 {
-	long lngRetVal;
-	Candidate & cndTemp = *this;
-	lngRetVal = cndTemp.getSerial;
-	lngRetVal << *cndB.getSerial;
-	return lngRetVal;
-}
-
-long Candidate::operator>> (Candidate & cndB)
-{
-	long lngRetVal;
-	Candidate & cndTemp = *this;
-	lngRetVal = cndTemp.getSerial;
-	lngRetVal >> *cndB.getSerial;
-	return lngRetVal;
+	ostMyStream << cndB.getString;
+	return ostMyStream;
 }
 
 void Candidate::operator= (Candidate & cndB)

@@ -48,7 +48,7 @@ void myMenu::MenuInit()
 						strOption[i] = to_string(i) + "Show full HR list";
 						break;
 					case 0:
-						strOption[i] = to_string(i) + "Auto-Populate";
+						strOption[i] = to_string(i) + "Show HR database statistics";
 						break;
 					default:
 					{
@@ -68,6 +68,33 @@ void myMenu::MenuInit()
 		if (strOption[i] == "")
 		{
 			break;
+		}
+		if (i != 0)
+		{
+			cout << strOption[i] << endl;
+			if (i == 9)
+			{
+				cout << strOption[0] << endl << endl << "Please type your choice and then type <enter>\<return>: ";
+				cin >> *intMenuSelection;
+				while (*intMenuSelection < 0 || *intMenuSelection > 9 || cin.fail())
+				{
+					// if not a numeric character or string
+					// clear the failure and pull off the non-numeric character or string
+					if (cin.fail())
+					{
+						cin.clear();
+						string strErr;
+						cin >> strErr;
+					}
+					cout << "Invalid choice, try again:";
+					cin >> *intMenuSelection;
+				}
+			}
+		}
+		else
+		{
+			cout << " Gil's HR database menu:" << endl
+				<< "-------------------------" << endl << endl;
 		}
 	}
 

@@ -19,30 +19,37 @@ char Employee::getType()
 	return *chrType;
 }
 
-void Employee::show()
+string Employee::getString()
 {
-	switch (*chrType)
+	Employee & empTemp = *this;
+	string strRetVal = "";
+	switch (empTemp.getType)
 	{
-		case 'g':
-			cout << "Global ";
-			break;
-		case 't':
-			cout << "Temporary ";
-			break;
-		case 'h':
-			cout << "Hourly ";
-			break;
-		default:
-			cout << "Bad employee type." << endl << "Please start over and report to author." << endl;
-			return;
+	case 'g':
+		strRetVal = "Global ";
+		break;
+	case 't':
+		strRetVal = "Temporary ";
+		break;
+	case 'h':
+		strRetVal = "Hourly ";
+		break;
+	default:
+		cout << "Bad candidate type." << endl << "Please start over and report to author." << endl;
+		return strRetVal;
 	}
-	cout << "employee " << getName << ", number " << getSerial << " is";
+	strRetVal = strRetVal + "employee " + empTemp.getName + ", number " + getSerial + " is";
 	if (!isActive)
 	{
-		cout << "n't";
+		strRetVal = strRetVal + "n't";
 	}
-	cout << " active." << endl;
+	strRetVal = strRetVal + " active.";
+	return strRetVal;
+}
 
+void Employee::show()
+{
+	cout << *this << endl;
 }
 
 void Employee::set(char chrNewType)
@@ -72,13 +79,10 @@ void Employee::activate(long lngNewSalary)
 	setSalary(lngNewSalary);
 }
 
-long Employee::operator<< (Employee & empB)
+ostream & operator << (ostream & ostMyStream, const Employee & empB)
 {
-	long lngRetVal;
-	Employee & empTemp = *this;
-	lngRetVal = empTemp.getSerial;
-	lngRetVal << *empB.getSerial;
-	return lngRetVal;
+	ostMyStream << empB.getString;
+	return ostMyStream;
 }
 
 void Employee::operator= (Employee & empB)

@@ -33,20 +33,9 @@ void Person::show()
 	// Pure Virtual - not relevant
 }
 
-long Person::operator<< (Person & prsB)
+ostream & operator << (ostream & ostMyStream, const Person & prsB)
 {
-	long lngRetVal;
-	lngRetVal = *lngSerial;
-	lngRetVal << *prsB.lngSerial;
-	return lngRetVal;
-}
-
-long Person::operator>> (Person & prsB)
-{
-	long lngRetVal;
-	lngRetVal = *lngSerial;
-	lngRetVal >> *prsB.lngSerial;
-	return lngRetVal;
+	// Pure Virtual - not relevant
 }
 
 void Person::operator= (Person & prsB)
