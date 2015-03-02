@@ -38,6 +38,11 @@ int People::getSize()
 	return intSize;
 }
 
+int People::getCount()
+{
+	return intCount;
+}
+
 int People::getLastTouchedIndex()
 {
 	return intLastTouched;
@@ -48,9 +53,22 @@ void People::set(int intNewIndex)
 	intLastTouched = intNewIndex;
 }
 
+void People::setLastTouched(long lngTouchedSerial)
+{
+	for (int i = 0; i < intSize; i++)
+	{
+		if (lngTouchedSerial == lngSerialList[i])
+		{
+			set(i);
+			break;
+		}
+	}
+	intLastTouched = -1;
+}
+
 bool People::isEmpty()
 {
-	return intSize == 0;
+	return getSize == 0 || getCount == 0;
 }
 
 long People::getNewSerial()
@@ -84,6 +102,7 @@ void People::addPerson(Employee **& empTempList)
 		blEmpty[i] = empTemp.isInitialized;
 	}
 	set(intSize);
+	intCount++;
 }
 
 void People::addPerson(Employee & empB)
@@ -108,7 +127,8 @@ void People::remPerson(int intIndex)
 {
 	lngSerialList[intIndex] = -1;
 	blEmpty[intIndex] = true;
-	intLastTouched = intIndex;
+	set(intIndex);
+	intCount--;
 	delete empList[intIndex];
 }
 
@@ -152,16 +172,16 @@ void People::remPerson(long lngExistingSerial)
 int People::operator<< (People & pplB)
 {
 	int intRetVal;
-	intRetVal = intSize + intLastTouched;
-	intRetVal << (pplB.intSize + pplB.intLastTouched);
+	intRetVal = intSize + intCount +  intLastTouched;
+	intRetVal << (pplB.getSize + pplB.getCount + pplB.getLastTouchedIndex);
 	return intRetVal;
 }
 
 int People::operator>> (People & pplB)
 {
 	int intRetVal;
-	intRetVal = intSize + intLastTouched;
-	intRetVal >> (pplB.intSize + pplB.intLastTouched);
+	intRetVal = intSize + intCount + intLastTouched;
+	intRetVal >> (pplB.getSize + pplB.getCount + pplB.getLastTouchedIndex);
 	return intRetVal;
 }
 
@@ -181,7 +201,8 @@ People::People()
 	empList = new Employee*[];
 	lngSerialList = new long[];
 	blEmpty = new bool[];
-	intSize = 0;
+	set((int)-1);
+	intCount = -1;
 	intLastTouched = -1;
 }
 

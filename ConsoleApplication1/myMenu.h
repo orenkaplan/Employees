@@ -10,6 +10,7 @@ class myMenu
 private:
 	static People * pplList;
 	static string * strOption;
+	static int * intMenuStatus;
 
 public:
 	void MenuInit();

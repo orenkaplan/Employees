@@ -15,14 +15,17 @@ private:
 	static long * lngSerialList;
 	static bool * blEmpty;
 	static int intSize;
+	static int intCount;
 	static int intLastTouched;
 	void addPerson(Employee **& empTempList);
 	void remPerson(int intIndex);
+	virtual void set(int intNewIndex);
 
 public:
 	virtual void show();
-	virtual void set(int intNewIndex);
+	void setLastTouched(long lngTouchedSerial);
 	int getSize();
+	int getCount();
 	int getLastTouchedIndex();
 	bool isEmpty();
 	long getNewSerial();

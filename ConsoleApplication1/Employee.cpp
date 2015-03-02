@@ -42,6 +42,7 @@ void Employee::show()
 		cout << "n't";
 	}
 	cout << " active." << endl;
+
 }
 
 void Employee::set(char chrNewType)
