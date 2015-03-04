@@ -4,7 +4,6 @@
 #include <string>
 #include <iostream>
 #include "Candidate.h"
-#include "People.h"
 
 
 using namespace std;
@@ -203,12 +202,12 @@ Candidate::Candidate()
 	this->setType(NULL);
 	this->changeFits(NULL);
 	this->setStatus(NULL);
-	addPerson(*this);
+	addCandidate(*this);
 };
 
 Candidate::~Candidate()
 {
-	remPerson(*this);
+	remCandidate(*this);
 	this->setSerial(NULL);
 	this->setName(NULL);
 	this->setActive(NULL);

@@ -32,11 +32,11 @@ public:
 
 	Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat) : Candidate()
 	{
-		setName(strNewName);
-		setType(chrNewType);
-		setActive(blIsActive);
-		changeFits(blDoesFit);
-		setStatus(chrNewStat);
+		this->setName(strNewName);
+		this->setType(chrNewType);
+		this->setActive(blIsActive);
+		this->changeFits(blDoesFit);
+		this->setStatus(chrNewStat);
 	};
 
 	Candidate(Candidate & cndB) : Candidate()
@@ -51,6 +51,7 @@ public:
 	friend std::ostream & operator << (std::ostream & ostMyStream, const Candidate & cndB);
 // forward declarations
 	class Person;
+//	class Employee;
 //	friend void operator=> (Person & prsB, Candidate & cndB);
 	friend bool operator== (Candidate & cndB, Person & prsB);
 	friend bool operator== (Person & prsB, Candidate & cndB);

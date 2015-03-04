@@ -96,7 +96,7 @@ void People::addPrs(Person **& prsTempList)
 	intCount++;
 };
 
-void addPerson(Employee & empB)
+void addEmployee(Employee & empB)
 {
 	People pplTemp;
 	int intMySize = pplTemp.getSize() + 1;
@@ -107,7 +107,7 @@ void addPerson(Employee & empB)
 	delete[] pplTemp.prsTempList;
 };
 
-void addPerson(Candidate & cndB)
+void addCandidate(Candidate & cndB)
 {
 	People pplTemp;
 	int intMySize = pplTemp.getSize() + 1;
@@ -127,7 +127,7 @@ void People::remPerson(int intIndex)
 	delete prsList[intIndex];
 };
 
-void remPerson(Employee & empB)
+void remEmployee(Employee & empB)
 {
 	People pplTemp;
 	for (int i = 0; i < pplTemp.getSize(); i++)
@@ -141,7 +141,7 @@ void remPerson(Employee & empB)
 	}
 };
 
-void remPerson(Candidate & cndB)
+void remCandidate(Candidate & cndB)
 {
 	People pplTemp;
 	for (int i = 0; i < pplTemp.getSize(); i++)

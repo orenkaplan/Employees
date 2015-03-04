@@ -5,12 +5,12 @@
 
 
 #include "Person.h"
-#include "Employee.h"
-#include "Candidate.h"
+//#include "Employee.h"
+//#include "Candidate.h"
 
 //forward declarations
-//class Employee;
-//class Candidate;
+class Employee;
+class Candidate;
 
 class People
 {
@@ -40,9 +40,9 @@ public:
 	People();
 	People(People & pplB);
 	~People();
-	friend void addPerson(Employee & empB);
-	friend void addPerson(Candidate & cndB);
-	friend void remPerson(Employee & empB);
-	friend void remPerson(Candidate & cndB);
+	friend void addEmployee(Employee & empB);
+	friend void addCandidate(Candidate & cndB);
+	friend void remEmployee(Employee & empB);
+	friend void remCandidate(Candidate & cndB);
 	friend std::ostream & operator << (std::ostream & ostMyStream, const People & pplB);
 };

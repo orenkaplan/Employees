@@ -125,12 +125,12 @@ Employee::Employee()
 	this->setSerial(pplGet.getNewSerial());
 	this->setSalary(NULL);
 	this->setType(NULL);
-	addPerson(const_cast<Employee&>(*this));
+	addEmployee(*this);
 }
 
 Employee::~Employee()
 {
-	remPerson(const_cast<Employee&>(*this));
+	remEmployee(*this);
 	this->setSerial(NULL);
 	this->setName(NULL);
 	this->setActive(NULL);
