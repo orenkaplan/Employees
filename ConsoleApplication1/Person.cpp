@@ -3,12 +3,14 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
-#if !defined(Person_h)
+
 #include "Person.h"
-#endif
+
+
 
 
 using namespace std;
+
 
 
 long Person::getSerial()
@@ -102,9 +104,15 @@ Person::Person()
 	setActive(NULL);
 };
 
+Person::Person(Person & prsB) 
+{
+	*this = prsB;
+};
+
 Person::~Person()
 {
 	delete lngSerial;
 	delete strName;
 	delete blActive;
 };
+

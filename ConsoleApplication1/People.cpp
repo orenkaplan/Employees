@@ -3,9 +3,8 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
-#if !defined(People_h)
+
 #include "People.h"
-#endif
 
 
 using namespace std;

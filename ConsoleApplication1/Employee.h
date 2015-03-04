@@ -1,21 +1,16 @@
 #pragma once
-#if !defined(string)
+//This is the same as 
+// #ifndef Employee_h
+//#define Employee_h
+//#endif
+
 #include <string>
-#endif
-#if !defined(ostream)
 #include <iostream>
-#endif
-#if !defined(Person_h)
 #include "Person.h"
-#endif
-#if !defined(People_h)
 #include "People.h"
-#endif
 
 
-#if !defined(Employee_h)
-#define Employee_h
-#endif
+
 class Employee:
 	public virtual Person
 {
@@ -38,7 +33,7 @@ public:
 
 	Employee();
 
-	Employee(std::string strNewName, long lngNewSalary, char chrNewType, bool blIsActive): Employee()
+	Employee(std::string strNewName, long lngNewSalary, char chrNewType, bool blIsActive)
 	{
 		setName(strNewName);
 		setSalary(lngNewSalary);
@@ -46,10 +41,10 @@ public:
 		setActive(blIsActive);
 	};
 
-	Employee(Employee & empB) : Employee()
+	Employee(Employee & empB) 
 	{
 		long lngTemp;
-		lngTemp = *this->getSerial;
+		lngTemp = this->getSerial();
 		*this = empB;
 		this->setSerial(lngTemp);
 	};

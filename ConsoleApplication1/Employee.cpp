@@ -3,12 +3,9 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
-#if !defined(Employee_h)
+
 #include "Employee.h"
-#endif
-#if !defined(People_h)
 #include "People.h"
-#endif
 
 
 using namespace std;

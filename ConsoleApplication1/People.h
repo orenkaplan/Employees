@@ -1,25 +1,14 @@
 #pragma once
-#if !defined(string)
+
 #include <string>
-#endif
-#if !defined(ostream)
 #include <iostream>
-#endif
 
-#if !defined(Candidate_h)
-#include "Candidate.h"
-#endif
-#if !defined(Employee_h)
-#include "Employee.h"
-#endif
-#if !defined(Person_h)
+
 #include "Person.h"
-#endif
 
-
-#if !defined(People_h)
-#define People_h
-#endif
+//farward declerations
+class Employee;
+class Candidate;
 
 class People
 {

@@ -1,23 +1,13 @@
 #pragma once
-#if !defined(People_h)
 #include "People.h"
-#endif
-#if !defined(Person_h)
 #include "Person.h"
-#endif
-#if !defined(Employee_h)
 #include "Employee.h"
-#endif
 
 
-#if !defined(string)
 #include <string>
-#endif
-#if !defined(ostream)
 #include <iostream>
-#endif
 
-#if !defined(Candidate_h)
+#ifndef Candidate_h
 #define Candidate_h
 #endif
 
@@ -44,7 +34,7 @@ public:
 	bool operator== (Candidate & cndB);
 	Candidate();
 
-	Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat): Candidate()
+	Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat)
 	{
 		setName(strNewName);
 		setType(chrNewType);
@@ -53,10 +43,10 @@ public:
 		setStatus(chrNewStat);
 	};
 
-	Candidate(Candidate & cndB): Candidate()
+	Candidate(Candidate & cndB)
 	{
 		long lngTemp;
-		lngTemp = this->getSerial;
+		lngTemp = this->getSerial();
 		*this = cndB;
 		this->setSerial(lngTemp);
 	};

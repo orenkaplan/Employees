@@ -3,12 +3,8 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
-#if !defined(Candidate_h)
 #include "Candidate.h"
-#endif
-#if !defined(People_h)
 #include "People.h"
-#endif
 
 
 using namespace std;
@@ -27,7 +23,7 @@ void Candidate::changeFits(bool blValue)
 string Candidate::getString()
 {
 	string strRetVal = "";
-	switch (*this->getType)
+	switch (this->getType())
 	{
 		case 'g':
 			strRetVal = "Global ";
@@ -42,8 +38,8 @@ string Candidate::getString()
 			cout << "Bad candidate type." << endl << "Please start over and report to author." << endl;
 			return strRetVal;
 	}
-	strRetVal = strRetVal + "candidate " + *this->getName + ", number " + getSerial;
-	if (doesFit)
+	strRetVal = strRetVal + "candidate " + *this->getName() + ", number " + getSerial;
+	if (doesFit())
 	{
 		strRetVal = strRetVal + " fits ";
 	}

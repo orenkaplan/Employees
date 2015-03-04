@@ -1,23 +1,8 @@
 #pragma once
-#if !defined(Employee_h)
-#include "Employee.h"
-#endif
-#if !defined(Candidate_h)
-#include "Candidate.h"
-#endif
-
-#if !defined(string)
-#include <string>
-#endif
-#if !defined(ostream)
-#include <iostream>
-#endif
 
 
-#if !defined(Person_h)
-#define Person_h
-#endif
-
+class Employee;
+class Candidate;
 
 class Person
 {
@@ -38,10 +23,7 @@ public:
 	virtual void operator= (Person & prsB);
 	virtual bool operator== (Person & prsB);
 	Person();
-	Person(Person & prsB): Person()
-	{
-		*this = prsB;
-	};
+	Person(Person & prsB);
 	virtual ~Person();
 	friend std::ostream & operator << (std::ostream & ostMyStream, const Person & prsB);
 	friend bool employ(Candidate & cndFitsAs, Employee & empNewEmployee);
