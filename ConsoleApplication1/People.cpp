@@ -16,20 +16,11 @@ void People::show()
 	{
 		if (!blEmpty[i])
 		{
-			Employee & empTemp = dynamic_cast<Employee&>(*prsList[i]);
-			Candidate & cndTemp = dynamic_cast<Candidate&>(*prsList[i]);
-			if (&cndTemp == nullptr)
-			{
-				empTemp.show;
-			}
-			else
-			{
-				cndTemp.show;
-			}
+			prsList[i]->show();
 		}
 		else
 		{
-			cout << "No peron recorded." << endl;
+			cout << "No person recorded." << endl;
 		}
 	}
 };
@@ -60,7 +51,7 @@ void People::setLastTouched(long lngTouchedSerial)
 	{
 		if (lngTouchedSerial == lngSerialList[i])
 		{
-			set(i);
+			this->set(i);
 			break;
 		}
 	}
@@ -69,7 +60,7 @@ void People::setLastTouched(long lngTouchedSerial)
 
 bool People::isEmpty()
 {
-	return getSize == 0 || getCount == 0;
+	return this->getSize() == 0 || this->getCount() == 0;
 };
 
 long People::getNewSerial()
@@ -98,19 +89,20 @@ void People::addPrs(Person **& prsTempList)
 	for (int i = 0; i < intSize; i++)
 	{
 		prsList[i] = prsTempList[i];
-		lngSerialList[i] = *prsList[i]->getSerial;
-		blEmpty[i] = *prsList[i]->isInitialized;
+		lngSerialList[i] = prsList[i]->getSerial();
+		blEmpty[i] = prsList[i]->isInitialized();
 	}
-	set(intSize);
+	this->set(intSize);
 	intCount++;
 };
 
 void addPerson(Employee & empB)
 {
 	People pplTemp;
-	pplTemp.prsTempList = new Person*[pplTemp.getSize + 1];
-	pplTemp.prsTempList[pplTemp.getSize + 1] = new Employee;
-	*pplTemp.prsTempList[pplTemp.getSize + 1] = empB;
+	int intMySize = pplTemp.getSize() + 1;
+	pplTemp.prsTempList = new Person*[intMySize];
+	pplTemp.prsTempList[intMySize] = new Employee;
+//	empB => *pplTemp.prsTempList[intMySize];
 	pplTemp.addPrs(pplTemp.prsTempList);
 	delete[] pplTemp.prsTempList;
 };
@@ -118,9 +110,10 @@ void addPerson(Employee & empB)
 void addPerson(Candidate & cndB)
 {
 	People pplTemp;
-	pplTemp.prsTempList = new Person*[pplTemp.getSize + 1];
-	pplTemp.prsTempList[pplTemp.getSize + 1] = new Candidate;
-	*pplTemp.prsTempList[pplTemp.getSize + 1] = cndB;
+	int intMySize = pplTemp.getSize() + 1;
+	pplTemp.prsTempList = new Person*[intMySize];
+	pplTemp.prsTempList[intMySize] = new Candidate;
+//	cndB => *pplTemp.prsTempList[intMySize];
 	pplTemp.addPrs(pplTemp.prsTempList);
 	delete[] pplTemp.prsTempList;
 };
@@ -137,11 +130,10 @@ void People::remPerson(int intIndex)
 void remPerson(Employee & empB)
 {
 	People pplTemp;
-	Employee * empTemp = &empB;
-	Person * prsTempEmployee = dynamic_cast<Person*>(empTemp);
-	for (int i = 0; i < pplTemp.getSize; i++)
+	for (int i = 0; i < pplTemp.getSize(); i++)
 	{
-		if (pplTemp.prsList[i] == prsTempEmployee)
+		Person & prsTemp = *pplTemp.prsList[i];
+		if (prsTemp == empB)
 		{
 			pplTemp.remPerson(i);
 			break;
@@ -152,25 +144,22 @@ void remPerson(Employee & empB)
 void remPerson(Candidate & cndB)
 {
 	People pplTemp;
-	Candidate * cndTemp = &cndB;
-	Person * prsTempCandidate = dynamic_cast<Person*>(cndTemp);
-	for (int i = 0; i < pplTemp.getSize; i++)
+	for (int i = 0; i < pplTemp.getSize(); i++)
 	{
-		if (pplTemp.prsList[i] == prsTempCandidate)
+		Person & prsTemp = *pplTemp.prsList[i];
+		if (prsTemp == cndB)
 		{
 			pplTemp.remPerson(i);
 			break;
 		}
 	}
-	delete cndTemp;
-	delete prsTempCandidate;
 };
 
 void People::remPerson(long lngExistingSerial)
 {
 	for (int i = 0; i < intSize; i++)
 	{
-		if (*prsList[i]->getSerial == lngExistingSerial)
+		if (prsList[i]->getSerial() == lngExistingSerial)
 		{
 			remPerson(i);
 			break;
@@ -180,10 +169,11 @@ void People::remPerson(long lngExistingSerial)
 
 ostream & operator << (ostream & ostMyStream, const People & pplB)
 {
-	if (!pplB.isEmpty)
+	if (!const_cast<People&>(pplB).isEmpty())
 	{
-		ostMyStream << "The HR database lists " << pplB.getCount << " people in a database of size " << pplB.getSize << "." << endl
-			<< "The last slot in the database to be manipulated is " << pplB.getLastTouchedIndex << ".";
+		ostMyStream << "The HR database lists " << const_cast<People&>(pplB).getCount() << " people in a database of size "
+			<< const_cast<People&>(pplB).getSize() << "." << endl << "The last slot in the database to be manipulated is "
+			<< const_cast<People&>(pplB).getLastTouchedIndex() << ".";
 	}
 	else
 	{
@@ -202,54 +192,13 @@ bool People::operator== (People & pplB)
 	return **prsTempList == **pplB.prsTempList;
 };
 
-bool operator== (Candidate & cndB, Employee & empB)
-{
-	Employee * empTemp = &empB;
-	Candidate * cndTemp = &cndB;
-	Person * prsTempEmployee = dynamic_cast<Person*>(empTemp);
-	Person * prsTempCandidate = dynamic_cast<Person*>(cndTemp);
-	Employee * empTempCandidate = dynamic_cast<Employee*>(cndTemp);
-	bool blRetVal = prsTempCandidate->getSerial == prsTempEmployee->getSerial &&
-		prsTempCandidate->isActive == prsTempEmployee->isActive &&
-		prsTempCandidate->getName == prsTempEmployee->getName &&
-		empTempCandidate->getType == empB.getType &&
-		empTempCandidate->getSalary == empB.getSalary;
-	delete empTemp;
-	delete cndTemp;
-	delete prsTempEmployee;
-	delete prsTempCandidate;
-	delete empTempCandidate;
-	return blRetVal;
-};
-
-bool operator== (Employee & empB, Candidate & cndB)
-{
-	Employee * empTemp = &empB;
-	Candidate * cndTemp = &cndB;
-	Person * prsTempEmployee = dynamic_cast<Person*>(empTemp);
-	Person * prsTempCandidate = dynamic_cast<Person*>(cndTemp);
-	Employee * empTempCandidate = dynamic_cast<Employee*>(cndTemp);
-	bool blRetVal = 
-		prsTempEmployee->getSerial == prsTempCandidate->getSerial && 
-		prsTempEmployee->isActive == prsTempCandidate->isActive && 
-		prsTempEmployee->getName == prsTempCandidate->getName &&
-		empB.getType == empTempCandidate->getType &&
-		empB.getSalary == empTempCandidate->getSalary;
-	delete empTemp;
-	delete cndTemp;
-	delete prsTempEmployee;
-	delete prsTempCandidate;
-	delete empTempCandidate;
-	return blRetVal;
-};
-
 
 People::People()
 {
 	prsList = new Person*[];
 	lngSerialList = new long[];
 	blEmpty = new bool[];
-	set((int)-1);
+	this->set((int)-1);
 	intCount = -1;
 	intLastTouched = -1;
 };

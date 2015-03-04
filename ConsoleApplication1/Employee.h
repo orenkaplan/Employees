@@ -1,15 +1,9 @@
 #pragma once
-//This is the same as 
-// #ifndef Employee_h
-//#define Employee_h
-//#endif
-
-#include <string>
-#include <iostream>
 #include "Person.h"
 #include "People.h"
 
-
+#include <string>
+#include <iostream>
 
 class Employee:
 	public virtual Person
@@ -33,7 +27,7 @@ public:
 
 	Employee();
 
-	Employee(std::string strNewName, long lngNewSalary, char chrNewType, bool blIsActive)
+	Employee(std::string strNewName, long lngNewSalary, char chrNewType, bool blIsActive) : Employee()
 	{
 		setName(strNewName);
 		setSalary(lngNewSalary);
@@ -41,7 +35,7 @@ public:
 		setActive(blIsActive);
 	};
 
-	Employee(Employee & empB) 
+	Employee(Employee & empB) : Employee()
 	{
 		long lngTemp;
 		lngTemp = this->getSerial();
@@ -51,7 +45,10 @@ public:
 
 	virtual ~Employee();
 	friend std::ostream & operator << (std::ostream & ostMyStream, const Employee & empB);
+//forward declaration
 	class Person;
+
+//	friend void operator<= (Person & prsB, Employee & empB);
 	friend bool operator== (Employee & empB, Person & prsB);
 	friend bool operator== (Person & prsB, Employee & empB);
 };

@@ -1,11 +1,15 @@
 #pragma once
 
+#include <string>
+#include <iostream>
 
-class Employee;
-class Candidate;
 
 class Person
 {
+//forward declarations
+//	class Employee;
+//	class Candidate;
+
 protected:
 	long * lngSerial;
 	std::string * strName;
@@ -26,5 +30,5 @@ public:
 	Person(Person & prsB);
 	virtual ~Person();
 	friend std::ostream & operator << (std::ostream & ostMyStream, const Person & prsB);
-	friend bool employ(Candidate & cndFitsAs, Employee & empNewEmployee);
+//	friend bool employ(Candidate & cndFitsAs, Employee & empNewEmployee);
 };

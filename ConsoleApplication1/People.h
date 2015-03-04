@@ -5,10 +5,12 @@
 
 
 #include "Person.h"
+#include "Employee.h"
+#include "Candidate.h"
 
-//farward declerations
-class Employee;
-class Candidate;
+//forward declarations
+//class Employee;
+//class Candidate;
 
 class People
 {
@@ -43,6 +45,4 @@ public:
 	friend void remPerson(Employee & empB);
 	friend void remPerson(Candidate & cndB);
 	friend std::ostream & operator << (std::ostream & ostMyStream, const People & pplB);
-	friend bool operator== (Employee & empB, Candidate & cndB);
-	friend bool operator== (Candidate & cndB, Employee & empB);
 };

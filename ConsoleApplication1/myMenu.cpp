@@ -27,34 +27,34 @@ void myMenu::MenuInit()
 				switch (i)
 				{
 					case 1:
-						strOption[i] = to_string(i) + "Add Employee";
+						strOption[i] = strOption[i] + "Add Employee";
 						break;
 					case 2:
-						strOption[i] = to_string(i) + "Add Candidate";
+						strOption[i] = strOption[i] + "Add Candidate";
 						break;
 					case 3:
-						strOption[i] = to_string(i) + "Change Employee";
+						strOption[i] = strOption[i] + "Change Employee";
 						break;
 					case 4:
-						strOption[i] = to_string(i) + "Change Candidate";
+						strOption[i] = strOption[i] + "Change Candidate";
 						break;
 					case 5:
-						strOption[i] = to_string(i) + "Remove Employee";
+						strOption[i] = strOption[i] + "Remove Employee";
 						break;
 					case 6:
-						strOption[i] = to_string(i) + "Remove Candidate";
+						strOption[i] = strOption[i] + "Remove Candidate";
 						break;
 					case 7:
-						strOption[i] = to_string(i) + "Show Employee";
+						strOption[i] = strOption[i] + "Show Employee";
 						break;
 					case 8:
-						strOption[i] = to_string(i) + "Show Candidate";
+						strOption[i] = strOption[i] + "Show Candidate";
 						break;
 					case 9:
-						strOption[i] = to_string(i) + "Show full HR list";
+						strOption[i] = strOption[i] + "Show full HR list";
 						break;
 					case 0:
-						strOption[i] = to_string(i) + "Show HR database statistics";
+						strOption[i] = strOption[i] + "Show HR database statistics";
 						break;
 					default:
 					{
@@ -80,7 +80,7 @@ void myMenu::MenuInit()
 			cout << strOption[i] << endl;
 			if (i == 9)
 			{
-				cout << strOption[0] << endl << endl << "Please type your choice and then type <enter>\<return>: ";
+				cout << strOption[0] << endl << endl << "Please type your choice and then type <enter>\\<return>: ";
 				cin >> *intMenuSelection;
 				while (*intMenuSelection < 0 || *intMenuSelection > 9 || cin.fail())
 				{
@@ -118,12 +118,11 @@ int myMenu::getSelection()
 
 myMenu::myMenu()
 {
-	class People;
 	pplList = new People;
 	strOption = new string[9];
 	intMenuStatus = new int;
 	*intMenuStatus = 0;
-	MenuInit;
+	this->MenuInit();
 };
 
 

@@ -3,13 +3,9 @@
 #include "Person.h"
 #include "Employee.h"
 
-
 #include <string>
 #include <iostream>
 
-#ifndef Candidate_h
-#define Candidate_h
-#endif
 
 class Candidate:
 	public virtual Employee, public virtual Person
@@ -34,7 +30,7 @@ public:
 	bool operator== (Candidate & cndB);
 	Candidate();
 
-	Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat)
+	Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat) : Candidate()
 	{
 		setName(strNewName);
 		setType(chrNewType);
@@ -43,7 +39,7 @@ public:
 		setStatus(chrNewStat);
 	};
 
-	Candidate(Candidate & cndB)
+	Candidate(Candidate & cndB) : Candidate()
 	{
 		long lngTemp;
 		lngTemp = this->getSerial();
@@ -53,6 +49,11 @@ public:
 
 	~Candidate();
 	friend std::ostream & operator << (std::ostream & ostMyStream, const Candidate & cndB);
+// forward declarations
 	class Person;
+//	friend void operator=> (Person & prsB, Candidate & cndB);
 	friend bool operator== (Candidate & cndB, Person & prsB);
+	friend bool operator== (Person & prsB, Candidate & cndB);
+	friend bool operator== (Employee & empB, Candidate & cndB);
+	friend bool operator== (Candidate & cndB, Employee & empB);
 };
