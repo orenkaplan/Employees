@@ -3,7 +3,9 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
+#if !defined(People_h)
 #include "People.h"
+#endif
 
 
 using namespace std;
@@ -15,8 +17,8 @@ void People::show()
 	{
 		if (!blEmpty[i])
 		{
-			Employee & empTemp = dynamic_cast<Employee&>(*empList[i]);
-			Candidate & cndTemp = dynamic_cast<Candidate&>(*empList[i]);
+			Employee & empTemp = dynamic_cast<Employee&>(*prsList[i]);
+			Candidate & cndTemp = dynamic_cast<Candidate&>(*prsList[i]);
 			if (&cndTemp == nullptr)
 			{
 				empTemp.show;
@@ -84,43 +86,44 @@ long People::getNewSerial()
 	return lngNewSerial;
 };
 
-void People::addPrs(Employee **& empTempList)
+void People::addPrs(Person **& prsTempList)
 {
 	for (int i = 0; i < intSize; i++)
 	{
-		empTempList[i] = empList[i];
+		prsTempList[i] = prsList[i];
 	}
 	intSize++;
-	empList = new Employee*[intSize];
+	prsList = new Person*[intSize];
 	lngSerialList = new long[intSize];
 	blEmpty = new bool[intSize];
 	for (int i = 0; i < intSize; i++)
 	{
-		Employee empTemp = *empTempList[i];
-		empList[i] = empTempList[i];
-		lngSerialList[i] = empTemp.getSerial;
-		blEmpty[i] = empTemp.isInitialized;
+		prsList[i] = prsTempList[i];
+		lngSerialList[i] = *prsList[i]->getSerial;
+		blEmpty[i] = *prsList[i]->isInitialized;
 	}
 	set(intSize);
 	intCount++;
 };
 
-void People::addPerson(Employee & empB)
+void addPerson(Employee & empB)
 {
-	empTempList = new Employee*[intSize + 1];
-	empTempList[intSize + 1] = new Employee;
-	*empTempList[intSize + 1] = empB;
-	addPerson(empTempList);
-	delete empTempList;
+	People pplTemp;
+	pplTemp.prsTempList = new Person*[pplTemp.getSize + 1];
+	pplTemp.prsTempList[pplTemp.getSize + 1] = new Employee;
+	*pplTemp.prsTempList[pplTemp.getSize + 1] = empB;
+	pplTemp.addPrs(pplTemp.prsTempList);
+	delete[] pplTemp.prsTempList;
 };
 
-void People::addPerson(Candidate & cndB)
+void addPerson(Candidate & cndB)
 {
-	empTempList = new Employee*[intSize + 1];
-	empTempList[intSize + 1] = new Candidate;
-	*empTempList[intSize + 1] = cndB;
-	addPerson(empTempList);
-	delete empTempList;
+	People pplTemp;
+	pplTemp.prsTempList = new Person*[pplTemp.getSize + 1];
+	pplTemp.prsTempList[pplTemp.getSize + 1] = new Candidate;
+	*pplTemp.prsTempList[pplTemp.getSize + 1] = cndB;
+	pplTemp.addPrs(pplTemp.prsTempList);
+	delete[] pplTemp.prsTempList;
 };
 
 void People::remPerson(int intIndex)
@@ -129,39 +132,46 @@ void People::remPerson(int intIndex)
 	blEmpty[intIndex] = true;
 	set(intIndex);
 	intCount--;
-	delete empList[intIndex];
+	delete prsList[intIndex];
 };
 
-void People::remPerson(Employee & empB)
+void remPerson(Employee & empB)
 {
-	for (int i = 0; i < intSize; i++)
+	People pplTemp;
+	Employee * empTemp = &empB;
+	Person * prsTempEmployee = dynamic_cast<Person*>(empTemp);
+	for (int i = 0; i < pplTemp.getSize; i++)
 	{
-		if (*empList[i] == empB)
+		if (pplTemp.prsList[i] == prsTempEmployee)
 		{
-			remPerson(i);
+			pplTemp.remPerson(i);
 			break;
 		}
 	}
 };
 
-void People::remPerson(Candidate & cndB)
+void remPerson(Candidate & cndB)
 {
-	for (int i = 0; i < intSize; i++)
+	People pplTemp;
+	Candidate * cndTemp = &cndB;
+	Person * prsTempCandidate = dynamic_cast<Person*>(cndTemp);
+	for (int i = 0; i < pplTemp.getSize; i++)
 	{
-		if (*empList[i] == cndB)
+		if (pplTemp.prsList[i] == prsTempCandidate)
 		{
-			remPerson(i);
+			pplTemp.remPerson(i);
 			break;
 		}
 	}
+	delete cndTemp;
+	delete prsTempCandidate;
 };
 
 void People::remPerson(long lngExistingSerial)
 {
 	for (int i = 0; i < intSize; i++)
 	{
-		Employee empTemp = *empList[i];
-		if (empTemp.getSerial == lngExistingSerial)
+		if (*prsList[i]->getSerial == lngExistingSerial)
 		{
 			remPerson(i);
 			break;
@@ -185,18 +195,59 @@ ostream & operator << (ostream & ostMyStream, const People & pplB)
 
 void People::operator= (People & pplB)
 {
-	**empTempList = **pplB.empTempList;
+	**prsTempList = **pplB.prsTempList;
 };
 
 bool People::operator== (People & pplB)
 {
-	return **empTempList == **pplB.empTempList;
+	return **prsTempList == **pplB.prsTempList;
+};
+
+bool operator== (Candidate & cndB, Employee & empB)
+{
+	Employee * empTemp = &empB;
+	Candidate * cndTemp = &cndB;
+	Person * prsTempEmployee = dynamic_cast<Person*>(empTemp);
+	Person * prsTempCandidate = dynamic_cast<Person*>(cndTemp);
+	Employee * empTempCandidate = dynamic_cast<Employee*>(cndTemp);
+	bool blRetVal = prsTempCandidate->getSerial == prsTempEmployee->getSerial &&
+		prsTempCandidate->isActive == prsTempEmployee->isActive &&
+		prsTempCandidate->getName == prsTempEmployee->getName &&
+		empTempCandidate->getType == empB.getType &&
+		empTempCandidate->getSalary == empB.getSalary;
+	delete empTemp;
+	delete cndTemp;
+	delete prsTempEmployee;
+	delete prsTempCandidate;
+	delete empTempCandidate;
+	return blRetVal;
+};
+
+bool operator== (Employee & empB, Candidate & cndB)
+{
+	Employee * empTemp = &empB;
+	Candidate * cndTemp = &cndB;
+	Person * prsTempEmployee = dynamic_cast<Person*>(empTemp);
+	Person * prsTempCandidate = dynamic_cast<Person*>(cndTemp);
+	Employee * empTempCandidate = dynamic_cast<Employee*>(cndTemp);
+	bool blRetVal = 
+		prsTempEmployee->getSerial == prsTempCandidate->getSerial && 
+		prsTempEmployee->isActive == prsTempCandidate->isActive && 
+		prsTempEmployee->getName == prsTempCandidate->getName &&
+		empB.getType == empTempCandidate->getType &&
+		empB.getSalary == empTempCandidate->getSalary;
+	delete empTemp;
+	delete cndTemp;
+	delete prsTempEmployee;
+	delete prsTempCandidate;
+	delete empTempCandidate;
+	return blRetVal;
 };
 
 
 People::People()
 {
-	empList = new Employee*[];
+	prsList = new Person*[];
 	lngSerialList = new long[];
 	blEmpty = new bool[];
 	set((int)-1);
@@ -213,10 +264,10 @@ People::~People()
 {
 	for (int i = 0; i < intSize; i++)
 	{
-		delete empList[i];
+		delete prsList[i];
 	}
 	intSize = 0;
-	delete empList;
-	delete lngSerialList;
-	delete blEmpty;
+	delete[] prsList;
+	delete[] lngSerialList;
+	delete[] blEmpty;
 };

@@ -3,27 +3,16 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
+#if !defined(Candidate_h)
 #include "Candidate.h"
+#endif
+#if !defined(People_h)
 #include "People.h"
+#endif
 
 
 using namespace std;
 
-
-void employ(Candidate & cndFitsAs, Employee & empNewEmployee)
-{
-	if (cndFitsAs.doesFit && cndFitsAs.isActive && cndFitsAs.getStatus == 'p' && cndFitsAs.getSalary != 0)
-	{
-		People pplSet;
-		empNewEmployee.set(cndFitsAs.getSerial);
-		empNewEmployee.setName(cndFitsAs.getName);
-		empNewEmployee.set(cndFitsAs.isActive);
-		empNewEmployee.set(cndFitsAs.getType);
-		empNewEmployee.setSalary(cndFitsAs.getSalary);
-		pplSet.remPerson(cndFitsAs);
-		pplSet.addPerson(empNewEmployee);
-	}
-};
 
 bool Candidate::doesFit()
 {
@@ -37,9 +26,8 @@ void Candidate::changeFits(bool blValue)
 
 string Candidate::getString()
 {
-	Candidate & cndTemp = *this;
 	string strRetVal = "";
-	switch (cndTemp.getType)
+	switch (*this->getType)
 	{
 		case 'g':
 			strRetVal = "Global ";
@@ -54,7 +42,7 @@ string Candidate::getString()
 			cout << "Bad candidate type." << endl << "Please start over and report to author." << endl;
 			return strRetVal;
 	}
-	strRetVal = strRetVal + "candidate " + cndTemp.getName + ", number " + getSerial;
+	strRetVal = strRetVal + "candidate " + *this->getName + ", number " + getSerial;
 	if (doesFit)
 	{
 		strRetVal = strRetVal + " fits ";
@@ -68,7 +56,7 @@ string Candidate::getString()
 	{
 		strRetVal = strRetVal + "n't";
 	}
-	strRetVal = strRetVal + " active in status " + cndTemp.getStatus + ".";
+	strRetVal = strRetVal + " active in status " + *this->getStatus + ".";
 	return strRetVal;
 };
 
@@ -146,13 +134,13 @@ bool Candidate::isInitialized()
 void Candidate::terminate()
 {
 	changeFits(false);
-	set(false);
+	setActive(false);
 };
 
 void Candidate::activate()
 {
 	changeFits(true);
-	set(true);
+	setActive(true);
 };
 
 ostream & operator << (ostream & ostMyStream, const Candidate & cndB)
@@ -163,69 +151,52 @@ ostream & operator << (ostream & ostMyStream, const Candidate & cndB)
 
 void Candidate::operator= (Candidate & cndB)
 {
-	set(*cndB.getSerial);
-	set(*cndB.isActive);
-	set(*cndB.getName);
-	set(*cndB.getType);
-	setSalary(*cndB.getSalary);
-	changeFits(*cndB.doesFit);
-	setStatus(*cndB.getStatus);
+	setSerial(cndB.getSerial);
+	setActive(cndB.isActive);
+	setName(cndB.getName);
+	setType(cndB.getType);
+	setSalary(cndB.getSalary);
+	changeFits(cndB.doesFit);
+	setStatus(cndB.getStatus);
 };
 
 bool Candidate::operator== (Candidate & cndB)
 {
-	return getSerial == *cndB.getSerial && isActive == *cndB.isActive && getName == *cndB.getName
-		&& getType == *cndB.getType && getSalary == *cndB.getSalary
-		&& doesFit == *cndB.doesFit && getStatus == *cndB.getStatus;
+	return getSerial == cndB.getSerial && isActive == cndB.isActive && getName == cndB.getName
+		&& getType == cndB.getType && getSalary == cndB.getSalary
+		&& doesFit == cndB.doesFit && getStatus == cndB.getStatus;
 };
 
-bool Candidate::operator== (Employee & empB)
+bool operator== (Candidate & cndB, Person & prsB)
 {
-	return getSerial == *empB.getSerial && isActive == *empB.isActive && getName == *empB.getName
-		&& getType == *empB.getType && getSalary == *empB.getSalary;
+	return cndB.getSerial == prsB.getSerial && cndB.isActive == prsB.isActive && cndB.getName == prsB.getName;
+};
+
+bool operator== (Person & prsB, Candidate & cndB)
+{
+	return prsB.getSerial == cndB.getSerial && prsB.isActive == cndB.isActive && prsB.getName == cndB.getName;
 };
 
 
 Candidate::Candidate()
 {
 	People pplGet;
-	set(pplGet.getNewSerial);
-	setName("");
-	set('t');
-	set(false);
-	changeFits(false);
-	setStatus('d');
-	pplGet.addPerson(*this);
-};
-
-Candidate::Candidate(string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat)
-{
-	People pplGet;
-	set(pplGet.getNewSerial);
-	setName(strNewName);
-	set(chrNewType);
-	set(blIsActive);
-	changeFits(blDoesFit);
-	setStatus(chrNewStat);
-	pplGet.addPerson(*this);
-};
-
-Candidate::Candidate(Candidate & cndB)
-{
-	People pplGet;
-	set(pplGet.getNewSerial);
-	pplGet.addPerson(*this);
+	setSerial(pplGet.getNewSerial);
+	setSalary(NULL);
+	setType(NULL);
+	changeFits(NULL);
+	setStatus(NULL);
+	addPerson(*this);
 };
 
 Candidate::~Candidate()
 {
-	People pplDel;
-	set((long)-1);
-	setName("");
-	set(false);
-	set('\0');
-	setSalary(-1);
+	remPerson(*this->getSerial);
+	setSerial(NULL);
+	setName(NULL);
+	setActive(NULL);
+	setType(NULL);
+	setSalary(NULL);
 	delete intStatus;
 	delete blFits;
-	pplDel.remPerson(*this);
 };

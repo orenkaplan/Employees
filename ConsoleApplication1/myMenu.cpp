@@ -4,7 +4,12 @@
 #include <string>
 #include <algorithm>
 #include <iostream>
+#if !defined(myMenu_h)
 #include "myMenu.h"
+#endif
+#if !defined(People_h)
+#include "People.h"
+#endif
 
 
 using namespace std;
@@ -113,6 +118,7 @@ int myMenu::getSelection()
 
 myMenu::myMenu()
 {
+	class People;
 	pplList = new People;
 	strOption = new string[9];
 	intMenuStatus = new int;

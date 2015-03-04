@@ -4,7 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#if !defined(myMenu_h)
 #include "myMenu.h"
+#endif
+
 
 using namespace std;
 

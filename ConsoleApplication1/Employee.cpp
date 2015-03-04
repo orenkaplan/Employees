@@ -3,7 +3,12 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
+#if !defined(Employee_h)
 #include "Employee.h"
+#endif
+#if !defined(People_h)
+#include "People.h"
+#endif
 
 
 using namespace std;
@@ -21,9 +26,8 @@ char Employee::getType()
 
 string Employee::getString()
 {
-	Employee & empTemp = *this;
 	string strRetVal = "";
-	switch (empTemp.getType)
+	switch (*this->getType)
 	{
 	case 'g':
 		strRetVal = "Global ";
@@ -38,7 +42,7 @@ string Employee::getString()
 		cout << "Bad candidate type." << endl << "Please start over and report to author." << endl;
 		return strRetVal;
 	}
-	strRetVal = strRetVal + "employee " + empTemp.getName + ", number " + getSerial + " is";
+	strRetVal = strRetVal + "employee " + *this->getName + ", number " + getSerial + " is";
 	if (!isActive)
 	{
 		strRetVal = strRetVal + "n't";
@@ -52,7 +56,7 @@ void Employee::show()
 	cout << *this << endl;
 };
 
-void Employee::set(char chrNewType)
+void Employee::setType(char chrNewType)
 {
 	*chrType = chrNewType;
 };;
@@ -70,12 +74,12 @@ bool Employee::isInitialized()
 
 void Employee::terminate()
 {
-	set(false);
+	setActive(false);
 };
 
 void Employee::activate(long lngNewSalary)
 {
-	set(true);
+	setActive(true);
 	setSalary(lngNewSalary);
 };
 
@@ -87,62 +91,45 @@ ostream & operator << (ostream & ostMyStream, const Employee & empB)
 
 void Employee::operator= (Employee & empB)
 {
-	set(empB.getSerial);
-	set(*empB.isActive);
-	setName(*empB.getName);
-	set(*empB.getType);
-	setSalary(*empB.getSalary);
+	setSerial(empB.getSerial);
+	setActive(empB.isActive);
+	setName(empB.getName);
+	setType(empB.getType);
+	setSalary(empB.getSalary);
 };
 
 bool Employee::operator== (Employee & empB)
 {
-	return getSerial == *empB.getSerial && isActive == *empB.isActive && getName == *empB.getName
-		&& getType == *empB.getType && getSalary == *empB.getSalary;
+	return getSerial == empB.getSerial && isActive == empB.isActive && getName == empB.getName
+		&& getType == empB.getType && getSalary == empB.getSalary;
 };
 
-bool Employee::operator== (Candidate & cndB)
+bool operator== (Employee & empB, Person & prsB)
 {
-	return getSerial == *cndB.getSerial && isActive == *cndB.isActive && getName == *cndB.getName
-		&& getType == *cndB.getType && getSalary == *cndB.getSalary;
+	return empB.getSerial == prsB.getSerial && empB.isActive == prsB.isActive && empB.getName == prsB.getName;
+};
+
+bool operator== (Person & prsB, Employee & empB)
+{
+	return prsB.getSerial == empB.getSerial && prsB.isActive == empB.isActive && prsB.getName == empB.getName;
 };
 
 
 Employee::Employee()
 {
 	People pplGet;
-	set(pplGet.getNewSerial);
-	setName("");
-	setSalary(0);
-	set('t');
-	set(false);
-	pplGet.addPerson(*this);
-};
-
-Employee::Employee(string strNewName, long lngNewSalary, char chrNewType, bool blIsActive)
-{
-	People pplGet;
-	set(pplGet.getNewSerial);
-	setName(strNewName);
-	setSalary(lngNewSalary);
-	set(chrNewType);
-	set(blIsActive);
-	pplGet.addPerson(*this);
-};
-
-Employee::Employee(Employee & empB)
-{
-	People pplGet;
-	pplGet.addPerson(empB);
-	set(pplGet.getNewSerial);
-};
+	setSerial(pplGet.getNewSerial);
+	setSalary(NULL);
+	setType(NULL);
+	addPerson(*this);
+}
 
 Employee::~Employee()
 {
-	People pplDel;
-	set((long)-1);
-	setName("");
-	set(false);
+	remPerson(*this->getSerial);
+	setSerial(NULL);
+	setName(NULL);
+	setActive(NULL);
 	delete lngSalary;
 	delete chrType;
-	pplDel.remPerson(*this);
 };

@@ -1,20 +1,4 @@
-#if !defined(People_h)
-
-
 #pragma once
-#if !defined(Person_h)
-#include "Person.h"
-#endif
-
-#if !defined(Employee_h)
-#include "Employee.h"
-#endif
-
-#if !defined(Candidate_h)
-#include "Candidate.h"
-#endif
-
-
 #if !defined(string)
 #include <string>
 #endif
@@ -22,25 +6,33 @@
 #include <iostream>
 #endif
 
+#if !defined(Candidate_h)
+#include "Candidate.h"
+#endif
+#if !defined(Employee_h)
+#include "Employee.h"
+#endif
+#if !defined(Person_h)
+#include "Person.h"
+#endif
 
+
+#if !defined(People_h)
 #define People_h
+#endif
 
-class People:
-	private Person
+class People
 {
-protected:
-	long * lngGot;
-
 private:
-	static Employee ** empList;
-	Employee ** empTempList;
+	static Person ** prsList;
+	Person ** prsTempList;
 	static long * lngSerialList;
 	static bool * blEmpty;
 	static int intSize;
 	static int intCount;
 	static int intLastTouched;
-	void addPerson(Employee **& empTempList);
 	void remPerson(int intIndex);
+	void addPrs(Person **& prsTempList);
 	virtual void set(int intNewIndex);
 
 public:
@@ -51,20 +43,17 @@ public:
 	int getLastTouchedIndex();
 	bool isEmpty();
 	long getNewSerial();
-	void addPrs(Employee **& empTempList);
-	void addPerson(Employee & empB);
-	void addPerson(Candidate & cndB);
-	void remPerson(int intIndex);
-	void remPerson(Employee & empB);
-	void remPerson(Candidate & cndB);
 	void remPerson(long lngExistingSerial);
 	void operator= (People & pplB);
 	bool operator== (People & pplB);
 	People();
 	People(People & pplB);
 	~People();
+	friend void addPerson(Employee & empB);
+	friend void addPerson(Candidate & cndB);
+	friend void remPerson(Employee & empB);
+	friend void remPerson(Candidate & cndB);
 	friend std::ostream & operator << (std::ostream & ostMyStream, const People & pplB);
+	friend bool operator== (Employee & empB, Candidate & cndB);
+	friend bool operator== (Candidate & cndB, Employee & empB);
 };
-
-
-#endif

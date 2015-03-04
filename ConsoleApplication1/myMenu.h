@@ -1,15 +1,10 @@
-#if !defined(myMenu_h)
-
-
 #pragma once
 #if !defined(Person_h)
 #include "Person.h"
 #endif
-
 #if !defined(Employee_h)
 #include "Employee.h"
 #endif
-
 #if !defined(Candidate_h)
 #include "Candidate.h"
 #endif
@@ -19,9 +14,9 @@
 #include <string>
 #endif
 
-
+#if !defined(myMenu_h)
 #define myMenu_h
-
+#endif
 
 class myMenu
 {
@@ -37,6 +32,3 @@ public:
 	myMenu();
 	~myMenu();
 };
-
-
-#endif

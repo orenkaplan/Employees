@@ -3,7 +3,10 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
+#if !defined(Person_h)
 #include "Person.h"
+#endif
+
 
 using namespace std;
 
@@ -40,22 +43,22 @@ ostream & operator << (ostream & ostMyStream, const Person & prsB)
 
 void Person::operator= (Person & prsB)
 {
-	set(*prsB.getSerial);
-	set(*prsB.isActive);
+	setSerial(*prsB.getSerial);
+	setActive(*prsB.isActive);
 	setName(*prsB.getName);
 };
 
 bool Person::operator== (Person & prsB)
 {
-	return getSerial == *prsB.getSerial && isActive == *prsB.isActive && getName == *prsB.getName;
+	return getSerial == prsB.getSerial && isActive == prsB.isActive && getName == prsB.getName;
 };
 
-void Person::set(long lngNewSerial)
+void Person::setSerial(long lngNewSerial)
 {
 	*lngSerial = lngNewSerial;
 };
 
-void Person::set(bool blValue)
+void Person::setActive(bool blValue)
 {
 	*blActive = blValue;
 };
@@ -65,20 +68,38 @@ void Person::setName(string strNewName)
 	*strName = strNewName;
 };
 
+bool employ(Candidate & cndFitsAs, Employee & empNewEmployee)
+{
+	bool blRetVal = false;
+	Employee * empTemp = &empNewEmployee;
+	Candidate * cndTemp = &cndFitsAs;
+	Person * prsTempEmployee = dynamic_cast<Person*>(empTemp);
+	Person * prsTempCandidate = dynamic_cast<Person*>(cndTemp);
+	Employee * empTempCandidate = dynamic_cast<Employee*>(cndTemp);
+	if (cndFitsAs.doesFit && prsTempCandidate->isActive && cndFitsAs.getStatus == 'p' && empTempCandidate->getSalary != 0)
+	{
+		Employee empTemp = Employee(prsTempCandidate->getName, empTempCandidate->getSalary, empTempCandidate->getType, prsTempCandidate->isActive);
+		prsTempEmployee->setSerial(prsTempCandidate->getSerial);
+		remPerson(cndFitsAs);
+		addPerson(empNewEmployee);
+		blRetVal = true;
+	}
+	delete empTemp;
+	delete cndTemp;
+	delete prsTempEmployee;
+	delete prsTempCandidate;
+	delete empTempCandidate;
+};
+
 
 Person::Person()
 {
 	lngSerial = new long;
 	strName = new string;
 	blActive = new bool;
-	set((long)0);
-	set("");
-	set(false);
-};
-
-Person::Person(Person & prsB)
-{
-	*this = prsB;
+	setSerial(NULL);
+	setName(NULL);
+	setActive(NULL);
 };
 
 Person::~Person()
