@@ -1,25 +1,16 @@
 #pragma once
-#if !defined(string)
+
 #include <string>
-#endif
-#if !defined(ostream)
 #include <iostream>
-#endif
 
-#if !defined(Candidate_h)
-#include "Candidate.h"
-#endif
-#if !defined(Employee_h)
-#include "Employee.h"
-#endif
-#if !defined(Person_h)
+
 #include "Person.h"
-#endif
+#include "Employee.h"
+#include "Candidate.h"
 
-
-#if !defined(People_h)
-#define People_h
-#endif
+//forward declarations
+//class Employee;
+//class Candidate;
 
 class People
 {
@@ -54,6 +45,4 @@ public:
 	friend void remPerson(Employee & empB);
 	friend void remPerson(Candidate & cndB);
 	friend std::ostream & operator << (std::ostream & ostMyStream, const People & pplB);
-	friend bool operator== (Employee & empB, Candidate & cndB);
-	friend bool operator== (Candidate & cndB, Employee & empB);
 };

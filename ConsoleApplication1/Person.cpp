@@ -3,12 +3,14 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
-#if !defined(Person_h)
+
 #include "Person.h"
-#endif
+
+
 
 
 using namespace std;
+
 
 
 long Person::getSerial()
@@ -28,7 +30,7 @@ bool Person::isActive()
 
 bool Person::isInitialized()
 {
-	return getSerial != NULL && getName != NULL && isActive != NULL;
+	return this->getSerial() != NULL && this->getName() != to_string(NULL) && this->isActive() != NULL;
 };
 
 void Person::show()
@@ -38,19 +40,19 @@ void Person::show()
 
 ostream & operator << (ostream & ostMyStream, const Person & prsB)
 {
-	// Pure Virtual - not relevant
+	return ostMyStream; // Pure Virtual - not relevant
 };
 
 void Person::operator= (Person & prsB)
 {
-	setSerial(*prsB.getSerial);
-	setActive(*prsB.isActive);
-	setName(*prsB.getName);
+	this->setSerial(prsB.getSerial());
+	this->setActive(prsB.isActive());
+	this->setName(prsB.getName());
 };
 
 bool Person::operator== (Person & prsB)
 {
-	return getSerial == prsB.getSerial && isActive == prsB.isActive && getName == prsB.getName;
+	return this->getSerial() == prsB.getSerial() && this->isActive() == prsB.isActive() && this->getName() == prsB.getName();
 };
 
 void Person::setSerial(long lngNewSerial)
@@ -68,7 +70,7 @@ void Person::setName(string strNewName)
 	*strName = strNewName;
 };
 
-bool employ(Candidate & cndFitsAs, Employee & empNewEmployee)
+/* bool employ(Candidate & cndFitsAs, Employee & empNewEmployee)
 {
 	bool blRetVal = false;
 	Employee * empTemp = &empNewEmployee;
@@ -76,7 +78,7 @@ bool employ(Candidate & cndFitsAs, Employee & empNewEmployee)
 	Person * prsTempEmployee = dynamic_cast<Person*>(empTemp);
 	Person * prsTempCandidate = dynamic_cast<Person*>(cndTemp);
 	Employee * empTempCandidate = dynamic_cast<Employee*>(cndTemp);
-	if (cndFitsAs.doesFit && prsTempCandidate->isActive && cndFitsAs.getStatus == 'p' && empTempCandidate->getSalary != 0)
+	if (cndTemp.doesFit && prsTempCandidate->isActive && cndFitsAs.getStatus == 'p' && empTempCandidate->getSalary != 0)
 	{
 		Employee empTemp = Employee(prsTempCandidate->getName, empTempCandidate->getSalary, empTempCandidate->getType, prsTempCandidate->isActive);
 		prsTempEmployee->setSerial(prsTempCandidate->getSerial);
@@ -89,7 +91,7 @@ bool employ(Candidate & cndFitsAs, Employee & empNewEmployee)
 	delete prsTempEmployee;
 	delete prsTempCandidate;
 	delete empTempCandidate;
-};
+}; */
 
 
 Person::Person()
@@ -97,9 +99,14 @@ Person::Person()
 	lngSerial = new long;
 	strName = new string;
 	blActive = new bool;
-	setSerial(NULL);
-	setName(NULL);
-	setActive(NULL);
+	this->setSerial(NULL);
+	this->setName(NULL);
+	this->setActive(NULL);
+};
+
+Person::Person(Person & prsB) 
+{
+	*this = prsB;
 };
 
 Person::~Person()
@@ -108,3 +115,4 @@ Person::~Person()
 	delete strName;
 	delete blActive;
 };
+

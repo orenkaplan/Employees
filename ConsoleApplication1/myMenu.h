@@ -1,22 +1,15 @@
 #pragma once
-#if !defined(Person_h)
 #include "Person.h"
-#endif
-#if !defined(Employee_h)
 #include "Employee.h"
-#endif
-#if !defined(Candidate_h)
 #include "Candidate.h"
-#endif
 
-
-#if !defined(string)
 #include <string>
-#endif
 
-#if !defined(myMenu_h)
-#define myMenu_h
-#endif
+// forward declerations
+//class Person;
+//class Employee;
+//class Candidate;
+class People;
 
 class myMenu
 {

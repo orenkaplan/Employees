@@ -3,12 +3,9 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
-#if !defined(Employee_h)
+
 #include "Employee.h"
-#endif
-#if !defined(People_h)
-#include "People.h"
-#endif
+// #include "People.h"
 
 
 using namespace std;
@@ -27,7 +24,7 @@ char Employee::getType()
 string Employee::getString()
 {
 	string strRetVal = "";
-	switch (*this->getType)
+	switch (this->getType())
 	{
 	case 'g':
 		strRetVal = "Global ";
@@ -42,8 +39,8 @@ string Employee::getString()
 		cout << "Bad candidate type." << endl << "Please start over and report to author." << endl;
 		return strRetVal;
 	}
-	strRetVal = strRetVal + "employee " + *this->getName + ", number " + getSerial + " is";
-	if (!isActive)
+	strRetVal = strRetVal + "employee " + this->getName() + ", number " + to_string(this->getSerial()) + " is";
+	if (!this->isActive())
 	{
 		strRetVal = strRetVal + "n't";
 	}
@@ -68,68 +65,75 @@ void Employee::setSalary(long lngNewSalary)
 
 bool Employee::isInitialized()
 {
-	return getSerial != NULL && getName != NULL && isActive != NULL
-		&& getType !=NULL && getSalary != NULL;
+	return this->getSerial() != NULL && this->getName() != to_string(NULL) && this->isActive() != NULL
+		&& this->getType() != NULL && this->getSalary() != NULL;
 };
 
 void Employee::terminate()
 {
-	setActive(false);
+	this->setActive(false);
 };
 
 void Employee::activate(long lngNewSalary)
 {
-	setActive(true);
-	setSalary(lngNewSalary);
+	this->setActive(true);
+	this->setSalary(lngNewSalary);
 };
 
 ostream & operator << (ostream & ostMyStream, const Employee & empB)
 {
-	ostMyStream << empB.getString;
+	ostMyStream << const_cast<Employee&>(empB).getString();
 	return ostMyStream;
 };
 
 void Employee::operator= (Employee & empB)
 {
-	setSerial(empB.getSerial);
-	setActive(empB.isActive);
-	setName(empB.getName);
-	setType(empB.getType);
-	setSalary(empB.getSalary);
+	this->setSerial(empB.getSerial());
+	this->setActive(empB.isActive());
+	this->setName(empB.getName());
+	this->setType(empB.getType());
+	this->setSalary(empB.getSalary());
 };
 
 bool Employee::operator== (Employee & empB)
 {
-	return getSerial == empB.getSerial && isActive == empB.isActive && getName == empB.getName
-		&& getType == empB.getType && getSalary == empB.getSalary;
+	return this->getSerial() == empB.getSerial() && this->isActive() == empB.isActive() && this->getName() == empB.getName()
+		&& this->getType() == empB.getType() && this->getSalary() == empB.getSalary();
 };
+
+/* void operator<= (Person & prsB, Employee & empB)
+{
+	prsB.setSerial(empB.getSerial());
+	prsB.setActive(empB.isActive());
+	prsB.setName(empB.getName());
+}; */
 
 bool operator== (Employee & empB, Person & prsB)
 {
-	return empB.getSerial == prsB.getSerial && empB.isActive == prsB.isActive && empB.getName == prsB.getName;
+	return empB.getSerial() == prsB.getSerial() && empB.isActive() == prsB.isActive() && empB.getName() == prsB.getName();
 };
 
 bool operator== (Person & prsB, Employee & empB)
 {
-	return prsB.getSerial == empB.getSerial && prsB.isActive == empB.isActive && prsB.getName == empB.getName;
+	return empB == prsB;
 };
 
 
 Employee::Employee()
 {
 	People pplGet;
-	setSerial(pplGet.getNewSerial);
-	setSalary(NULL);
-	setType(NULL);
-	addPerson(*this);
+	this->setSerial(pplGet.getNewSerial());
+	this->setSalary(NULL);
+	this->setType(NULL);
+	addPerson(const_cast<Employee&>(*this));
 }
 
 Employee::~Employee()
 {
-	remPerson(*this->getSerial);
-	setSerial(NULL);
-	setName(NULL);
-	setActive(NULL);
+	remPerson(const_cast<Employee&>(*this));
+	this->setSerial(NULL);
+	this->setName(NULL);
+	this->setActive(NULL);
 	delete lngSalary;
 	delete chrType;
 };
