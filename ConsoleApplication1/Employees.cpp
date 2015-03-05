@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <iostream>
 #include "myMenu.h"
+#include "Employee.h"
+#include "Candidate.h"
 
 
 using namespace std;
@@ -13,12 +15,40 @@ using namespace std;
 int main()
 {
 	cout << "Welcome to Gil's HR application." << endl << endl;
-	myMenu * mnuBackEnd = new myMenu;
-	while (mnuBackEnd->getSelection() != -1)
+	myMenu * mnuMyUI = new myMenu;
+	while (mnuMyUI->getSelection() != -1)
 	{
+		mnuMyUI->mnuAct();
+		switch (mnuMyUI->getCreateType())
+		{
+			case 'e':
+			{
+				Employee * empNew = new Employee;
+			}
+				break;
+			case 'E':
+			{
+				Employee * empNew =
+					new Employee(mnuMyUI->getCName(),mnuMyUI->getCSalary(),mnuMyUI->getCType(),mnuMyUI->getCActive());
+			}
+				break;
+			case 'c':
+			{
+				Candidate * cndNew = new Candidate;
+			}
+				break;
+			case 'C':
+			{
+				Candidate * empNew =
+					new Candidate(mnuMyUI->getCName(), mnuMyUI->getCType(), mnuMyUI->getCActive(), mnuMyUI->getCFit(), mnuMyUI->getCStatus());
+			}
+				break;
+			default:
+				break;
+		}
 		system("cls");
-		mnuBackEnd->MenuInit();
+		mnuMyUI->mnuInit();
 	}
-	delete mnuBackEnd;
+	delete mnuMyUI;
     return 0;
 };

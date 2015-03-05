@@ -20,11 +20,14 @@ ConsoleApplication1.vcxproj.filters
 
 Employees.cpp
     This is the main application source file.
+	It creates an instance of the UI object and controls its behaviour.
+	It also holds the code for creating the Employee and Candidate objects in the only place that never goes out of scope for the entire run time.
 
 myMenu.cpp
 	This is the source file for the myMenu class declared in myMenu.cpp .
 	It contains the class source code and definitions.
-	This class defines the UI of the project so most of it's private members are static.
+	This class defines the UI of the project so there is supposed to be only one instance of this kind of object.
+	That said - if for some reason more than one object should be needed, most private members of this class should be turned static as there is only one UI.
 	It's written in a way that simplifies interfacing with the class and the application.
 
 myMenu.h
@@ -35,7 +38,8 @@ People.cpp
 	This is the source file for the People class declared in People.cpp .
 	It contains the class source code and definitions.
 	This class contains and manages the database so that most of it's private members are static.
-	It holds a Person class pointer to a pointer, allowing to contain an array of pointers, each of which can be pointed to another type of person.
+	It holds a Person class pointer to a pointer, allowing to contain an array of pointers.
+	Each of the pointers in the array can be pointed to objects which are either a Person or its derivatives.
 
 People.h
 	This is the header file for the People class defined in People.cpp .
@@ -69,6 +73,7 @@ Candidate.cpp
 	This class is derived from the Employee class, which in turn is derived from the abstract base class Person.
 	This class contains even more data than what is contained by Employee, and more functions to handle that data and the interactions.
 	The class also contains overrides of virtual functions existing in Person and Employee.
+	This class contains the only function in the program written to 'change the typew of an object, turning a Candidate into an Employee.
 
 Candidate.h
 	This is the header file for the Candidate class defined in Candidate.cpp .

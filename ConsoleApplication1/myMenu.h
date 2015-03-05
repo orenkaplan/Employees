@@ -1,16 +1,7 @@
 #pragma once
 #include "People.h"
-//#include "Person.h"
-//#include "Employee.h"
-//#include "Candidate.h"
 
 #include <string>
-
-// forward declerations
-//class Person;
-//class Employee;
-//class Candidate;
-//class People;
 
 // no static because only one instance
 
@@ -21,10 +12,28 @@ private:
 	/* static */ std::string strOption[10];
 	/* static */ int intMenuStatus;
 	/* static */ int intMenuSelection;
+	/* static */ char chrCreatePerson;
+	/* static */ std::string strName;
+	/* static */ bool blActive;
+	/* static */ char chrType;
+	/* static */ long lngSalary;
+	/* static */ char chrStatus;
+	/* static */ bool blFits;
+
+protected:
+	int getMenuStatus();
 
 public:
+	char getCreateType();
 	int getSelection();
-	void MenuInit();
+	std::string getCName();
+	bool getCActive();
+	char getCType();
+	long getCSalary();
+	char getCStatus();
+	bool getCFit();
+	void mnuAct();
+	void mnuInit();
 	myMenu();
 	~myMenu();
 };
