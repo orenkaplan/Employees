@@ -12,13 +12,15 @@
 //class Candidate;
 //class People;
 
+// no static because only one instance
+
 class myMenu
 {
 private:
-	static People * pplList;
-	static std::string * strOption;
-	static int * intMenuStatus;
-	static int * intMenuSelection;
+	/* static */ People * pplList;
+	/* static */ std::string strOption[10];
+	/* static */ int intMenuStatus;
+	/* static */ int intMenuSelection;
 
 public:
 	int getSelection();

@@ -4,23 +4,24 @@
 #include <string>
 #include <algorithm>
 #include <iostream>
-#if !defined(myMenu_h)
 #include "myMenu.h"
-#endif
-#if !defined(People_h)
 #include "People.h"
-#endif
 
 
 using namespace std;
 
+// uncomment if static
+//People *myMenu::pplList = NULL;
+//std::string myMenu::strOption[] = {};
+//int myMenu::intMenuStatus = NULL;
+//int myMenu::intMenuSelection = NULL;
 
 void myMenu::MenuInit()
 {
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i <= 9; i++)
 	{
 		strOption[i] = to_string(i) + ") ";
-		switch (*intMenuStatus)
+		switch (intMenuStatus)
 		{
 			case 0:
 			{
@@ -81,8 +82,8 @@ void myMenu::MenuInit()
 			if (i == 9)
 			{
 				cout << strOption[0] << endl << endl << "Please type your choice and then type <enter>\\<return>: ";
-				cin >> *intMenuSelection;
-				while (*intMenuSelection < 0 || *intMenuSelection > 9 || cin.fail())
+				cin >> intMenuSelection;
+				while (intMenuSelection < 0 || intMenuSelection > 9 || cin.fail())
 				{
 					// if not a numeric character or string
 					// clear the failure and pull off the non-numeric character or string
@@ -94,11 +95,12 @@ void myMenu::MenuInit()
 						transform(strErr.begin(), strErr.end(), strErr.begin(), ::tolower);
 						if (strErr == "x" || strErr == "q" || strErr == "exit" || strErr == "quit")
 						{
-							*intMenuSelection = -1;
+							intMenuSelection = -1;
+							break;
 						}
 					}
 					cout << "Invalid choice, try again:";
-					cin >> *intMenuSelection;
+					cin >> intMenuSelection;
 				}
 			}
 		}
@@ -112,23 +114,24 @@ void myMenu::MenuInit()
 
 int myMenu::getSelection()
 {
-	return *intMenuSelection;
+	return intMenuSelection;
 };
 
 
 myMenu::myMenu()
 {
 	pplList = new People;
-	strOption = new string[9];
-	intMenuStatus = new int;
-	*intMenuStatus = 0;
+	for (int i = 0; i <= 9; i++)
+	{
+		strOption[i] = "";
+	}
+	intMenuStatus = 0;
+	intMenuSelection = 0;
 	this->MenuInit();
 };
 
 
 myMenu::~myMenu()
 {
-	delete strOption;
 	delete pplList;
-	delete intMenuStatus;
 };

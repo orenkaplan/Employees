@@ -155,12 +155,19 @@ void Candidate::operator= (Candidate & cndB)
 	this->setStatus(cndB.getStatus());
 };
 
-/* void operator<= (Person & prsB, Candidate & cndB)
+bool employ(Candidate & cndFitsAs, Employee & empNewEmployee)
 {
-	prsB.setSerial(cndB.getSerial());
-	prsB.setActive(cndB.isActive());
-	prsB.setName(cndB.getName());
-}; */
+	bool blRetVal = false;
+	if (cndFitsAs.doesFit() && cndFitsAs.isActive() && cndFitsAs.getStatus() == 'p' && cndFitsAs.getSalary() != 0)
+	{
+		Employee empTemp = Employee(cndFitsAs.getName(), cndFitsAs.getSalary(), cndFitsAs.getType(), cndFitsAs.isActive());
+		cndFitsAs.setSerial(cndFitsAs.getSerial());
+		remCandidate(cndFitsAs);
+		addEmployee(empNewEmployee);
+		blRetVal = true;
+	}
+	return blRetVal;
+};
 
 bool operator== (Candidate & cndA, Candidate & cndB)
 {

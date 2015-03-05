@@ -5,7 +5,6 @@
 #include <iostream>
 
 #include "Employee.h"
-// #include "People.h"
 
 
 using namespace std;
@@ -100,13 +99,6 @@ bool operator== (Employee & empA, Employee & empB)
 	return empA.getSerial() == empB.getSerial() && empA.isActive() == empB.isActive() && empA.getName() == empB.getName()
 		&& empA.getType() == empB.getType() && empA.getSalary() == empB.getSalary();
 };
-
-/* void operator<= (Person & prsB, Employee & empB)
-{
-	prsB.setSerial(empB.getSerial());
-	prsB.setActive(empB.isActive());
-	prsB.setName(empB.getName());
-}; */
 
 bool operator== (Employee & empB, Person & prsB)
 {

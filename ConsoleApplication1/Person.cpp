@@ -40,7 +40,7 @@ void Person::show()
 
 ostream & operator << (ostream & ostMyStream, const Person & prsB)
 {
-	return ostMyStream; // Pure Virtual - not relevant
+	return ostMyStream; // Abstract class - not relevant
 };
 
 void Person::operator= (Person & prsB)
@@ -70,28 +70,6 @@ void Person::setName(string strNewName)
 	*strName = strNewName;
 };
 
-/* bool employ(Candidate & cndFitsAs, Employee & empNewEmployee)
-{
-	bool blRetVal = false;
-	Employee * empTemp = &empNewEmployee;
-	Candidate * cndTemp = &cndFitsAs;
-	Person * prsTempEmployee = dynamic_cast<Person*>(empTemp);
-	Person * prsTempCandidate = dynamic_cast<Person*>(cndTemp);
-	Employee * empTempCandidate = dynamic_cast<Employee*>(cndTemp);
-	if (cndTemp.doesFit && prsTempCandidate->isActive && cndFitsAs.getStatus == 'p' && empTempCandidate->getSalary != 0)
-	{
-		Employee empTemp = Employee(prsTempCandidate->getName, empTempCandidate->getSalary, empTempCandidate->getType, prsTempCandidate->isActive);
-		prsTempEmployee->setSerial(prsTempCandidate->getSerial);
-		remPerson(cndFitsAs);
-		addPerson(empNewEmployee);
-		blRetVal = true;
-	}
-	delete empTemp;
-	delete cndTemp;
-	delete prsTempEmployee;
-	delete prsTempCandidate;
-	delete empTempCandidate;
-}; */
 
 
 Person::Person()

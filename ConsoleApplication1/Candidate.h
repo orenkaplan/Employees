@@ -7,8 +7,6 @@
 #include <iostream>
 
 
-// forward declarations
-//	class Person;
 class Candidate:
 	public virtual Employee, public virtual Person
 {
@@ -34,8 +32,7 @@ public:
 	Candidate(Candidate & cndB);
 	~Candidate();
 	friend std::ostream & operator << (std::ostream & ostMyStream, const Candidate & cndB);
-//	class Employee;
-//	friend void operator=> (Person & prsB, Candidate & cndB);
+	friend bool employ(Candidate & cndFitsAs, Employee & empNewEmployee);
 	friend bool operator== (Candidate & cndA, Candidate & cndB);
 	friend bool operator== (Candidate & cndB, Person & prsB);
 	friend bool operator== (Person & prsB, Candidate & cndB);

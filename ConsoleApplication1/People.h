@@ -4,11 +4,8 @@
 #include <iostream>
 
 #include "Person.h"
-//#include "Employee.h"
-//#include "Candidate.h"
 
 //forward declarations
-//class Person;
 class Employee;
 class Candidate;
 

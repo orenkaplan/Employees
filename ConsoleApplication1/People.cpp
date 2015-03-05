@@ -5,10 +5,19 @@
 #include <iostream>
 
 #include "People.h"
+#include "Employee.h"
+#include "Candidate.h"
 
 
 using namespace std;
 
+// Initialize static variables
+Person **People::prsList = NULL;
+long *People::lngSerialList = NULL;
+bool *People::blEmpty = NULL;
+int People::intSize = 0;
+int People::intCount = 0;
+int People::intLastTouched = 0;
 
 void People::show()
 {
@@ -101,8 +110,8 @@ void addEmployee(Employee & empB)
 	People pplTemp;
 	int intMySize = pplTemp.getSize() + 1;
 	pplTemp.prsTempList = new Person*[intMySize];
-//	pplTemp.prsTempList[intMySize] = new Employee;
-//	empB => *pplTemp.prsTempList[intMySize];
+	pplTemp.prsTempList[intMySize] = new Employee;
+	pplTemp.prsTempList[intMySize] = &empB ;
 	pplTemp.addPrs(pplTemp.prsTempList);
 	delete[] pplTemp.prsTempList;
 };
@@ -112,8 +121,8 @@ void addCandidate(Candidate & cndB)
 	People pplTemp;
 	int intMySize = pplTemp.getSize() + 1;
 	pplTemp.prsTempList = new Person*[intMySize];
-//	pplTemp.prsTempList[intMySize] = new Candidate;
-//	cndB => *pplTemp.prsTempList[intMySize];
+	pplTemp.prsTempList[intMySize] = new Candidate;
+	pplTemp.prsTempList[intMySize] = &cndB;
 	pplTemp.addPrs(pplTemp.prsTempList);
 	delete[] pplTemp.prsTempList;
 };

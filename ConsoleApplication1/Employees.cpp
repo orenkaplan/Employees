@@ -12,14 +12,12 @@ using namespace std;
 
 int main()
 {
-	System::Console::Clear();
 	cout << "Welcome to Gil's HR application." << endl << endl;
 	myMenu * mnuBackEnd = new myMenu;
-	myMenu & mnuInterface = *mnuBackEnd;
-	while (mnuInterface.getSelection() != -1)
+	while (mnuBackEnd->getSelection() != -1)
 	{
-		System::Console::Clear();
-		mnuInterface.MenuInit();
+		system("cls");
+		mnuBackEnd->MenuInit();
 	}
 	delete mnuBackEnd;
     return 0;
