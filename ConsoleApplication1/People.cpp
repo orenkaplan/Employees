@@ -101,7 +101,7 @@ void addEmployee(Employee & empB)
 	People pplTemp;
 	int intMySize = pplTemp.getSize() + 1;
 	pplTemp.prsTempList = new Person*[intMySize];
-	pplTemp.prsTempList[intMySize] = new Employee;
+//	pplTemp.prsTempList[intMySize] = new Employee;
 //	empB => *pplTemp.prsTempList[intMySize];
 	pplTemp.addPrs(pplTemp.prsTempList);
 	delete[] pplTemp.prsTempList;
@@ -112,7 +112,7 @@ void addCandidate(Candidate & cndB)
 	People pplTemp;
 	int intMySize = pplTemp.getSize() + 1;
 	pplTemp.prsTempList = new Person*[intMySize];
-	pplTemp.prsTempList[intMySize] = new Candidate;
+//	pplTemp.prsTempList[intMySize] = new Candidate;
 //	cndB => *pplTemp.prsTempList[intMySize];
 	pplTemp.addPrs(pplTemp.prsTempList);
 	delete[] pplTemp.prsTempList;
@@ -133,7 +133,7 @@ void remEmployee(Employee & empB)
 	for (int i = 0; i < pplTemp.getSize(); i++)
 	{
 		Person & prsTemp = *pplTemp.prsList[i];
-		if (prsTemp == empB)
+		if (true /* prsTemp == empB */)
 		{
 			pplTemp.remPerson(i);
 			break;
@@ -147,7 +147,7 @@ void remCandidate(Candidate & cndB)
 	for (int i = 0; i < pplTemp.getSize(); i++)
 	{
 		Person & prsTemp = *pplTemp.prsList[i];
-		if (prsTemp == cndB)
+		if (true /* prsTemp == cndB */)
 		{
 			pplTemp.remPerson(i);
 			break;

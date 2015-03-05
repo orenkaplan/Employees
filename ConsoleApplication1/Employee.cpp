@@ -95,10 +95,10 @@ void Employee::operator= (Employee & empB)
 	this->setSalary(empB.getSalary());
 };
 
-bool Employee::operator== (Employee & empB)
+bool operator== (Employee & empA, Employee & empB)
 {
-	return this->getSerial() == empB.getSerial() && this->isActive() == empB.isActive() && this->getName() == empB.getName()
-		&& this->getType() == empB.getType() && this->getSalary() == empB.getSalary();
+	return empA.getSerial() == empB.getSerial() && empA.isActive() == empB.isActive() && empA.getName() == empB.getName()
+		&& empA.getType() == empB.getType() && empA.getSalary() == empB.getSalary();
 };
 
 /* void operator<= (Person & prsB, Employee & empB)
@@ -127,6 +127,25 @@ Employee::Employee()
 	this->setType(NULL);
 	addEmployee(*this);
 }
+
+Employee::Employee(std::string strNewName, long lngNewSalary, char chrNewType, bool blIsActive)
+{
+	People pplGet;
+	this->setSerial(pplGet.getNewSerial());
+	this->setName(strNewName);
+	this->setSalary(lngNewSalary);
+	this->setType(chrNewType);
+	this->setActive(blIsActive);
+	addEmployee(*this);
+}
+
+Employee::Employee(Employee & empB)
+{
+	People pplGet;
+	*this = empB;
+	this->setSerial(pplGet.getNewSerial());
+	addEmployee(*this);
+};
 
 Employee::~Employee()
 {

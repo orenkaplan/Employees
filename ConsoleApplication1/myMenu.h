@@ -1,7 +1,8 @@
 #pragma once
-#include "Person.h"
-#include "Employee.h"
-#include "Candidate.h"
+#include "People.h"
+//#include "Person.h"
+//#include "Employee.h"
+//#include "Candidate.h"
 
 #include <string>
 
@@ -9,7 +10,7 @@
 //class Person;
 //class Employee;
 //class Candidate;
-class People;
+//class People;
 
 class myMenu
 {

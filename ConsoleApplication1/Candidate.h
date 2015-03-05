@@ -7,6 +7,8 @@
 #include <iostream>
 
 
+// forward declarations
+//	class Person;
 class Candidate:
 	public virtual Employee, public virtual Person
 {
@@ -27,32 +29,14 @@ public:
 	void terminate();
 	virtual bool isInitialized();
 	void operator= (Candidate & cndB);
-	bool operator== (Candidate & cndB);
 	Candidate();
-
-	Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat) : Candidate()
-	{
-		this->setName(strNewName);
-		this->setType(chrNewType);
-		this->setActive(blIsActive);
-		this->changeFits(blDoesFit);
-		this->setStatus(chrNewStat);
-	};
-
-	Candidate(Candidate & cndB) : Candidate()
-	{
-		long lngTemp;
-		lngTemp = this->getSerial();
-		*this = cndB;
-		this->setSerial(lngTemp);
-	};
-
+	Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat);
+	Candidate(Candidate & cndB);
 	~Candidate();
 	friend std::ostream & operator << (std::ostream & ostMyStream, const Candidate & cndB);
-// forward declarations
-	class Person;
 //	class Employee;
 //	friend void operator=> (Person & prsB, Candidate & cndB);
+	friend bool operator== (Candidate & cndA, Candidate & cndB);
 	friend bool operator== (Candidate & cndB, Person & prsB);
 	friend bool operator== (Person & prsB, Candidate & cndB);
 	friend bool operator== (Employee & empB, Candidate & cndB);

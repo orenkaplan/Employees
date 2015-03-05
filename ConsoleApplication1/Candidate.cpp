@@ -162,11 +162,11 @@ void Candidate::operator= (Candidate & cndB)
 	prsB.setName(cndB.getName());
 }; */
 
-bool Candidate::operator== (Candidate & cndB)
+bool operator== (Candidate & cndA, Candidate & cndB)
 {
-	return this->getSerial() == cndB.getSerial() && this->isActive() == cndB.isActive() && this->getName() == cndB.getName()
-		&& this->getType() == cndB.getType() && this->getSalary() == cndB.getSalary()
-		&& this->doesFit() == cndB.doesFit() && this->getStatus() == cndB.getStatus();
+	return cndA.getSerial() == cndB.getSerial() && cndA.isActive() == cndB.isActive() && cndA.getName() == cndB.getName()
+		&& cndA.getType() == cndB.getType() && cndA.getSalary() == cndB.getSalary()
+		&& cndA.doesFit() == cndB.doesFit() && cndA.getStatus() == cndB.getStatus();
 };
 
 bool operator== (Candidate & cndB, Person & prsB)
@@ -202,6 +202,26 @@ Candidate::Candidate()
 	this->setType(NULL);
 	this->changeFits(NULL);
 	this->setStatus(NULL);
+	addCandidate(*this);
+};
+
+Candidate::Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat)
+{
+	People pplGet;
+	this->setSerial(pplGet.getNewSerial());
+	this->setName(strNewName);
+	this->setType(chrNewType);
+	this->setActive(blIsActive);
+	this->changeFits(blDoesFit);
+	this->setStatus(chrNewStat);
+	addCandidate(*this);
+};
+
+Candidate::Candidate(Candidate & cndB)
+{
+	People pplGet;
+	*this = cndB;
+	this->setSerial(pplGet.getNewSerial());
 	addCandidate(*this);
 };
 
