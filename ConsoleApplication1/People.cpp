@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <algorithm>
 #include <iostream>
+#include <typeinfo>
 
 #include "People.h"
 #include "Employee.h"
@@ -30,6 +32,27 @@ void People::show()
 		else
 		{
 			cout << "No person recorded." << endl;
+		}
+	}
+};
+
+void People::show(char chrType)
+{
+	string strType = "";
+	for (int i = 0; i < intSize; i++)
+	{
+		strType = typeid(prsList[i]).name();
+		transform(strType.begin(), strType.end(), strType.begin(), ::tolower);
+		if (!blEmpty[i])
+		{
+			if (chrType == strType.front())
+			{
+				prsList[i]->show();
+			}
+		}
+		else
+		{
+			cout << "No " + strType + " recorded." << endl;
 		}
 	}
 };

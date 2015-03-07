@@ -25,6 +25,7 @@ private:
 
 public:
 	virtual void show();
+	virtual void show(char chrType);
 	void setLastTouched(long lngTouchedSerial);
 	int getSize();
 	int getCount();

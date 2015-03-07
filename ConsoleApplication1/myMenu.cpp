@@ -22,7 +22,7 @@ void myMenu::mnuInit()
 	{
 		switch (this->getSelection())
 		{
-			case 0:
+			case 0: // Main Menu
 			{
 				switch (i)
 				{
@@ -68,7 +68,7 @@ void myMenu::mnuInit()
 				}
 			}
 				break;
-			case 1:
+			case 1: // Add Employee Menu
 			{
 				switch (i)
 				{
@@ -114,9 +114,53 @@ void myMenu::mnuInit()
 				}
 			}
 				break;
-			case 2:
+			case 3: // Add Candidate Menu
+			{
+				switch (i)
+				{
+				case 1:
+					strOption[i] = " ";
+					break;
+				case 2:
+					strOption[i] = to_string(i - 1) + ") Add Candidate Menu:";
+					break;
+				case 3:
+					strOption[i] = "--------------------";
+					break;
+				case 4:
+					strOption[i] = to_string(i - 3) + ") Add 'empty' candidate";
+					break;
+				case 5:
+					strOption[i] = to_string(i - 3) + ") Add candidate with initialization data";
+					break;
+				case 6:
+					strOption[i] = to_string(i - 3) + ") Select candidate to copy";
+					break;
+				case 7:
+					strOption[i] = to_string(i - 3) + ") Show full HR list";
+					break;
+				case 8:
+					strOption[i] = to_string(i - 3) + ") Show HR database statistics";
+					break;
+				case 9:
+					strOption[i] = " ";
+					break;
+				case 0:
+					strOption[i] = to_string(i) + ") Back to main menu";
+					break;
+				default:
+				{
+							cout << "Bad Index when building menu." << endl << "Restart and contact author." << endl;
+							strOption[i] = "";
+				}
+				}
+				if (strOption[i] == "")
+				{
+					break;
+				}
+			}
 				break;
-			case 3:
+			case 5:
 				break;
 			case 4:
 				break;
@@ -179,53 +223,53 @@ void myMenu::mnuAct()
 		{
 			switch (this->getSelection())
 			{
-				case 1:
+				case 1: // Add Employee
 				{
 					intMenuStatus = 1;
 				}
 					break;
-				case 2:
+				case 2: // Add Candidate
+				{
+					intMenuStatus = 3;
+				}
+					break;
+				case 3: // Change Employee
 				{
 					intMenuStatus = 1;
 				}
 					break;
-				case 3:
+				case 4: // Change Candidate
 				{
 					intMenuStatus = 1;
 				}
 					break;
-				case 4:
+				case 5: // Remove Employee
 				{
 					intMenuStatus = 1;
 				}
 					break;
-				case 5:
+				case 6: // Remove Candidate
 				{
 					intMenuStatus = 1;
 				}
 					break;
-				case 6:
+				case 7: // Show Employee
 				{
 					intMenuStatus = 1;
 				}
 					break;
-				case 7:
+				case 8: // Show Candidate
 				{
 					intMenuStatus = 1;
 				}
-					break;
-				case 8:
-				{
-					intMenuStatus = 1;
-				}
-				case 9:
+				case 9: // Show full HR list
 				{
 					system("cls");
 					pplList->show();
 					blPause = true;
 				}
 					break;
-				case 0:
+				case 0: // Show HR database statistics
 				{
 					cout << pplList << endl;
 					blPause = true;
@@ -236,39 +280,151 @@ void myMenu::mnuAct()
 			}
 		}
 			break;
-		case 1:
+		case 1: // Add Employee Menu
 		{
 			switch (this->getSelection())
 			{
-				case 1:
+				case 1: // Add 'empty' employee
 					chrCreatePerson = 'e';
 					break;
-				case 2:
+				case 2: // Add employee with initialization data
 				{
 					chrCreatePerson = 'E';
 				}
 					break;
-				case 3:
+				case 3: // Select employee to copy
 					intMenuStatus = 2;
 					break;
-				case 4:
+				case 4: // Show full HR list
 				{
 					system("cls");
 					pplList->show();
 					blPause = true;
 				}
 					break;
-				case 5:
+				case 5: // Show HR database statistics
 				{
 					cout << pplList << endl;
 					blPause = true;
 				}
 					break;
-				case 0:
-					intMenuStatus--;
+				case 0: // Back to main menu
+					intMenuStatus = 0;
 					break;
 				default:
 					break;
+			}
+		}
+			break;
+		case 2: // Select Employee Menu
+		{
+			switch (this->getSelection())
+			{
+				case 1: // Enter known Serial Number
+					chrCreatePerson = 'e';
+					break;
+				case 2: // Show employee list
+				{
+					system("cls");
+					pplList->show('e');
+					blPause = true;
+				}
+					break;
+				case 3: // Show full HR list
+				{
+					system("cls");
+					pplList->show();
+					blPause = true;
+				}
+					break;
+				case 4: // Show HR database statistics
+				{
+							cout << pplList << endl;
+							blPause = true;
+				}
+					break;
+				case 9: // Back to 'Add Employee Menu'
+					intMenuStatus--;
+					break;
+				case 0: // Back to main menu
+					intMenuStatus = 0;
+					break;
+				default:
+					break;
+			}
+		}
+			break;
+		case 3: // Add Candidate Menu
+		{
+			switch (this->getSelection())
+			{
+			case 1: // Add 'empty' Candidate
+				chrCreatePerson = 'c';
+				break;
+			case 2: // Add candidate with initialization data
+			{
+				chrCreatePerson = 'C';
+			}
+				break;
+			case 3: // Select candidate to copy
+				intMenuStatus = 4;
+				break;
+			case 4: // Show full HR list
+			{
+				system("cls");
+				pplList->show();
+				blPause = true;
+			}
+				break;
+			case 5: // Show HR database statistics
+			{
+				cout << pplList << endl;
+				blPause = true;
+			}
+				break;
+			case 0: // Back to main menu
+				intMenuStatus = 0;
+				break;
+			default:
+				break;
+			}
+		}
+			break;
+		case 4: // Select Candidate Menu
+		{
+			switch (this->getSelection())
+			{
+			case 1: // Enter known Serial Number
+				chrCreatePerson = 'c';
+				break;
+			case 2: // Show employee list
+			{
+				system("cls");
+				pplList->show('c');
+				blPause = true;
+			}
+				break;
+			case 3: // Show full HR list
+			{
+				system("cls");
+				pplList->show();
+				blPause = true;
+			}
+				break;
+			case 4: // Show HR database statistics
+			{
+				cout << pplList << endl;
+				blPause = true;
+			}
+				break;
+			case 9: // Back to 'Add Candidate Menu'
+				intMenuStatus--;
+				break;
+			case 0: // Back to main menu
+				intMenuStatus = 0;
+				break;
+			default:
+				break;
 			}
 		}
 			break;
