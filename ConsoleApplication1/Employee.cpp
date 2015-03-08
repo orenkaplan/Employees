@@ -20,6 +20,16 @@ char Employee::getType()
 	return *chrType;
 };
 
+char Employee::getStatus()
+{
+	return NULL;
+};
+
+bool Employee::doesFit()
+{
+	return NULL;
+};
+
 string Employee::getString()
 {
 	string strRetVal = "";

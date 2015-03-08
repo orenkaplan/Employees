@@ -19,6 +19,10 @@ int main()
 	while (mnuMyUI->getSelection() != -1)
 	{
 		mnuMyUI->mnuAct();
+		if (mnuMyUI->getSelection() != -1)
+		{
+			break;
+		}
 		switch (mnuMyUI->getCreateType())
 		{
 			case 'e':
@@ -29,7 +33,7 @@ int main()
 			case 'E':
 			{
 				Employee * empNew =
-					new Employee(mnuMyUI->getCName(),mnuMyUI->getCSalary(),mnuMyUI->getCType(),mnuMyUI->getCActive());
+					new Employee(mnuMyUI->getCName(), mnuMyUI->getCSalary(), mnuMyUI->getCType(), mnuMyUI->getCActive());
 			}
 				break;
 			case 'c':

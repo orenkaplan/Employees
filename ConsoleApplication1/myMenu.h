@@ -1,5 +1,6 @@
 #pragma once
 #include "People.h"
+#include "Employee.h"
 
 #include <string>
 
@@ -16,22 +17,34 @@ private:
 	/* static */ std::string strName;
 	/* static */ bool blActive;
 	/* static */ char chrType;
-	/* static */ long lngSalary;
+	/* static */ long lngCSerial;
+	/* static */ long lngCSalary;
 	/* static */ char chrStatus;
 	/* static */ bool blFits;
+	void getData(bool blFromUser = false, bool blCandidate = false);
+	bool isExit(std::string strInput);
+	void mnuInitAdd(int intIndex);
+	bool mnuActAdd();
+	void mnuInitSelect(int intIndex);
+	bool mnuActSelect();
+	bool mnuShow();
+	bool mnuShow(char chrType);
+	bool mnuShowStats();
 
 protected:
-	int getMenuStatus();
 
 public:
-	char getCreateType();
-	int getSelection();
+	long getSerial();
+	long getCSerial();
 	std::string getCName();
 	bool getCActive();
-	char getCType();
 	long getCSalary();
+	char getCType();
 	char getCStatus();
 	bool getCFit();
+	int getMenuStatus();
+	char getCreateType();
+	int getSelection();
 	void mnuAct();
 	void mnuInit();
 	myMenu();

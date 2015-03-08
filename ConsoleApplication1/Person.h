@@ -20,6 +20,10 @@ public:
 	void setName(std::string strNewName);
 	virtual bool isInitialized();
 	virtual void show() = 0;
+	virtual long getSalary() = 0;
+	virtual char getType() = 0;
+	virtual char getStatus() = 0;
+	virtual bool doesFit() = 0;
 	virtual void operator= (Person & prsB);
 	virtual bool operator== (Person & prsB);
 	Person();

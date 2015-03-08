@@ -15,6 +15,8 @@ private:
 	bool * blFits;
 	virtual std::string getString();
 	char chrStat(int intConvStat);
+	long getSalary();
+	char getType();
 
 public:
 	void show();

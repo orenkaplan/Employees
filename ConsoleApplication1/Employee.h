@@ -16,8 +16,10 @@ protected:
 
 public:
 	virtual void show();
-	long getSalary();
-	char getType();
+	virtual long getSalary();
+	virtual char getType();
+	virtual char getStatus();
+	virtual bool doesFit();
 	void setType(char chrNewType);
 	void setSalary(long lngNewSalary);
 	void activate(long lngNewSalary);

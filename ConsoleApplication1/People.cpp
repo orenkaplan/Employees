@@ -110,22 +110,73 @@ long People::getNewSerial()
 
 void People::addPrs(Person **& prsTempList)
 {
-	for (int i = 0; i < intSize; i++)
+	for (int i = 0; i < getSize(); i++)
 	{
 		prsTempList[i] = prsList[i];
 	}
 	intSize++;
-	prsList = new Person*[intSize];
-	lngSerialList = new long[intSize];
-	blEmpty = new bool[intSize];
-	for (int i = 0; i < intSize; i++)
+	prsList = new Person*[getSize()];
+	lngSerialList = new long[getSize()];
+	blEmpty = new bool[getSize()];
+	for (int i = 0; i < getSize(); i++)
 	{
 		prsList[i] = prsTempList[i];
 		lngSerialList[i] = prsList[i]->getSerial();
 		blEmpty[i] = prsList[i]->isInitialized();
 	}
-	this->set(intSize);
+	this->set(getSize());
 	intCount++;
+};
+
+int People::getIndex(long lngSerialToGet)
+{
+	int intRetVal;
+	for (int i = 0; i < getSize(); i++)
+	{
+		if (lngSerialList[i] == lngSerialToGet)
+		{
+			intRetVal = i;
+			break;
+		}
+	}
+	return intRetVal;
+};
+
+std::string People::getCName(int intIndex)
+{
+	return prsList[intIndex]->getName();
+};
+
+bool People::getCActive(int intIndex)
+{
+	return prsList[intIndex]->isActive();
+};
+
+char People::getCType(int intIndex)
+{
+	return prsList[intIndex]->getType();
+};
+
+long People::getSerialSalary(int intIndex, bool blGetSerial)
+{
+	if (blGetSerial)
+	{
+		return prsList[intIndex]->getSerial();
+	}
+	else
+	{
+		return prsList[intIndex]->getSalary();
+	}
+};
+
+char People::getCStatus(int intIndex)
+{
+	return prsList[intIndex]->getStatus();
+};
+
+bool People::getCFit(int intIndex)
+{
+	return prsList[intIndex]->doesFit();
 };
 
 void addEmployee(Employee & empB)
