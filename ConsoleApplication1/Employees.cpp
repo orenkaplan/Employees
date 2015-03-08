@@ -19,7 +19,7 @@ int main()
 	while (mnuMyUI->getSelection() != -1)
 	{
 		mnuMyUI->mnuAct();
-		if (mnuMyUI->getSelection() != -1)
+		if (mnuMyUI->getSelection() == -1)
 		{
 			break;
 		}
@@ -32,7 +32,7 @@ int main()
 				break;
 			case 'E':
 			{
-				Employee * empNew =
+				Employee * empInit =
 					new Employee(mnuMyUI->getCName(), mnuMyUI->getCSalary(), mnuMyUI->getCType(), mnuMyUI->getCActive());
 			}
 				break;
@@ -43,7 +43,7 @@ int main()
 				break;
 			case 'C':
 			{
-				Candidate * empNew =
+				Candidate * cndInit =
 					new Candidate(mnuMyUI->getCName(), mnuMyUI->getCType(), mnuMyUI->getCActive(), mnuMyUI->getCFit(), mnuMyUI->getCStatus());
 			}
 				break;

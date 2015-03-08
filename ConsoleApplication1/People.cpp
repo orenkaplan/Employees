@@ -142,6 +142,12 @@ int People::getIndex(long lngSerialToGet)
 	return intRetVal;
 };
 
+bool People::show(long lngExistingSerial)
+{
+	prsList[getIndex(lngExistingSerial)]->show();
+	return true;
+};
+
 std::string People::getCName(int intIndex)
 {
 	return prsList[intIndex]->getName();

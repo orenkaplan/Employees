@@ -27,6 +27,8 @@ private:
 	bool mnuActAdd();
 	void mnuInitSelect(int intIndex);
 	bool mnuActSelect();
+	void mnuInitChange(int intIndex);
+	bool mnuActChange();
 	bool mnuShow();
 	bool mnuShow(char chrType);
 	bool mnuShowStats();

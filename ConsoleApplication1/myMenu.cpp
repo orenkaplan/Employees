@@ -158,14 +158,10 @@ void myMenu::mnuAct()
 					intMenuStatus = 8;
 					break;
 				case 7: // Show Employee
-				{
 					intMenuStatus = 9;
-				}
 					break;
 				case 8: // Show Candidate
-				{
 					intMenuStatus = 10;
-				}
 				case 9: // Show full HR list
 					blPause = mnuShow();
 					break;
@@ -181,9 +177,18 @@ void myMenu::mnuAct()
 		case 3: // Add Candidate Menu
 			blPause = mnuActAdd();
 			break;
-		case 2: // Select Employee Menu
-		case 4: // Select Candidate Menu
+		case 2:  // Select Employee to Copy Menu
+		case 4:  // Select Candidate to Copy Menu
+		case 5:  // Select Employee to Change Menu
+		case 6:  // Select Candidate to Change Menu
+		case 7:  // Select Employee to Remove Menu
+		case 8:  // Select Candidate to Remove Menu
+		case 9:  // Select Employee to Show Menu
+		case 10: // Select Candidate to Show Menu
 			blPause = mnuActSelect();
+			break;
+		case 11: // Change Employee Menu
+		case 12: // Change Candidate Menu
 			break;
 		default:
 			break;
@@ -196,22 +201,58 @@ void myMenu::mnuAct()
 
 void myMenu::mnuInitSelect(int intIndex)
 {
-	string strCap = NULL;
-	string strLow = NULL;
+	string strCapitalType = NULL;
+	string strLowercaseType = NULL;
+	string strCapitalAction = NULL;
+	string strLowercaseAction = NULL;
+	char chrN = NULL;
 	switch (getMenuStatus())
 	{
-		case 2:
-			strCap = "Employee";
-			strLow = "employee";
+		case 2: // Select Employee to Copy Menu
+		case 4: // Select Candidate to Copy Menu
+			strCapitalAction = "Copy";
+			strLowercaseAction = "copy";
 			break;
-		case 4:
-			strCap = "Candidate";
-			strLow = "candidate";
+		case 5: // Select Employee to Change Menu
+		case 6: // Select Candidate to Change Menu
+			strCapitalAction = "Change";
+			strLowercaseAction = "change";
+			break;
+		case 7: // Select Employee to Remove Menu
+		case 8: // Select Candidate to Remove Menu
+			strCapitalAction = "Remove";
+			strLowercaseAction = "remove";
+			break;
+		case 9: // Select Employee to Show Menu
+		case 10: // Select Candidate to Show Menu
+			strCapitalAction = "Show";
+			strLowercaseAction = "show";
 			break;
 		default:
 			intIndex = -1;
-			strOption[intIndex] = "";
 			break;
+	}
+	switch (getMenuStatus())
+	{
+	case 2: // Select Employee to Copy Menu
+	case 5: // Select Employee to Change Menu
+	case 7: // Select Employee to Remove Menu
+	case 9: // Select Employee to Show Menu
+		strCapitalType = "Employee";
+		strLowercaseType = "employee";
+		chrN = 'n';
+		break;
+	case 4: // Select Candidate to Copy Menu
+	case 6: // Select Candidate to Change Menu
+	case 8: // Select Candidate to Remove Menu
+	case 10: // Select Candidate to Show Menu
+		strCapitalType = "Candidate";
+		strLowercaseType = "candidate";
+		chrN = '\0';
+		break;
+	default:
+		intIndex = -1;
+		break;
 	}
 	switch (intIndex)
 	{
@@ -219,16 +260,16 @@ void myMenu::mnuInitSelect(int intIndex)
 			strOption[intIndex] = " ";
 			break;
 		case 2:
-			strOption[intIndex] = to_string(intIndex - 1) + ") Select " + strCap + " Menu:";
+			strOption[intIndex] = to_string(intIndex - 1) + ") Select " + strCapitalType + " to " + strCapitalAction + " Menu:";
 			break;
 		case 3:
 			strOption[intIndex] = "--------------------";
 			break;
 		case 4:
-			strOption[intIndex] = to_string(intIndex - 3) + ") Enter known serial number of a " + strLow;
+			strOption[intIndex] = to_string(intIndex - 3) + ") Enter known serial number of a" + chrN + ' ' + strLowercaseType + " to " + strLowercaseAction;
 			break;
 		case 5:
-			strOption[intIndex] = to_string(intIndex - 3) + ") Show " + strLow + " list";
+			strOption[intIndex] = to_string(intIndex - 3) + ") Show " + strLowercaseType + " list";
 			break;
 		case 6:
 			strOption[intIndex] = to_string(intIndex - 3) + ") Show full HR list";
@@ -266,31 +307,49 @@ bool myMenu::mnuActSelect()
 		{
 			switch (getMenuStatus())
 			{
-			case 2:
-			case 11:
+			case 2: // Get selected Employee to copy
 				getData();
 				chrCreatePerson = 'E';
 				break;
-			case 4:
-			case 12:
+			case 4: // Get selected Candidate to copy
 				getData(false, true);
 				chrCreatePerson = 'C';
+				break;
+			case 5: // Go to Change Employee Menu
+			case 6: // Go to Change Candidate Menu
+				// go to change menu
+				break;
+			case 7: // Remove selected Employee
+			case 8: // Remove selected Candidate
+				cout << "Deleting the following:" << endl;
+				blRetVal = pplList->show(getCSerial());
+				cout << endl << endl << "... ";
+				pplList->remPerson(getCSerial());
+				cout << "done." << endl;
+				break;
+			case 9: // Show selected Employee
+			case 10: // Show selected Candidate
+				blRetVal = pplList->show(getCSerial());
 				break;
 			default:
 				break;
 			}
 		}
 		break;
-	case 2: // Show employee list
+	case 2:
 		switch (getMenuStatus())
 		{
 		case 2:
-		case 11:
-			blRetVal = mnuShow('e');
+		case 5:
+		case 7:
+		case 9:
+			blRetVal = mnuShow('e'); // Show employee list
 			break;
 		case 4:
-		case 12:
-			blRetVal = mnuShow('c');
+		case 6:
+		case 8:
+		case 10:
+			blRetVal = mnuShow('c'); // Show candidate list
 			break;
 		default:
 			break;
@@ -305,19 +364,180 @@ bool myMenu::mnuActSelect()
 	case 9: // Back to previous menu
 		switch (getMenuStatus())
 		{
-		case 2:
-		case 4:
+		case 2: // Select Employee to Copy Menu -> Add Employee Menu
+		case 4: // Select Candidate to Copy Menu -> Add Employee Menu
 			intMenuStatus--;
 			break;
-		case 11:
-		case 13:
-		case 15:
-			intMenuStatus = 5;
+		case 5: // Select Employee to Change Menu -> Back to main menu
+		case 6: // Select Candidate to Change Menu -> Back to main menu
+		case 7: // Select Employee to Remove Menu -> Back to main menu
+		case 8: // Select Candidate to Remove Menu -> Back to main menu
+		case 9: // Select Employee to Show Menu -> Back to main menu
+		case 10: // Select Candidate to Show Menu -> Back to main menu
+			intMenuStatus = 0;
+			break;
+		case 11: // Change Employee Menu -> Select Employee to Change Menu
+		case 12: // Change Candidate Menu -> Select Candidate to Change Menu
+			intMenuStatus = intMenuStatus / 2;
+			break;
+		default:
+			break;
+		}
+		break;
+	case 0: // Back to main menu
+		intMenuStatus = 0;
+		break;
+	default:
+		break;
+	}
+	return blRetVal;
+};
+
+void myMenu::mnuInitChange(int intIndex)
+{
+	string strCapitalType = NULL;
+	string strLowercaseType = NULL;
+	switch (getMenuStatus())
+	{
+	case 11: // Change Employee Menu
+		strCapitalType = "Employee";
+		strLowercaseType = "employee";
+		getData();
+		break;
+	case 12: // Change Candidate Menu
+		strCapitalType = "Candidate";
+		strLowercaseType = "candidate";
+		getData(false, true);
+		break;
+	default:
+		intIndex = -1;
+		break;
+	}
+	switch (intIndex)
+	{
+	case 1:
+		strOption[intIndex] = '\n' + to_string(intIndex) + ") Change " + strCapitalType + " Menu:";
+		break;
+	case 2:
+		strOption[intIndex] = "--------------------";
+		break;
+	case 3: //name
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " name (current: '" + getCName() + "'";
+		break;
+	case 4: //type
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " type (current: '" + getCType() + "'";
+		break;
+	case 5: //active
+		strOption[intIndex] = to_string(intIndex - 2) + ") Show " + strLowercaseType + " list (current: '" + to_string(getCActive()) + "'";
+		break;
+	case 6: //salary
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " salary (current: '" + to_string(getCSalary()) + "'";
+		break;
+	case 7: //status
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " salary (current: '" + to_string(getCSalary()) + "'";
+		break;
+	case 8: //fit
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " salary (current: '" + to_string(getCSalary()) + "'";
+		break;
+	case 9:
+		strOption[intIndex] = to_string(intIndex) + ") Back to previous menu";
+		break;
+	case 0:
+		strOption[intIndex] = to_string(intIndex) + ") Back to main menu";
+		break;
+	default:
+		strOption[intIndex] = "";
+		break;
+	}
+};
+
+bool myMenu::mnuActChange()
+{
+	bool blRetVal = false;
+	switch (getSelection())
+	{
+	case 1: // Enter known Serial Number
+		lngCSerial = getSerial();
+		if (getCSerial() == -1)
+		{
+			intMenuSelection = getCSerial();
+		}
+		else
+		{
+			switch (getMenuStatus())
+			{
+			case 2: // Get selected Employee to copy
+				getData();
+				chrCreatePerson = 'E';
 				break;
-		case 12:
-		case 14:
-		case 16:
-			intMenuStatus = 6;
+			case 4: // Get selected Candidate to copy
+				getData(false, true);
+				chrCreatePerson = 'C';
+				break;
+			case 5: // Go to Change Employee Menu
+			case 6: // Go to Change Candidate Menu
+				// go to change menu
+				break;
+			case 7: // Remove selected Employee
+			case 8: // Remove selected Candidate
+				cout << "Deleting the following:" << endl;
+				blRetVal = pplList->show(getCSerial());
+				cout << endl << endl << "... ";
+				pplList->remPerson(getCSerial());
+				cout << "done." << endl;
+				break;
+			case 9: // Show selected Employee
+			case 10: // Show selected Candidate
+				blRetVal = pplList->show(getCSerial());
+				break;
+			default:
+				break;
+			}
+		}
+		break;
+	case 2:
+		switch (getMenuStatus())
+		{
+		case 2:
+		case 5:
+		case 7:
+		case 9:
+			blRetVal = mnuShow('e'); // Show employee list
+			break;
+		case 4:
+		case 6:
+		case 8:
+		case 10:
+			blRetVal = mnuShow('c'); // Show candidate list
+			break;
+		default:
+			break;
+		}
+		break;
+	case 3: // Show full HR list
+		blRetVal = mnuShow();
+		break;
+	case 4: // Show HR database statistics
+		blRetVal = mnuShowStats();
+		break;
+	case 9: // Back to previous menu
+		switch (getMenuStatus())
+		{
+		case 2: // Select Employee to Copy Menu -> Add Employee Menu
+		case 4: // Select Candidate to Copy Menu -> Add Employee Menu
+			intMenuStatus--;
+			break;
+		case 5: // Select Employee to Change Menu -> Back to main menu
+		case 6: // Select Candidate to Change Menu -> Back to main menu
+		case 7: // Select Employee to Remove Menu -> Back to main menu
+		case 8: // Select Candidate to Remove Menu -> Back to main menu
+		case 9: // Select Employee to Show Menu -> Back to main menu
+		case 10: // Select Candidate to Show Menu -> Back to main menu
+			intMenuStatus = 0;
+			break;
+		case 11: // Change Employee Menu -> Select Employee to Change Menu
+		case 12: // Change Candidate Menu -> Select Candidate to Change Menu
+			intMenuStatus = intMenuStatus / 2;
 			break;
 		default:
 			break;
