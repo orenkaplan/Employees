@@ -14,7 +14,7 @@ using namespace std;
 
 int main()
 {
-	cout << "Welcome to Gil's HR application." << endl << endl;
+	cout << "Welcome to Gil's HR application.\n\n";
 	myMenu * mnuMyUI = new myMenu;
 	while (mnuMyUI->getSelection() != -1)
 	{

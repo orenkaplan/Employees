@@ -16,187 +16,351 @@ using namespace std;
 //int myMenu::intMenuStatus = NULL;
 //int myMenu::intMenuSelection = NULL;
 
-void myMenu::mnuInit()
-{
-	for (int i = 0; i <= 9; i++)
-	{
-		switch (getMenuStatus())
-		{
-			case 0: // Main Menu
-			{
-				switch (i)
-				{
-					case 1:
-						strOption[i] = to_string(i) + ") Add Employee";
-						break;
-					case 2:
-						strOption[i] = to_string(i) + ") Add Candidate";
-						break;
-					case 3:
-						strOption[i] = to_string(i) + ") Change Employee";
-						break;
-					case 4:
-						strOption[i] = to_string(i) + ") Change Candidate";
-						break;
-					case 5:
-						strOption[i] = to_string(i) + ") Remove Employee";
-						break;
-					case 6:
-						strOption[i] = to_string(i) + ") Remove Candidate";
-						break;
-					case 7:
-						strOption[i] = to_string(i) + ") Show Employee";
-						break;
-					case 8:
-						strOption[i] = to_string(i) + ") Show Candidate";
-						break;
-					case 9:
-						strOption[i] = to_string(i) + ") Show full HR list";
-						break;
-					case 0:
-						strOption[i] = to_string(i) + ") Show HR database statistics";
-						break;
-					default:
-						strOption[i] = "";
-						break;
-				}
-				if (strOption[i] == "")
-				{
-					break;
-				}
-			}
-				break;
-			case 1:
-			case 3: // Add Employee Menu & Add Candidate Menu
-				mnuInitAdd(i);
-				break;
-			case 2:
-			case 4:
-			{
 
+void myMenu::getData(bool blFromUser, bool blCandidate)
+{
+	if (blFromUser)
+	{
+		string strTemp = NULL;
+		if (blCandidate)
+		{
+			strTemp = "candidate";
+		}
+		else
+		{
+			strTemp = "employee";
+		}
+		bool blPart = getMenuStatus() == 11 || getMenuStatus() == 12;
+		int intGetSelection = getSelection();
+		if ((blPart && intGetSelection == 1) || !blPart) //name
+		{
+			cout << "\nPlease type the " + strTemp + " name and then <enter>\\<return>: ";
+			strName = "";
+			cin >> strName;
+			if (isExit(strName) || (blPart && intGetSelection == 1))
+			{
+				return;
+			}
+		}
+		if (!blPart)
+		{
+			cout << "\nThe name entered is " + getCName() + ".\n\n";
+		}
+		string strTmp = NULL;
+		if ((blPart && intGetSelection == 2) || !blPart) //active
+		{
+			cout << "Is the " + strTemp + " active? (y/n and then <enter>\\<return>): ";
+			cin >> strTmp;
+			while (strTmp.front() != 'y' && strTmp.front() != 'Y' &&
+				strTmp.front() != 'n' && strTmp.front() != 'N')
+			{
+				if (isExit(strTmp))
+				{
+					return;
+				}
+				cout << "\nInvalid choice (y/n), try again: ";
+				cin >> strTmp;
+			}
+			blActive = strTmp.front() == 'y' || strTmp.front() == 'Y';
+			if (blPart)
+			{
+				return;
+			}
+		}
+		if (!blPart)
+		{
+			if (blActive)
+			{
+				strTmp = "active";
+			}
+			else
+			{
+				strTmp = "inactive";
+			}
+			cout << endl << getCName() + " is " + strTmp + ".\n\n";
+		}
+		if ((blPart && intGetSelection == 3) || !blPart) //type
+		{
+			cout << "What is the " + strTemp + "'s discussed employment type?\n"
+				+ "(G)lobal/(H)ourly/(T)emporary and then <enter>\\<return>): ";
+			cin >> strTmp;
+			while (strTmp.front() != 'g' && strTmp.front() != 'G' &&
+				strTmp.front() != 'h' && strTmp.front() != 'H' &&
+				strTmp.front() != 't' && strTmp.front() != 'T')
+			{
+				if (isExit(strTmp))
+				{
+					return;
+				}
+				cout << "\nInvalid choice (g/h/t), try again: ";
+				cin >> strTmp;
+			}
+			transform(strTmp.begin(), strTmp.end(), strTmp.begin(), ::tolower);
+			chrType = strTmp.front();
+			if (blPart)
+			{
+				return;
+			}
+		}
+		if (!blPart)
+		{
+			if (blActive)
+			{
+				strTmp = "active";
+			}
+			else
+			{
+				strTmp = "inactive";
+			}
+			switch (getCStatus())
+			{
+			case 'g':
+				strTmp = strTmp + " global ";
+			case 'h':
+				strTmp = strTmp + " hourly ";
+			case 't':
+				strTmp = strTmp + " temporary ";
+			default:
+			{
+					   cout << "Bad type getting input from user." << endl << "Restart and contact author.\n";
+					   intMenuSelection = -1;
+					   return;
 			}
 				break;
-			case 5:
-				break;
+			}
+			cout << endl << getCName() + " is an " + strTmp + strTemp + ".\n\n";
+		}
+		else
+		{
+			switch (intGetSelection)
+			{
+			case 4: // salary
+				blCandidate = false;
+			case 5: // status
+			case 6: // fits
+				blCandidate = true;
 			default:
 				break;
+			}
 		}
-		if (strOption[i] == "")
+		if (blCandidate)
 		{
-			cout << "Bad Index when building menu." << endl << "Restart and contact author." << endl;
-			break;
-		}
-		if (i != 0)
-		{
-			cout << strOption[i] << endl;
-			if (i == 9)
+			if ((blPart && intGetSelection == 5) || !blPart) //status
 			{
-				cout << strOption[0] << endl << endl << "Please type your choice and then type <enter>\\<return>: ";
-				cin >> intMenuSelection;
-				while (getSelection() < 0 || getSelection() > 9 || cin.fail())
+				cout << "What is the " + strTemp + "'s current status?\n"
+					<< "(C)andidate/(R)esume/(I)nterview/(P)assed: ";
+				cin >> strTmp;
+				while (strTmp.front() != 'c' && strTmp.front() != 'C' &&
+					strTmp.front() != 'r' && strTmp.front() != 'R' &&
+					strTmp.front() != 'i' && strTmp.front() != 'I' &&
+					strTmp.front() != 'p' && strTmp.front() != 'P')
 				{
-					// if not a numeric character or string
-					// clear the failure and pull off the non-numeric character or string
-					if (cin.fail())
+					if (isExit(strTmp))
 					{
-						cin.clear();
-						string  strErr;
-						cin >> strErr;
-						transform(strErr.begin(), strErr.end(), strErr.begin(), ::tolower);
-						if (strErr == "x" || strErr == "q" || strErr == "exit" || strErr == "quit")
-						{
-							intMenuSelection = -1;
-							break;
-						}
+						return;
 					}
-					cout << "Invalid choice, try again:";
-					cin >> intMenuSelection;
+					cout << "\nInvalid choice (c/r/i/p), try again: ";
+					cin >> strTmp;
 				}
+				transform(strTmp.begin(), strTmp.end(), strTmp.begin(), ::tolower);
+				chrStatus = strTmp.front();
+				if (blPart)
+				{
+					return;
+				}
+			}
+			if (!blPart)
+			{
+				switch (getCStatus())
+				{
+				case 'c':
+					strTmp = strTemp;
+					break;
+				case 'r':
+					strTmp = "resume";
+					break;
+				case 'i':
+					strTmp = "interview";
+					break;
+				case 'p':
+					strTmp = "passed";
+				default:
+					break;
+				}
+				cout << "The selected status for " + strName + " is '" + strTmp + "'.\n\n";
+			}
+			if ((blPart && intGetSelection == 5) || !blPart)
+			{
+				cout << "Does the " + strTemp + " fit the position? (y/n and then <enter>\\<return>):";
+				cin >> strTmp;
+				while (strTmp.front() != 'y' && strTmp.front() != 'Y' &&
+					strTmp.front() != 'n' && strTmp.front() != 'N')
+				{
+					if (isExit(strTmp))
+					{
+						return;
+					}
+					cout << "\nInvalid choice (y/n), try again: ";
+					cin >> strTmp;
+				}
+				blFits = strTmp.front() == 'y' || strTmp.front() == 'Y';
 			}
 		}
 		else
 		{
-			cout << " Gil's HR database menu:" << endl
-				<< "-------------------------" << endl << endl;
+			cout << "What is the " + strTemp + "'s discussed salary?\n"
+				<< "(type in NIS and then <enter>\\<return>): ";
+			cin >> lngCSalary;
+			while (lngCSalary <= 0 || lngCSalary == NULL || cin.fail())
+			{
+				cin.clear();
+				cin >> strTmp;
+				if (isExit(strTmp))
+				{
+					return;
+				}
+				cout << endl << "Invalid choice (integers only), try again: ";
+				cin >> lngCSalary;
+			}
 		}
+	}
+	else
+	{
+		int intIndex = pplList->getIndex(getCSerial());
+		strName = pplList->getCName(intIndex);
+		blActive = pplList->getCActive(intIndex);
+		chrType = pplList->getCType(intIndex);
+		lngCSalary = pplList->getSerialSalary(intIndex);
+		chrStatus = pplList->getCStatus(intIndex);
+		blFits = pplList->getCFit(intIndex);
 	}
 };
 
-void myMenu::mnuAct()
+bool myMenu::isExit(string strInput)
 {
-	chrCreatePerson = '\0';
-	strName = (string)NULL;
-	blActive = NULL;
-	chrType = NULL;
-	lngCSalary = NULL;
-	lngCSerial = NULL;
-	chrStatus = NULL;
-	blFits = NULL;
-	bool blPause = false;
+	transform(strInput.begin(), strInput.end(), strInput.begin(), ::tolower);
+	bool blRetVal = strInput == "x" || strInput == "q" || strInput == "exit" || strInput == "quit";
+	if (blRetVal)
+	{
+		intMenuSelection = -1;
+	}
+	return blRetVal;
+};
+
+void myMenu::mnuInitAdd(int intIndex)
+{
+	string strCap = NULL;
+	string strLow = NULL;
 	switch (getMenuStatus())
 	{
+		case 1:
+			strCap = "Employee";
+			strLow = "employee";
+			break;
+		case 3:
+			strCap = "Candidate";
+			strLow = "candidate";
+			break;
+		default:
+			intIndex = -1;
+			strOption[intIndex] = "";
+			return;
+	}
+	switch (intIndex)
+	{
+		case 1:
+			strOption[intIndex] = " ";
+			break;
+		case 2:
+			strOption[intIndex] = to_string(intIndex - 1) + ") Add " + strCap + " Menu:";
+			break;
+		case 3:
+			strOption[intIndex] = "--------------------";
+			break;
+		case 4:
+			strOption[intIndex] = to_string(intIndex - 3) + ") Add 'empty' " + strLow;
+			break;
+		case 5:
+			strOption[intIndex] = to_string(intIndex - 3) + ") Add " + strLow + " with initialization data";
+			break;
+		case 6:
+			strOption[intIndex] = to_string(intIndex - 3) + ") Select " + strLow + " to copy";
+			break;
+		case 7:
+			strOption[intIndex] = to_string(intIndex - 3) + ") Show full HR list";
+			break;
+		case 8:
+			strOption[intIndex] = to_string(intIndex - 3) + ") Show HR database statistics";
+			break;
+		case 9:
+			strOption[intIndex] = " ";
+			break;
 		case 0:
+			strOption[intIndex] = to_string(intIndex) + ") Back to main menu";
+			break;
+		default:
+			strOption[intIndex] = "";
+			break;
+	}
+};
+
+bool myMenu::mnuActAdd()
+{
+	bool blRetVal = false;
+	switch (getSelection())
+	{
+	case 1: // Add 'empty' employee
+		switch (getMenuStatus())
 		{
-			switch (getSelection())
-			{
-				case 1: // Add Employee
-					intMenuStatus = 1;
-					break;
-				case 2: // Add Candidate
-					intMenuStatus = 3;
-					break;
-				case 3: // Change Employee
-					intMenuStatus = 5;
-					break;
-				case 4: // Change Candidate
-					intMenuStatus = 6;
-					break;
-				case 5: // Remove Employee
-					intMenuStatus = 7;
-					break;
-				case 6: // Remove Candidate
-					intMenuStatus = 8;
-					break;
-				case 7: // Show Employee
-					intMenuStatus = 9;
-					break;
-				case 8: // Show Candidate
-					intMenuStatus = 10;
-				case 9: // Show full HR list
-					blPause = mnuShow();
-					break;
-				case 0: // Show HR database statistics
-					blPause = mnuShowStats();
-					break;
-				default:
-					break;
-			}
-		}
+		case 1:
+			chrCreatePerson = 'e';
 			break;
-		case 1: // Add Employee Menu
-		case 3: // Add Candidate Menu
-			blPause = mnuActAdd();
-			break;
-		case 2:  // Select Employee to Copy Menu
-		case 4:  // Select Candidate to Copy Menu
-		case 5:  // Select Employee to Change Menu
-		case 6:  // Select Candidate to Change Menu
-		case 7:  // Select Employee to Remove Menu
-		case 8:  // Select Candidate to Remove Menu
-		case 9:  // Select Employee to Show Menu
-		case 10: // Select Candidate to Show Menu
-			blPause = mnuActSelect();
-			break;
-		case 11: // Change Employee Menu
-		case 12: // Change Candidate Menu
+		case 3:
+			chrCreatePerson = 'c';
 			break;
 		default:
 			break;
+		}
+		break;
+	case 2: // Add employee with initialization data
+		switch (getMenuStatus())
+		{
+		case 1:
+			chrCreatePerson = 'E';
+			break;
+		case 3:
+			chrCreatePerson = 'C';
+			break;
+		default:
+			break;
+		}
+		break;
+	case 3: // Select employee to copy
+		switch (getMenuStatus())
+		{
+		case 1:
+			intMenuStatus = 2;
+			break;
+		case 3:
+			intMenuStatus = 4;
+			break;
+		default:
+			break;
+		}
+		break;
+	case 4: // Show full HR list
+		blRetVal = mnuShow();
+		break;
+	case 5: // Show HR database statistics
+		blRetVal = mnuShowStats();
+		break;
+	case 0: // Back to main menu
+		intMenuStatus = 0;
+		break;
+	default:
+		break;
 	}
-	if (blPause)
-	{
-		cin.get();
-	}
+	return blRetVal;
 };
 
 void myMenu::mnuInitSelect(int intIndex)
@@ -376,10 +540,6 @@ bool myMenu::mnuActSelect()
 		case 10: // Select Candidate to Show Menu -> Back to main menu
 			intMenuStatus = 0;
 			break;
-		case 11: // Change Employee Menu -> Select Employee to Change Menu
-		case 12: // Change Candidate Menu -> Select Candidate to Change Menu
-			intMenuStatus = intMenuStatus / 2;
-			break;
 		default:
 			break;
 		}
@@ -397,6 +557,7 @@ void myMenu::mnuInitChange(int intIndex)
 {
 	string strCapitalType = NULL;
 	string strLowercaseType = NULL;
+	bool blIsCandidate = false;
 	switch (getMenuStatus())
 	{
 	case 11: // Change Employee Menu
@@ -408,6 +569,7 @@ void myMenu::mnuInitChange(int intIndex)
 		strCapitalType = "Candidate";
 		strLowercaseType = "candidate";
 		getData(false, true);
+		blIsCandidate = true;
 		break;
 	default:
 		intIndex = -1;
@@ -424,20 +586,79 @@ void myMenu::mnuInitChange(int intIndex)
 	case 3: //name
 		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " name (current: '" + getCName() + "'";
 		break;
-	case 4: //type
-		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " type (current: '" + getCType() + "'";
+	case 4: //active
+		strOption[intIndex] = "Active";
+		if (!getCActive())
+		{
+			strOption[intIndex] = "Not " + strOption[intIndex];
+		}
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change if " + strLowercaseType + " is active (currently: '" + strOption[intIndex] + "'";
 		break;
-	case 5: //active
-		strOption[intIndex] = to_string(intIndex - 2) + ") Show " + strLowercaseType + " list (current: '" + to_string(getCActive()) + "'";
+	case 5: //type
+		switch (getCType())
+		{
+		case 'g':
+			strOption[intIndex] = "Global";
+			break;
+		case 'h':
+			strOption[intIndex] = "Hourly";
+			break;
+		case 't':
+			strOption[intIndex] = "Temporary";
+			break;
+		default:
+			strOption[intIndex] = "";
+			break;
+		}
+		if (strOption[intIndex] == "")
+		{
+			break;
+		}
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " type (current: '" + strOption[intIndex] + "'";
 		break;
 	case 6: //salary
 		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " salary (current: '" + to_string(getCSalary()) + "'";
 		break;
 	case 7: //status
-		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " salary (current: '" + to_string(getCSalary()) + "'";
+		switch (getCType())
+		{
+		case 'c':
+			strOption[intIndex] = strCapitalType;
+			break;
+		case 'r':
+			strOption[intIndex] = "Resume";
+			break;
+		case 'i':
+			strOption[intIndex] = "Interview";
+			break;
+		case 'p':
+			strOption[intIndex] = "Passed";
+			break;
+		default:
+			strOption[intIndex] = "";
+			break;
+		}
+		if (strOption[intIndex] == "")
+		{
+			break;
+		}
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " type (current: '" + strOption[intIndex] + "'";
+		if (!blIsCandidate)
+		{
+			strOption[intIndex] = " ";
+		}
 		break;
 	case 8: //fit
-		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " salary (current: '" + to_string(getCSalary()) + "'";
+		strOption[intIndex] = "Fits";
+		if (!getCFit())
+		{
+			strOption[intIndex] = "Doesn't Fit";
+		}
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " salary (current: '" + strOption[intIndex] + "'";
+		if (!blIsCandidate)
+		{
+			strOption[intIndex] = " ";
+		}
 		break;
 	case 9:
 		strOption[intIndex] = to_string(intIndex) + ") Back to previous menu";
@@ -454,210 +675,29 @@ void myMenu::mnuInitChange(int intIndex)
 bool myMenu::mnuActChange()
 {
 	bool blRetVal = false;
+	getData(true, getMenuStatus() == 12);
 	switch (getSelection())
 	{
-	case 1: // Enter known Serial Number
-		lngCSerial = getSerial();
-		if (getCSerial() == -1)
-		{
-			intMenuSelection = getCSerial();
-		}
-		else
-		{
-			switch (getMenuStatus())
-			{
-			case 2: // Get selected Employee to copy
-				getData();
-				chrCreatePerson = 'E';
-				break;
-			case 4: // Get selected Candidate to copy
-				getData(false, true);
-				chrCreatePerson = 'C';
-				break;
-			case 5: // Go to Change Employee Menu
-			case 6: // Go to Change Candidate Menu
-				// go to change menu
-				break;
-			case 7: // Remove selected Employee
-			case 8: // Remove selected Candidate
-				cout << "Deleting the following:" << endl;
-				blRetVal = pplList->show(getCSerial());
-				cout << endl << endl << "... ";
-				pplList->remPerson(getCSerial());
-				cout << "done." << endl;
-				break;
-			case 9: // Show selected Employee
-			case 10: // Show selected Candidate
-				blRetVal = pplList->show(getCSerial());
-				break;
-			default:
-				break;
-			}
-		}
+	case 1: // name
+		pplList->setCName(pplList->getIndex(getCSerial()), getCName());
 		break;
-	case 2:
-		switch (getMenuStatus())
-		{
-		case 2:
-		case 5:
-		case 7:
-		case 9:
-			blRetVal = mnuShow('e'); // Show employee list
-			break;
-		case 4:
-		case 6:
-		case 8:
-		case 10:
-			blRetVal = mnuShow('c'); // Show candidate list
-			break;
-		default:
-			break;
-		}
+	case 2: //active
+		pplList->setCActive(pplList->getIndex(getCSerial()), getCActive());
 		break;
-	case 3: // Show full HR list
-		blRetVal = mnuShow();
+	case 3: // type
+		pplList->setCType(pplList->getIndex(getCSerial()), getCType());
 		break;
-	case 4: // Show HR database statistics
-		blRetVal = mnuShowStats();
+	case 4: // salary
+		pplList->setCSalary(pplList->getIndex(getCSerial()), getCSalary());
+		break;
+	case 5: // status
+		pplList->setCStatus(pplList->getIndex(getCSerial()), getCStatus());
+		break;
+	case 6: // fit
+		pplList->setCFit(pplList->getIndex(getCSerial()), getCFit());
 		break;
 	case 9: // Back to previous menu
-		switch (getMenuStatus())
-		{
-		case 2: // Select Employee to Copy Menu -> Add Employee Menu
-		case 4: // Select Candidate to Copy Menu -> Add Employee Menu
-			intMenuStatus--;
-			break;
-		case 5: // Select Employee to Change Menu -> Back to main menu
-		case 6: // Select Candidate to Change Menu -> Back to main menu
-		case 7: // Select Employee to Remove Menu -> Back to main menu
-		case 8: // Select Candidate to Remove Menu -> Back to main menu
-		case 9: // Select Employee to Show Menu -> Back to main menu
-		case 10: // Select Candidate to Show Menu -> Back to main menu
-			intMenuStatus = 0;
-			break;
-		case 11: // Change Employee Menu -> Select Employee to Change Menu
-		case 12: // Change Candidate Menu -> Select Candidate to Change Menu
-			intMenuStatus = intMenuStatus / 2;
-			break;
-		default:
-			break;
-		}
-		break;
-	case 0: // Back to main menu
-		intMenuStatus = 0;
-		break;
-	default:
-		break;
-	}
-	return blRetVal;
-};
-
-void myMenu::mnuInitAdd(int intIndex)
-{
-	string strCap = NULL;
-	string strLow = NULL;
-	switch (getMenuStatus())
-	{
-		case 1:
-			strCap = "Employee";
-			strLow = "employee";
-			break;
-		case 3:
-			strCap = "Candidate";
-			strLow = "candidate";
-			break;
-		default:
-			intIndex = -1;
-			strOption[intIndex] = "";
-			return;
-	}
-	switch (intIndex)
-	{
-		case 1:
-			strOption[intIndex] = " ";
-			break;
-		case 2:
-			strOption[intIndex] = to_string(intIndex - 1) + ") Add " + strCap + " Menu:";
-			break;
-		case 3:
-			strOption[intIndex] = "--------------------";
-			break;
-		case 4:
-			strOption[intIndex] = to_string(intIndex - 3) + ") Add 'empty' " + strLow;
-			break;
-		case 5:
-			strOption[intIndex] = to_string(intIndex - 3) + ") Add " + strLow + " with initialization data";
-			break;
-		case 6:
-			strOption[intIndex] = to_string(intIndex - 3) + ") Select " + strLow + " to copy";
-			break;
-		case 7:
-			strOption[intIndex] = to_string(intIndex - 3) + ") Show full HR list";
-			break;
-		case 8:
-			strOption[intIndex] = to_string(intIndex - 3) + ") Show HR database statistics";
-			break;
-		case 9:
-			strOption[intIndex] = " ";
-			break;
-		case 0:
-			strOption[intIndex] = to_string(intIndex) + ") Back to main menu";
-			break;
-		default:
-			strOption[intIndex] = "";
-			break;
-	}
-};
-
-bool myMenu::mnuActAdd()
-{
-	bool blRetVal = false;
-	switch (getSelection())
-	{
-	case 1: // Add 'empty' employee
-		switch (getMenuStatus())
-		{
-		case 1:
-			chrCreatePerson = 'e';
-			break;
-		case 3:
-			chrCreatePerson = 'c';
-			break;
-		default:
-			break;
-		}
-		break;
-	case 2: // Add employee with initialization data
-		switch (getMenuStatus())
-		{
-		case 1:
-			chrCreatePerson = 'E';
-			break;
-		case 3:
-			chrCreatePerson = 'C';
-			break;
-		default:
-			break;
-		}
-		break;
-	case 3: // Select employee to copy
-		switch (getMenuStatus())
-		{
-		case 1:
-			intMenuStatus = 2;
-			break;
-		case 3:
-			intMenuStatus = 4;
-			break;
-		default:
-			break;
-		}
-		break;
-	case 4: // Show full HR list
-		blRetVal = mnuShow();
-		break;
-	case 5: // Show HR database statistics
-		blRetVal = mnuShowStats();
+		intMenuStatus = intMenuStatus / 2;
 		break;
 	case 0: // Back to main menu
 		intMenuStatus = 0;
@@ -714,20 +754,10 @@ long myMenu::getSerial()
 	return lngRetVal;
 };
 
-int myMenu::getMenuStatus()
+long myMenu::getCSerial()
 {
-	return intMenuStatus;
+	return lngCSerial;
 };
-
-int myMenu::getSelection()
-{
-	return intMenuSelection;
-};
-
-char myMenu::getCreateType()
-{
-	return chrCreatePerson;
-}
 
 string myMenu::getCName()
 {
@@ -749,176 +779,6 @@ long myMenu::getCSalary()
 	return lngCSalary;
 };
 
-long myMenu::getCSerial()
-{
-	return lngCSerial;
-};
-
-void myMenu::getData(bool blFromUser, bool blCandidate)
-{
-	if (blFromUser)
-	{
-		string strTemp = NULL;
-		if (blCandidate)
-		{
-			strTemp = "candidate";
-		}
-		else
-		{
-			strTemp = "employee";
-		}
-		cout << endl << "Please type the " + strTemp + " name and then <enter>\\<return>: ";
-		strName = "";
-		cin >> strName;
-		if (isExit(strName))
-		{
-			return;
-		}
-		cout << endl << "The name entered is " + getCName() + "." << endl << endl
-			<< "Is the " + strTemp + " active? (y/n and then <enter>\\<return>): ";
-		string strTmp = NULL;
-		cin >> strTmp;
-		while (strTmp.front() != 'y' && strTmp.front() != 'Y' &&
-			strTmp.front() != 'n' && strTmp.front() != 'N')
-		{
-			if (isExit(strTmp))
-			{
-				return;
-			}
-			cout << endl << "Invalid choice (y/n), try again: ";
-			cin >> strTmp;
-		}
-		blActive = strTmp.front() == 'y' || strTmp.front() == 'Y';
-		if (blActive)
-		{
-			strTmp = "active";
-		}
-		else
-		{
-			strTmp = "inactive";
-		}
-		cout << endl << getCName() + " is " + strTmp + "." << endl << endl
-			<< "What is the " + strTemp + "'s discussed employment type?" << endl
-			<< "(G)lobal/(H)ourly/(T)emporary and then <enter>\\<return>): ";
-		cin >> strTmp;
-		while (strTmp.front() != 'g' && strTmp.front() != 'G' &&
-			strTmp.front() != 'h' && strTmp.front() != 'H' &&
-			strTmp.front() != 't' && strTmp.front() != 'T')
-		{
-			if (isExit(strTmp))
-			{
-				return;
-			}
-			cout << endl << "Invalid choice (g/h/t), try again: ";
-			cin >> strTmp;
-		}
-		transform(strTmp.begin(), strTmp.end(), strTmp.begin(), ::tolower);
-		chrType = strTmp.front();
-		if (blActive)
-		{
-			strTmp = "active";
-		}
-		else
-		{
-			strTmp = "inactive";
-		}
-		switch (getCStatus())
-		{
-			case 'g':
-				strTmp = strTmp + " global ";
-			case 'h':
-				strTmp = strTmp + " hourly ";
-			case 't':
-				strTmp = strTmp + " temporary ";
-			default:
-			{
-				cout << "Bad type getting input from user." << endl << "Restart and contact author." << endl;
-				intMenuSelection = -1;
-				return;
-			}
-				break;
-		}
-		cout << endl << getCName() + " is an " + strTmp + strTemp + "." << endl << endl;
-		if (blCandidate)
-		{
-			cout << "What is the " + strTemp + "'s current status?" << endl
-				<< "(C)andidate/(R)esume/(I)nterview/(P)assed: ";
-			cin >> strTmp;
-			while (strTmp.front() != 'c' && strTmp.front() != 'C' &&
-				strTmp.front() != 'r' && strTmp.front() != 'R' &&
-				strTmp.front() != 'i' && strTmp.front() != 'I' &&
-				strTmp.front() != 'p' && strTmp.front() != 'P')
-			{
-				if (isExit(strTmp))
-				{
-					return;
-				}
-				cout << endl << "Invalid choice (c/r/i/p), try again: ";
-				cin >> strTmp;
-			}
-			transform(strTmp.begin(), strTmp.end(), strTmp.begin(), ::tolower);
-			chrStatus = strTmp.front();
-			switch (getCStatus())
-			{
-			case 'c':
-				strTmp = strTemp;
-				break;
-			case 'r':
-				strTmp = "resume";
-				break;
-			case 'i':
-				strTmp = "interview";
-				break;
-			case 'p':
-				strTmp = "passed";
-			default:
-				break;
-			}
-			cout << "The selected status for " + strName + " is '" + strTmp + "'." << endl << endl
-				<< "Does the " + strTemp + " fit the position? (y/n and then <enter>\\<return>):";
-			cin >> strTmp;
-			while (strTmp.front() != 'y' && strTmp.front() != 'Y' &&
-				strTmp.front() != 'n' && strTmp.front() != 'N')
-			{
-				if (isExit(strTmp))
-				{
-					return;
-				}
-				cout << endl << "Invalid choice (y/n), try again: ";
-				cin >> strTmp;
-			}
-			blFits = strTmp.front() == 'y' || strTmp.front() == 'Y';
-		}
-		else
-		{
-			cout << "What is the " + strTemp + "'s discussed salary?" << endl
-				<< "(type in NIS and then <enter>\\<return>): ";
-			cin >> lngCSalary;
-			while (lngCSalary <= 0 || lngCSalary == NULL || cin.fail())
-			{
-				cin.clear();
-				cin >> strTmp;
-				if (isExit(strTmp))
-				{
-					return;
-				}
-				cout << endl << "Invalid choice (integers only), try again: ";
-				cin >> lngCSalary;
-			}
-		}
-	}
-	else
-	{
-		int intIndex = pplList->getIndex(getCSerial());
-		strName = pplList->getCName(intIndex);
-		blActive = pplList->getCActive(intIndex);
-		chrType = pplList->getCType(intIndex);
-		lngCSalary = pplList->getSerialSalary(intIndex);
-		chrStatus = pplList->getCStatus(intIndex);
-		blFits = pplList->getCFit(intIndex);
-	}
-};
-
 char myMenu::getCStatus()
 {
 	return chrStatus;
@@ -929,15 +789,208 @@ bool myMenu::getCFit()
 	return blFits;
 };
 
-bool myMenu::isExit(string strInput)
+int myMenu::getMenuStatus()
 {
-	transform(strInput.begin(), strInput.end(), strInput.begin(), ::tolower);
-	bool blRetVal = strInput == "x" || strInput == "q" || strInput == "exit" || strInput == "quit";
-	if (blRetVal)
+	return intMenuStatus;
+};
+
+char myMenu::getCreateType()
+{
+	return chrCreatePerson;
+}
+
+int myMenu::getSelection()
+{
+	return intMenuSelection;
+};
+
+void myMenu::mnuInit()
+{
+	for (int i = 0; i <= 9; i++)
 	{
-		intMenuSelection = -1;
+		switch (getMenuStatus())
+		{
+			case 0: // Main Menu
+			{
+				switch (i)
+				{
+					case 1:
+						strOption[i] = to_string(i) + ") Add Employee";
+						break;
+					case 2:
+						strOption[i] = to_string(i) + ") Add Candidate";
+						break;
+					case 3:
+						strOption[i] = to_string(i) + ") Change Employee";
+						break;
+					case 4:
+						strOption[i] = to_string(i) + ") Change Candidate";
+						break;
+					case 5:
+						strOption[i] = to_string(i) + ") Remove Employee";
+						break;
+					case 6:
+						strOption[i] = to_string(i) + ") Remove Candidate";
+						break;
+					case 7:
+						strOption[i] = to_string(i) + ") Show Employee";
+						break;
+					case 8:
+						strOption[i] = to_string(i) + ") Show Candidate";
+						break;
+					case 9:
+						strOption[i] = to_string(i) + ") Show full HR list";
+						break;
+					case 0:
+						strOption[i] = to_string(i) + ") Show HR database statistics";
+						break;
+					default:
+						strOption[i] = "";
+						break;
+				}
+				if (strOption[i] == "")
+				{
+					break;
+				}
+			}
+				break;
+			case 1:  // Add Employee Menu
+			case 3:  // Add Candidate Menu
+				mnuInitAdd(i);
+				break;
+			case 2:  // Select Employee to Copy Menu
+			case 4:  // Select Candidate to Copy Menu
+			case 5:  // Select Employee to Change Menu
+			case 6:  // Select Candidate to Change Menu
+			case 7:  // Select Employee to Remove Menu
+			case 8:  // Select Candidate to Remove Menu
+			case 9:  // Select Employee to Show Menu
+			case 10: // Select Candidate to Show Menu
+				mnuInitSelect(i);
+				break;
+			case 11: // Change Employee Menu
+			case 12: // Change Candidate Menu
+				mnuInitChange(i);
+				break;
+			default:
+				break;
+		}
+		if (strOption[i] == "")
+		{
+			cout << "Bad Index when building menu." << endl << "Restart and contact author." << endl;
+			break;
+		}
+		if (i != 0)
+		{
+			cout << strOption[i] << endl;
+			if (i == 9)
+			{
+				cout << strOption[0] << endl << endl << "Please type your choice and then type <enter>\\<return>: ";
+				cin >> intMenuSelection;
+				while (getSelection() < 0 || getSelection() > 9 || cin.fail())
+				{
+					// if not a numeric character or string
+					// clear the failure and pull off the non-numeric character or string
+					if (cin.fail())
+					{
+						cin.clear();
+						string  strErr;
+						cin >> strErr;
+						transform(strErr.begin(), strErr.end(), strErr.begin(), ::tolower);
+						if (strErr == "x" || strErr == "q" || strErr == "exit" || strErr == "quit")
+						{
+							intMenuSelection = -1;
+							break;
+						}
+					}
+					cout << "Invalid choice, try again:";
+					cin >> intMenuSelection;
+				}
+			}
+		}
+		else
+		{
+			cout << " Gil's HR database menu:\n-------------------------\n\n";
+		}
 	}
-	return blRetVal;
+};
+
+void myMenu::mnuAct()
+{
+	chrCreatePerson = '\0';
+	strName = (string)NULL;
+	blActive = NULL;
+	chrType = NULL;
+	lngCSalary = NULL;
+	lngCSerial = NULL;
+	chrStatus = NULL;
+	blFits = NULL;
+	bool blPause = false;
+	switch (getMenuStatus())
+	{
+		case 0:
+		{
+			switch (getSelection())
+			{
+				case 1: // Add Employee
+					intMenuStatus = 1;
+					break;
+				case 2: // Add Candidate
+					intMenuStatus = 3;
+					break;
+				case 3: // Change Employee
+					intMenuStatus = 5;
+					break;
+				case 4: // Change Candidate
+					intMenuStatus = 6;
+					break;
+				case 5: // Remove Employee
+					intMenuStatus = 7;
+					break;
+				case 6: // Remove Candidate
+					intMenuStatus = 8;
+					break;
+				case 7: // Show Employee
+					intMenuStatus = 9;
+					break;
+				case 8: // Show Candidate
+					intMenuStatus = 10;
+				case 9: // Show full HR list
+					blPause = mnuShow();
+					break;
+				case 0: // Show HR database statistics
+					blPause = mnuShowStats();
+					break;
+				default:
+					break;
+			}
+		}
+			break;
+		case 1: // Add Employee Menu
+		case 3: // Add Candidate Menu
+			blPause = mnuActAdd();
+			break;
+		case 2:  // Select Employee to Copy Menu
+		case 4:  // Select Candidate to Copy Menu
+		case 5:  // Select Employee to Change Menu
+		case 6:  // Select Candidate to Change Menu
+		case 7:  // Select Employee to Remove Menu
+		case 8:  // Select Candidate to Remove Menu
+		case 9:  // Select Employee to Show Menu
+		case 10: // Select Candidate to Show Menu
+			blPause = mnuActSelect();
+			break;
+		case 11: // Change Employee Menu
+		case 12: // Change Candidate Menu
+			blPause = mnuActChange();
+			break;
+		default:
+			break;
+	}
+	if (blPause)
+	{
+		cin.get();
+	}
 };
 
 
@@ -946,13 +999,12 @@ myMenu::myMenu()
 	pplList = new People;
 	for (int i = 0; i <= 9; i++)
 	{
-		strOption[i] = (string)NULL;
+		strOption[i] = to_string(NULL);
 	}
 	intMenuStatus = 0;
 	intMenuSelection = 0;
 	this->mnuInit();
 };
-
 
 myMenu::~myMenu()
 {

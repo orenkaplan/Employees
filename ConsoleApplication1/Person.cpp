@@ -7,11 +7,13 @@
 #include "Person.h"
 
 
-
-
 using namespace std;
 
 
+void Person::setSerial(long lngNewSerial)
+{
+	*lngSerial = lngNewSerial;
+};
 
 long Person::getSerial()
 {
@@ -28,6 +30,16 @@ bool Person::isActive()
 	return *blActive;
 };
 
+void Person::setActive(bool blValue)
+{
+	*blActive = blValue;
+};
+
+void Person::setName(string strNewName)
+{
+	*strName = strNewName;
+};
+
 bool Person::isInitialized()
 {
 	return this->getSerial() != NULL && this->getName() != to_string(NULL) && this->isActive() != NULL;
@@ -36,11 +48,6 @@ bool Person::isInitialized()
 void Person::show()
 {
 	// Pure Virtual - not relevant
-};
-
-ostream & operator << (ostream & ostMyStream, const Person & prsB)
-{
-	return ostMyStream; // Abstract class - not relevant
 };
 
 void Person::operator= (Person & prsB)
@@ -53,21 +60,6 @@ void Person::operator= (Person & prsB)
 bool Person::operator== (Person & prsB)
 {
 	return this->getSerial() == prsB.getSerial() && this->isActive() == prsB.isActive() && this->getName() == prsB.getName();
-};
-
-void Person::setSerial(long lngNewSerial)
-{
-	*lngSerial = lngNewSerial;
-};
-
-void Person::setActive(bool blValue)
-{
-	*blActive = blValue;
-};
-
-void Person::setName(string strNewName)
-{
-	*strName = strNewName;
 };
 
 
@@ -94,3 +86,8 @@ Person::~Person()
 	delete blActive;
 };
 
+
+ostream & operator << (ostream & ostMyStream, const Person & prsB)
+{
+	return ostMyStream; // Abstract class - not relevant
+};

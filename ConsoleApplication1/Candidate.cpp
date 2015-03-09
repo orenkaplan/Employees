@@ -9,16 +9,6 @@
 using namespace std;
 
 
-bool Candidate::doesFit()
-{
-	return *blFits;
-};
-
-void Candidate::changeFits(bool blValue)
-{
-	*blFits = blValue;
-};
-
 string Candidate::getString()
 {
 	string strRetVal = "";
@@ -55,58 +45,6 @@ string Candidate::getString()
 	return strRetVal;
 };
 
-void Candidate::show()
-{
-	cout << *this << endl;
-};
-
-void Candidate::setStatus(char chrNewStatus)
-{
-	*intStatus = intStat(chrNewStatus);
-	if (getStatus() == 'p')
-	{
-		changeFits(true);
-	}
-};
-
-long Candidate::getSalary()
-{
-	return NULL;
-};
-
-char Candidate::getType()
-{
-	return NULL;
-};
-
-char Candidate::getStatus()
-{
-	return chrStat(*intStatus);
-};
-
-int Candidate::intStat(char chrConvStat)
-{
-	int intRetVal;
-	switch (chrConvStat)
-	{
-	case 'c':
-		intRetVal = 0;
-		break;
-	case 'r':
-		intRetVal = 1;
-		break;
-	case 'i':
-		intRetVal = 2;
-		break;
-	case 'p':
-		intRetVal = 3;
-		break;
-	default:
-		intRetVal = -1;
-	}
-	return intRetVal;
-};
-
 char Candidate::chrStat(int intConvStat)
 {
 	char chrRetVal;
@@ -133,17 +71,76 @@ char Candidate::chrStat(int intConvStat)
 	return chrRetVal;
 };
 
-bool Candidate::isInitialized()
+long Candidate::getSalary()
 {
-	return getSerial() != NULL && getName() != to_string(NULL) && isActive() != NULL
-		&& getType() != NULL && getSalary() != NULL
-		&& getStatus() != NULL && doesFit() != NULL;
+	return *lngSalary;
 };
 
-void Candidate::terminate()
+char Candidate::getType()
 {
-	changeFits(false);
-	setActive(false);
+	return *chrType;
+};
+
+void Candidate::setType(char chrNewType)
+{
+	*chrType = chrNewType;
+};
+
+void Candidate::setSalary(long lngNewSalary)
+{
+	*lngSalary = lngNewSalary;
+};
+
+void Candidate::show()
+{
+	cout << *this << endl;
+};
+
+char Candidate::getStatus()
+{
+	return chrStat(*intStatus);
+};
+
+bool Candidate::doesFit()
+{
+	return *blFits;
+};
+
+void Candidate::setStatus(char chrNewStatus)
+{
+	*intStatus = intStat(chrNewStatus);
+	if (getStatus() == 'p')
+	{
+		changeFits(true);
+	}
+};
+
+void Candidate::changeFits(bool blValue)
+{
+	*blFits = blValue;
+};
+
+int Candidate::intStat(char chrConvStat)
+{
+	int intRetVal;
+	switch (chrConvStat)
+	{
+	case 'c':
+		intRetVal = 0;
+		break;
+	case 'r':
+		intRetVal = 1;
+		break;
+	case 'i':
+		intRetVal = 2;
+		break;
+	case 'p':
+		intRetVal = 3;
+		break;
+	default:
+		intRetVal = -1;
+	}
+	return intRetVal;
 };
 
 void Candidate::activate()
@@ -152,10 +149,17 @@ void Candidate::activate()
 	setActive(true);
 };
 
-ostream & operator << (ostream & ostMyStream, const Candidate & cndB)
+void Candidate::terminate()
 {
-	ostMyStream << const_cast<Candidate&>(cndB).getString();
-	return ostMyStream;
+	changeFits(false);
+	setActive(false);
+};
+
+bool Candidate::isInitialized()
+{
+	return getSerial() != NULL && getName() != to_string(NULL) && isActive() != NULL
+		&& getType() != NULL && getSalary() != NULL
+		&& getStatus() != NULL && doesFit() != NULL;
 };
 
 void Candidate::operator= (Candidate & cndB)
@@ -167,6 +171,57 @@ void Candidate::operator= (Candidate & cndB)
 	setSalary(cndB.getSalary());
 	changeFits(cndB.doesFit());
 	setStatus(cndB.getStatus());
+};
+
+
+Candidate::Candidate()
+{
+	People pplGet;
+	setSerial(pplGet.getNewSerial());
+	setSalary(NULL);
+	setType(NULL);
+	changeFits(NULL);
+	setStatus(NULL);
+	addCandidate(*this);
+};
+
+Candidate::Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat)
+{
+	People pplGet;
+	setSerial(pplGet.getNewSerial());
+	setName(strNewName);
+	setType(chrNewType);
+	setActive(blIsActive);
+	changeFits(blDoesFit);
+	setStatus(chrNewStat);
+	addCandidate(*this);
+};
+
+Candidate::Candidate(Candidate & cndB)
+{
+	People pplGet;
+	*this = cndB;
+	setSerial(pplGet.getNewSerial());
+	addCandidate(*this);
+};
+
+Candidate::~Candidate()
+{
+	remCandidate(*this);
+	setSerial(NULL);
+	setName(NULL);
+	setActive(NULL);
+	setType(NULL);
+	setSalary(NULL);
+	delete intStatus;
+	delete blFits;
+};
+
+
+ostream & operator << (ostream & ostMyStream, const Candidate & cndB)
+{
+	ostMyStream << const_cast<Candidate&>(cndB).getString();
+	return ostMyStream;
 };
 
 bool employ(Candidate & cndFitsAs, Employee & empNewEmployee)
@@ -212,48 +267,4 @@ bool operator== (Candidate & cndB, Employee & empB)
 bool operator== (Employee & empB, Candidate & cndB)
 {
 	return cndB == empB;
-};
-
-
-Candidate::Candidate()
-{
-	People pplGet;
-	setSerial(pplGet.getNewSerial());
-	setSalary(NULL);
-	setType(NULL);
-	changeFits(NULL);
-	setStatus(NULL);
-	addCandidate(*this);
-};
-
-Candidate::Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat)
-{
-	People pplGet;
-	setSerial(pplGet.getNewSerial());
-	setName(strNewName);
-	setType(chrNewType);
-	setActive(blIsActive);
-	changeFits(blDoesFit);
-	setStatus(chrNewStat);
-	addCandidate(*this);
-};
-
-Candidate::Candidate(Candidate & cndB)
-{
-	People pplGet;
-	*this = cndB;
-	setSerial(pplGet.getNewSerial());
-	addCandidate(*this);
-};
-
-Candidate::~Candidate()
-{
-	remCandidate(*this);
-	setSerial(NULL);
-	setName(NULL);
-	setActive(NULL);
-	setType(NULL);
-	setSalary(NULL);
-	delete intStatus;
-	delete blFits;
 };

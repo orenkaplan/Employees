@@ -33,8 +33,6 @@ private:
 	bool mnuShow(char chrType);
 	bool mnuShowStats();
 
-protected:
-
 public:
 	long getSerial();
 	long getCSerial();

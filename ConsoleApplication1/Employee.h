@@ -20,8 +20,10 @@ public:
 	virtual char getType();
 	virtual char getStatus();
 	virtual bool doesFit();
-	void setType(char chrNewType);
-	void setSalary(long lngNewSalary);
+	virtual void setType(char chrNewType);
+	virtual void setSalary(long lngNewSalary);
+	virtual void setStatus(char chrNewStatus);
+	virtual void changeFits(bool blValue);
 	void activate(long lngNewSalary);
 	virtual void terminate();
 	virtual bool isInitialized();

@@ -17,6 +17,8 @@ private:
 	char chrStat(int intConvStat);
 	long getSalary();
 	char getType();
+	void setType(char chrNewType);
+	void setSalary(long lngNewSalary);
 
 public:
 	void show();

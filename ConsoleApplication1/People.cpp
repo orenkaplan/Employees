@@ -21,6 +21,40 @@ int People::intSize = 0;
 int People::intCount = 0;
 int People::intLastTouched = 0;
 
+void People::remPerson(int intIndex)
+{
+	lngSerialList[intIndex] = -1;
+	blEmpty[intIndex] = true;
+	set(intIndex);
+	intCount--;
+	delete prsList[intIndex];
+};
+
+void People::addPrs(Person **& prsTempList)
+{
+	for (int i = 0; i < getSize(); i++)
+	{
+		prsTempList[i] = prsList[i];
+	}
+	intSize++;
+	prsList = new Person*[getSize()];
+	lngSerialList = new long[getSize()];
+	blEmpty = new bool[getSize()];
+	for (int i = 0; i < getSize(); i++)
+	{
+		prsList[i] = prsTempList[i];
+		lngSerialList[i] = prsList[i]->getSerial();
+		blEmpty[i] = prsList[i]->isInitialized();
+	}
+	this->set(getSize());
+	intCount++;
+};
+
+void People::set(int intNewIndex)
+{
+	intLastTouched = intNewIndex;
+};
+
 void People::show()
 {
 	for (int i = 0; i < intSize; i++)
@@ -57,24 +91,10 @@ void People::show(char chrType)
 	}
 };
 
-int People::getSize()
+bool People::show(long lngExistingSerial)
 {
-	return intSize;
-};
-
-int People::getCount()
-{
-	return intCount;
-};
-
-int People::getLastTouchedIndex()
-{
-	return intLastTouched;
-};
-
-void People::set(int intNewIndex)
-{
-	intLastTouched = intNewIndex;
+	prsList[getIndex(lngExistingSerial)]->show();
+	return true;
 };
 
 void People::setLastTouched(long lngTouchedSerial)
@@ -88,6 +108,21 @@ void People::setLastTouched(long lngTouchedSerial)
 		}
 	}
 	intLastTouched = -1;
+};
+
+int People::getSize()
+{
+	return intSize;
+};
+
+int People::getCount()
+{
+	return intCount;
+};
+
+int People::getLastTouchedIndex()
+{
+	return intLastTouched;
 };
 
 bool People::isEmpty()
@@ -106,46 +141,6 @@ long People::getNewSerial()
 		}
 	}
 	return lngNewSerial;
-};
-
-void People::addPrs(Person **& prsTempList)
-{
-	for (int i = 0; i < getSize(); i++)
-	{
-		prsTempList[i] = prsList[i];
-	}
-	intSize++;
-	prsList = new Person*[getSize()];
-	lngSerialList = new long[getSize()];
-	blEmpty = new bool[getSize()];
-	for (int i = 0; i < getSize(); i++)
-	{
-		prsList[i] = prsTempList[i];
-		lngSerialList[i] = prsList[i]->getSerial();
-		blEmpty[i] = prsList[i]->isInitialized();
-	}
-	this->set(getSize());
-	intCount++;
-};
-
-int People::getIndex(long lngSerialToGet)
-{
-	int intRetVal;
-	for (int i = 0; i < getSize(); i++)
-	{
-		if (lngSerialList[i] == lngSerialToGet)
-		{
-			intRetVal = i;
-			break;
-		}
-	}
-	return intRetVal;
-};
-
-bool People::show(long lngExistingSerial)
-{
-	prsList[getIndex(lngExistingSerial)]->show();
-	return true;
 };
 
 std::string People::getCName(int intIndex)
@@ -185,63 +180,39 @@ bool People::getCFit(int intIndex)
 	return prsList[intIndex]->doesFit();
 };
 
-void addEmployee(Employee & empB)
+void People::setCName(int intIndex, std::string strNewName)
 {
-	People pplTemp;
-	int intMySize = pplTemp.getSize() + 1;
-	pplTemp.prsTempList = new Person*[intMySize];
-	pplTemp.prsTempList[intMySize] = new Employee;
-	pplTemp.prsTempList[intMySize] = &empB ;
-	pplTemp.addPrs(pplTemp.prsTempList);
-	delete[] pplTemp.prsTempList;
+	prsList[intIndex]->setName(strNewName);
 };
 
-void addCandidate(Candidate & cndB)
+void People::setCActive(int intIndex, bool blNewActive)
 {
-	People pplTemp;
-	int intMySize = pplTemp.getSize() + 1;
-	pplTemp.prsTempList = new Person*[intMySize];
-	pplTemp.prsTempList[intMySize] = new Candidate;
-	pplTemp.prsTempList[intMySize] = &cndB;
-	pplTemp.addPrs(pplTemp.prsTempList);
-	delete[] pplTemp.prsTempList;
+	prsList[intIndex]->setActive(blNewActive);
 };
 
-void People::remPerson(int intIndex)
+void People::setCType(int intIndex, char chrNewType)
 {
-	lngSerialList[intIndex] = -1;
-	blEmpty[intIndex] = true;
-	set(intIndex);
-	intCount--;
-	delete prsList[intIndex];
+	prsList[intIndex]->setType(chrNewType);
 };
 
-void remEmployee(Employee & empB)
+void People::setCSerial(int intIndex, long lngNewSerial)
 {
-	People pplTemp;
-	for (int i = 0; i < pplTemp.getSize(); i++)
-	{
-		Person & prsTemp = *pplTemp.prsList[i];
-		if (true /* prsTemp == empB */)
-		{
-			pplTemp.remPerson(i);
-			break;
-		}
-	}
+	prsList[intIndex]->setSerial(lngNewSerial);
 };
 
-void remCandidate(Candidate & cndB)
+void People::setCSalary(int intIndex, long lngNewSalary)
 {
-	People pplTemp;
-	for (int i = 0; i < pplTemp.getSize(); i++)
-	{
-		Person & prsTemp = *pplTemp.prsList[i];
-		if (true /* prsTemp == cndB */)
-		{
-			pplTemp.remPerson(i);
-			break;
-		}
-	}
+	prsList[intIndex]->setSalary(lngNewSalary);
+};
+
+void People::setCStatus(int intIndex, char chrNewStatus)
+{
+	prsList[intIndex]->setStatus(chrNewStatus);
+};
+
+void People::setCFit(int intIndex, bool blNewFit)
+{
+	prsList[intIndex]->changeFits(blNewFit);
 };
 
 void People::remPerson(long lngExistingSerial)
@@ -254,21 +225,6 @@ void People::remPerson(long lngExistingSerial)
 			break;
 		}
 	}
-};
-
-ostream & operator << (ostream & ostMyStream, const People & pplB)
-{
-	if (!const_cast<People&>(pplB).isEmpty())
-	{
-		ostMyStream << "The HR database lists " << const_cast<People&>(pplB).getCount() << " people in a database of size "
-			<< const_cast<People&>(pplB).getSize() << "." << endl << "The last slot in the database to be manipulated is "
-			<< const_cast<People&>(pplB).getLastTouchedIndex() << ".";
-	}
-	else
-	{
-		ostMyStream << "The HR database is empty." << endl;
-	}
-	return ostMyStream;
 };
 
 void People::operator= (People & pplB)
@@ -307,4 +263,84 @@ People::~People()
 	delete[] prsList;
 	delete[] lngSerialList;
 	delete[] blEmpty;
+};
+
+
+int People::getIndex(long lngSerialToGet)
+{
+	int intRetVal;
+	for (int i = 0; i < getSize(); i++)
+	{
+		if (lngSerialList[i] == lngSerialToGet)
+		{
+			intRetVal = i;
+			break;
+		}
+	}
+	return intRetVal;
+};
+
+void addEmployee(Employee & empB)
+{
+	People pplTemp;
+	int intMySize = pplTemp.getSize() + 1;
+	pplTemp.prsTempList = new Person*[intMySize];
+	pplTemp.prsTempList[intMySize] = new Employee;
+	pplTemp.prsTempList[intMySize] = &empB ;
+	pplTemp.addPrs(pplTemp.prsTempList);
+	delete[] pplTemp.prsTempList;
+};
+
+void addCandidate(Candidate & cndB)
+{
+	People pplTemp;
+	int intMySize = pplTemp.getSize() + 1;
+	pplTemp.prsTempList = new Person*[intMySize];
+	pplTemp.prsTempList[intMySize] = new Candidate;
+	pplTemp.prsTempList[intMySize] = &cndB;
+	pplTemp.addPrs(pplTemp.prsTempList);
+	delete[] pplTemp.prsTempList;
+};
+
+void remEmployee(Employee & empB)
+{
+	People pplTemp;
+	for (int i = 0; i < pplTemp.getSize(); i++)
+	{
+		Person & prsTemp = *pplTemp.prsList[i];
+		if (true /* prsTemp == empB */)
+		{
+			pplTemp.remPerson(i);
+			break;
+		}
+	}
+};
+
+void remCandidate(Candidate & cndB)
+{
+	People pplTemp;
+	for (int i = 0; i < pplTemp.getSize(); i++)
+	{
+		Person & prsTemp = *pplTemp.prsList[i];
+		if (true /* prsTemp == cndB */)
+		{
+			pplTemp.remPerson(i);
+			break;
+		}
+	}
+};
+
+ostream & operator << (ostream & ostMyStream, const People & pplB)
+{
+	if (!const_cast<People&>(pplB).isEmpty())
+	{
+		ostMyStream << "The HR database lists " << const_cast<People&>(pplB).getCount() << " people in a database of size "
+			<< const_cast<People&>(pplB).getSize() << "." << endl << "The last slot in the database to be manipulated is "
+			<< const_cast<People&>(pplB).getLastTouchedIndex() << ".";
+	}
+	else
+	{
+		ostMyStream << "The HR database is empty." << endl;
+	}
+	return ostMyStream;
 };

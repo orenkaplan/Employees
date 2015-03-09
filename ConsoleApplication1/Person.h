@@ -24,6 +24,10 @@ public:
 	virtual char getType() = 0;
 	virtual char getStatus() = 0;
 	virtual bool doesFit() = 0;
+	virtual void setType(char chrNewType) = 0;
+	virtual void setSalary(long lngNewSalary) = 0;
+	virtual void setStatus(char chrNewStatus) = 0;
+	virtual void changeFits(bool blValue) = 0;
 	virtual void operator= (Person & prsB);
 	virtual bool operator== (Person & prsB);
 	Person();

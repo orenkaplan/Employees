@@ -39,6 +39,13 @@ public:
 	long getSerialSalary(int intIndex, bool blGetSerial = false);
 	char getCStatus(int intIndex);
 	bool getCFit(int intIndex);
+	void setCName(int intIndex, std::string strNewName);
+	void setCActive(int intIndex, bool blNewActive);
+	void setCType(int intIndex, char chrNewType);
+	void setCSerial(int intIndex, long lngNewSerial);
+	void setCSalary(int intIndex, long lngNewSalary);
+	void setCStatus(int intIndex, char chrNewStatus);
+	void setCFit(int intIndex, bool blNewFit);
 	void remPerson(long lngExistingSerial);
 	void operator= (People & pplB);
 	bool operator== (People & pplB);
