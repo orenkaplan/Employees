@@ -15,6 +15,7 @@ using namespace std;
 
 // Initialize static variables
 Person **People::prsList = NULL;
+Person **People::prsTempList = NULL;
 long *People::lngSerialList = NULL;
 bool *People::blEmpty = NULL;
 int People::intSize = 0;
@@ -25,16 +26,19 @@ void People::remPerson(int intIndex)
 {
 	lngSerialList[intIndex] = -1;
 	blEmpty[intIndex] = true;
-	set(intIndex);
+	setLastTouched(intIndex);
 	intCount--;
 	delete prsList[intIndex];
 };
 
-void People::addPrs(Person **& prsTempList)
+void People::addPrs()
 {
-	for (int i = 0; i < getSize(); i++)
+	if (getSize() > 0)
 	{
-		prsTempList[i] = prsList[i];
+		for (int i = 0; i < getSize(); i++)
+		{
+			*prsTempList[i] = *prsList[i];
+		}
 	}
 	intSize++;
 	prsList = new Person*[getSize()];
@@ -42,15 +46,23 @@ void People::addPrs(Person **& prsTempList)
 	blEmpty = new bool[getSize()];
 	for (int i = 0; i < getSize(); i++)
 	{
-		prsList[i] = prsTempList[i];
+		if (dynamic_cast<Employee *>(prsTempList[i]))
+		{
+			prsList[i] = new Employee;
+		}
+		else if (dynamic_cast<Candidate *>(prsTempList[i]))
+		{
+			prsList[i] = new Candidate;
+		}
+		*prsList[i] = *prsTempList[i];
 		lngSerialList[i] = prsList[i]->getSerial();
 		blEmpty[i] = prsList[i]->isInitialized();
 	}
-	this->set(getSize());
+	setLastTouched(getSize());
 	intCount++;
 };
 
-void People::set(int intNewIndex)
+void People::setLastTouched(int intNewIndex)
 {
 	intLastTouched = intNewIndex;
 };
@@ -99,15 +111,12 @@ bool People::show(long lngExistingSerial)
 
 void People::setLastTouched(long lngTouchedSerial)
 {
-	for (int i = 0; i < intSize; i++)
-	{
-		if (lngTouchedSerial == lngSerialList[i])
-		{
-			this->set(i);
-			break;
-		}
-	}
-	intLastTouched = -1;
+	setLastTouched(getIndex(lngTouchedSerial));
+};
+
+void People::setLastInstance()
+{
+	blLastInstance = true;
 };
 
 int People::getSize()
@@ -127,7 +136,7 @@ int People::getLastTouchedIndex()
 
 bool People::isEmpty()
 {
-	return this->getSize() == 0 || this->getCount() == 0;
+	return getSize() == 0 || getCount() == 0;
 };
 
 long People::getNewSerial()
@@ -243,7 +252,7 @@ People::People()
 	prsList = new Person*[];
 	lngSerialList = new long[];
 	blEmpty = new bool[];
-	this->set((int)-1);
+	setLastTouched(-1);
 	intCount = -1;
 	intLastTouched = -1;
 };
@@ -255,20 +264,26 @@ People::People(People & pplB)
 
 People::~People()
 {
-	for (int i = 0; i < intSize; i++)
+	if (blLastInstance) // only try deleting when last existing instance
 	{
-		delete prsList[i];
+		if (getSize() > 0)
+		{
+			for (int i = 0; i < getSize(); i++)
+			{
+				delete prsList[i];
+			}
+		}
+		intSize = 0;
+		delete[] prsList;
+		delete[] lngSerialList;
+		delete[] blEmpty;
 	}
-	intSize = 0;
-	delete[] prsList;
-	delete[] lngSerialList;
-	delete[] blEmpty;
 };
 
 
 int People::getIndex(long lngSerialToGet)
 {
-	int intRetVal;
+	int intRetVal = -1;
 	for (int i = 0; i < getSize(); i++)
 	{
 		if (lngSerialList[i] == lngSerialToGet)
@@ -280,54 +295,16 @@ int People::getIndex(long lngSerialToGet)
 	return intRetVal;
 };
 
-void addEmployee(Employee & empB)
-{
-	People pplTemp;
-	int intMySize = pplTemp.getSize() + 1;
-	pplTemp.prsTempList = new Person*[intMySize];
-	pplTemp.prsTempList[intMySize] = new Employee;
-	pplTemp.prsTempList[intMySize] = &empB ;
-	pplTemp.addPrs(pplTemp.prsTempList);
-	delete[] pplTemp.prsTempList;
-};
-
-void addCandidate(Candidate & cndB)
-{
-	People pplTemp;
-	int intMySize = pplTemp.getSize() + 1;
-	pplTemp.prsTempList = new Person*[intMySize];
-	pplTemp.prsTempList[intMySize] = new Candidate;
-	pplTemp.prsTempList[intMySize] = &cndB;
-	pplTemp.addPrs(pplTemp.prsTempList);
-	delete[] pplTemp.prsTempList;
-};
-
 void remEmployee(Employee & empB)
 {
 	People pplTemp;
-	for (int i = 0; i < pplTemp.getSize(); i++)
-	{
-		Person & prsTemp = *pplTemp.prsList[i];
-		if (true /* prsTemp == empB */)
-		{
-			pplTemp.remPerson(i);
-			break;
-		}
-	}
+	pplTemp.remPerson(pplTemp.getIndex(empB.getSerial()));
 };
 
 void remCandidate(Candidate & cndB)
 {
 	People pplTemp;
-	for (int i = 0; i < pplTemp.getSize(); i++)
-	{
-		Person & prsTemp = *pplTemp.prsList[i];
-		if (true /* prsTemp == cndB */)
-		{
-			pplTemp.remPerson(i);
-			break;
-		}
-	}
+	pplTemp.remPerson(pplTemp.getIndex(cndB.getSerial()));
 };
 
 ostream & operator << (ostream & ostMyStream, const People & pplB)

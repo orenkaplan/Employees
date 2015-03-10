@@ -157,9 +157,9 @@ void Candidate::terminate()
 
 bool Candidate::isInitialized()
 {
-	return getSerial() != NULL && getName() != to_string(NULL) && isActive() != NULL
-		&& getType() != NULL && getSalary() != NULL
-		&& getStatus() != NULL && doesFit() != NULL;
+	return getSerial() != -1 && getName() != to_string(NULL) && isActive() != NULL
+		&& getType() != '\0' && getSalary() != -1
+		&& getStatus() != '\0' && doesFit() != NULL;
 };
 
 void Candidate::operator= (Candidate & cndB)
@@ -176,17 +176,20 @@ void Candidate::operator= (Candidate & cndB)
 
 Candidate::Candidate()
 {
+	chrType = new char;
+	blFits = new bool;
 	People pplGet;
 	setSerial(pplGet.getNewSerial());
-	setSalary(NULL);
-	setType(NULL);
+	setSalary(-1);
+	setType('\0');
 	changeFits(NULL);
-	setStatus(NULL);
-	addCandidate(*this);
+	setStatus('\0');
 };
 
 Candidate::Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat)
 {
+	intStatus = new int;
+	blFits = new bool;
 	People pplGet;
 	setSerial(pplGet.getNewSerial());
 	setName(strNewName);
@@ -194,25 +197,25 @@ Candidate::Candidate(std::string strNewName, char chrNewType, bool blIsActive, b
 	setActive(blIsActive);
 	changeFits(blDoesFit);
 	setStatus(chrNewStat);
-	addCandidate(*this);
 };
 
 Candidate::Candidate(Candidate & cndB)
 {
+	intStatus = new int;
+	blFits = new bool;
 	People pplGet;
 	*this = cndB;
 	setSerial(pplGet.getNewSerial());
-	addCandidate(*this);
 };
 
 Candidate::~Candidate()
 {
 	remCandidate(*this);
-	setSerial(NULL);
-	setName(NULL);
+	setSerial(-1);
+	setName(to_string(NULL));
 	setActive(NULL);
-	setType(NULL);
-	setSalary(NULL);
+	setType('\0');
+	setSalary(-1);
 	delete intStatus;
 	delete blFits;
 };
@@ -232,7 +235,7 @@ bool employ(Candidate & cndFitsAs, Employee & empNewEmployee)
 		Employee empTemp = Employee(cndFitsAs.getName(), cndFitsAs.getSalary(), cndFitsAs.getType(), cndFitsAs.isActive());
 		cndFitsAs.setSerial(cndFitsAs.getSerial());
 		remCandidate(cndFitsAs);
-		addEmployee(empNewEmployee);
+//		addEmployee(empNewEmployee);
 		blRetVal = true;
 	}
 	return blRetVal;

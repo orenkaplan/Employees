@@ -8,33 +8,33 @@
 
 
 class Candidate:
-	public virtual Employee, public virtual Person
+	public virtual Employee
 {
 private:
 	int * intStatus;
 	bool * blFits;
 	virtual std::string getString();
 	char chrStat(int intConvStat);
-	long getSalary();
-	char getType();
+	virtual long getSalary();
+	virtual char getType();
 	void setType(char chrNewType);
 	void setSalary(long lngNewSalary);
 
 public:
-	void show();
-	char getStatus();
-	bool doesFit();
-	void setStatus(char chrNewStatus);
-	void changeFits(bool blValue);
+	virtual void show();
+	virtual char getStatus();
+	virtual bool doesFit();
+	virtual void setStatus(char chrNewStatus);
+	virtual void changeFits(bool blValue);
 	int intStat(char chrConvStat);
-	void activate();
-	void terminate();
+	virtual void activate();
+	virtual void terminate();
 	virtual bool isInitialized();
 	void operator= (Candidate & cndB);
 	Candidate();
 	Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat);
 	Candidate(Candidate & cndB);
-	~Candidate();
+	virtual ~Candidate();
 	friend std::ostream & operator << (std::ostream & ostMyStream, const Candidate & cndB);
 	friend bool employ(Candidate & cndFitsAs, Employee & empNewEmployee);
 	friend bool operator== (Candidate & cndA, Candidate & cndB);

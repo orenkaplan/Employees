@@ -13,7 +13,7 @@ using namespace std;
 string Employee::getString()
 {
 	string strRetVal = "";
-	switch (this->getType())
+	switch (getType())
 	{
 	case 'g':
 		strRetVal = "Global ";
@@ -25,11 +25,11 @@ string Employee::getString()
 		strRetVal = "Hourly ";
 		break;
 	default:
-		cout << "Bad candidate type." << endl << "Please start over and report to author." << endl;
+		cout << "Bad candidate type.\nPlease start over and report to author.\n";
 		return strRetVal;
 	}
-	strRetVal = strRetVal + "employee " + this->getName() + ", number " + to_string(this->getSerial()) + " is";
-	if (!this->isActive())
+	strRetVal = strRetVal + "employee " + getName() + ", number " + to_string(getSerial()) + " is";
+	if (!isActive())
 	{
 		strRetVal = strRetVal + "n't";
 	}
@@ -39,7 +39,7 @@ string Employee::getString()
 
 void Employee::show()
 {
-	cout << *this << endl;
+	cout << *this << '\n';
 };
 
 long Employee::getSalary()
@@ -54,7 +54,7 @@ char Employee::getType()
 
 char Employee::getStatus()
 {
-	return NULL;
+	return '\0';
 };
 
 bool Employee::doesFit()
@@ -84,65 +84,68 @@ void Employee::changeFits(bool blValue)
 
 void Employee::activate(long lngNewSalary)
 {
-	this->setActive(true);
-	this->setSalary(lngNewSalary);
+	setActive(true);
+	setSalary(lngNewSalary);
 };
 
 void Employee::terminate()
 {
-	this->setActive(false);
+	setActive(false);
 };
 
 bool Employee::isInitialized()
 {
-	return this->getSerial() != NULL && this->getName() != to_string(NULL) && this->isActive() != NULL
-		&& this->getType() != NULL && this->getSalary() != NULL;
+	return getSerial() != -1 && getName() != to_string(NULL) && isActive() != NULL
+		&& getType() != '\0' && getSalary() != -1;
 };
 
 void Employee::operator= (Employee & empB)
 {
-	this->setSerial(empB.getSerial());
-	this->setActive(empB.isActive());
-	this->setName(empB.getName());
-	this->setType(empB.getType());
-	this->setSalary(empB.getSalary());
+	setSerial(empB.getSerial());
+	setActive(empB.isActive());
+	setName(empB.getName());
+	setType(empB.getType());
+	setSalary(empB.getSalary());
 };
 
 
 Employee::Employee()
 {
+	lngSalary = new long;
+	chrType = new char;
 	People pplGet;
-	this->setSerial(pplGet.getNewSerial());
-	this->setSalary(NULL);
-	this->setType(NULL);
-	addEmployee(*this);
+	setSerial(pplGet.getNewSerial());
+	setSalary(-1);
+	setType('\0');
 }
 
 Employee::Employee(std::string strNewName, long lngNewSalary, char chrNewType, bool blIsActive)
 {
+	lngSalary = new long;
+	chrType = new char;
 	People pplGet;
-	this->setSerial(pplGet.getNewSerial());
-	this->setName(strNewName);
-	this->setSalary(lngNewSalary);
-	this->setType(chrNewType);
-	this->setActive(blIsActive);
-	addEmployee(*this);
+	setSerial(pplGet.getNewSerial());
+	setName(strNewName);
+	setSalary(lngNewSalary);
+	setType(chrNewType);
+	setActive(blIsActive);
 }
 
 Employee::Employee(Employee & empB)
 {
+	lngSalary = new long;
+	chrType = new char;
 	People pplGet;
 	*this = empB;
-	this->setSerial(pplGet.getNewSerial());
-	addEmployee(*this);
+	setSerial(pplGet.getNewSerial());
 };
 
 Employee::~Employee()
 {
 	remEmployee(*this);
-	this->setSerial(NULL);
-	this->setName(NULL);
-	this->setActive(NULL);
+	setSerial(NULL);
+	setName(to_string(NULL));
+	setActive(NULL);
 	delete lngSalary;
 	delete chrType;
 };

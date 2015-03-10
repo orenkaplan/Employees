@@ -24,7 +24,7 @@ public:
 	virtual void setSalary(long lngNewSalary);
 	virtual void setStatus(char chrNewStatus);
 	virtual void changeFits(bool blValue);
-	void activate(long lngNewSalary);
+	virtual void activate(long lngNewSalary);
 	virtual void terminate();
 	virtual bool isInitialized();
 	void operator= (Employee & empB);

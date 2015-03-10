@@ -21,7 +21,7 @@ void myMenu::getData(bool blFromUser, bool blCandidate)
 {
 	if (blFromUser)
 	{
-		string strTemp = NULL;
+		string strTemp = to_string(NULL);
 		if (blCandidate)
 		{
 			strTemp = "candidate";
@@ -46,7 +46,7 @@ void myMenu::getData(bool blFromUser, bool blCandidate)
 		{
 			cout << "\nThe name entered is " + getCName() + ".\n\n";
 		}
-		string strTmp = NULL;
+		string strTmp = to_string(NULL);
 		if ((blPart && intGetSelection == 2) || !blPart) //active
 		{
 			cout << "Is the " + strTemp + " active? (y/n and then <enter>\\<return>): ";
@@ -112,21 +112,22 @@ void myMenu::getData(bool blFromUser, bool blCandidate)
 			{
 				strTmp = "inactive";
 			}
-			switch (getCStatus())
+			switch (getCType())
 			{
-			case 'g':
-				strTmp = strTmp + " global ";
-			case 'h':
-				strTmp = strTmp + " hourly ";
-			case 't':
-				strTmp = strTmp + " temporary ";
-			default:
-			{
-					   cout << "Bad type getting input from user." << endl << "Restart and contact author.\n";
-					   intMenuSelection = -1;
-					   return;
-			}
-				break;
+				case 'g':
+					strTmp = strTmp + " global ";
+					break;
+				case 'h':
+					strTmp = strTmp + " hourly ";
+					break;
+				case 't':
+					strTmp = strTmp + " temporary ";
+					break;
+				default:
+					cout << "Bad type getting input from user.\nRestart and contact author.\n";
+					intMenuSelection = -1;
+					return;
+					break;
 			}
 			cout << endl << getCName() + " is an " + strTmp + strTemp + ".\n\n";
 		}
@@ -136,9 +137,11 @@ void myMenu::getData(bool blFromUser, bool blCandidate)
 			{
 			case 4: // salary
 				blCandidate = false;
+				break;
 			case 5: // status
 			case 6: // fits
 				blCandidate = true;
+				break;
 			default:
 				break;
 			}
@@ -150,6 +153,7 @@ void myMenu::getData(bool blFromUser, bool blCandidate)
 				cout << "What is the " + strTemp + "'s current status?\n"
 					<< "(C)andidate/(R)esume/(I)nterview/(P)assed: ";
 				cin >> strTmp;
+
 				while (strTmp.front() != 'c' && strTmp.front() != 'C' &&
 					strTmp.front() != 'r' && strTmp.front() != 'R' &&
 					strTmp.front() != 'i' && strTmp.front() != 'I' &&
@@ -193,6 +197,7 @@ void myMenu::getData(bool blFromUser, bool blCandidate)
 			{
 				cout << "Does the " + strTemp + " fit the position? (y/n and then <enter>\\<return>):";
 				cin >> strTmp;
+
 				while (strTmp.front() != 'y' && strTmp.front() != 'Y' &&
 					strTmp.front() != 'n' && strTmp.front() != 'N')
 				{
@@ -202,6 +207,7 @@ void myMenu::getData(bool blFromUser, bool blCandidate)
 					}
 					cout << "\nInvalid choice (y/n), try again: ";
 					cin >> strTmp;
+
 				}
 				blFits = strTmp.front() == 'y' || strTmp.front() == 'Y';
 			}
@@ -249,8 +255,8 @@ bool myMenu::isExit(string strInput)
 
 void myMenu::mnuInitAdd(int intIndex)
 {
-	string strCap = NULL;
-	string strLow = NULL;
+	string strCap = to_string(NULL);
+	string strLow = to_string(NULL);
 	switch (getMenuStatus())
 	{
 		case 1:
@@ -365,10 +371,10 @@ bool myMenu::mnuActAdd()
 
 void myMenu::mnuInitSelect(int intIndex)
 {
-	string strCapitalType = NULL;
-	string strLowercaseType = NULL;
-	string strCapitalAction = NULL;
-	string strLowercaseAction = NULL;
+	string strCapitalType = to_string(NULL);
+	string strLowercaseType = to_string(NULL);
+	string strCapitalAction = to_string(NULL);
+	string strLowercaseAction = to_string(NULL);
 	char chrN = NULL;
 	switch (getMenuStatus())
 	{
@@ -442,10 +448,24 @@ void myMenu::mnuInitSelect(int intIndex)
 			strOption[intIndex] = to_string(intIndex - 3) + ") Show HR database statistics";
 			break;
 		case 8:
-			strOption[intIndex] = " ";
-			break;
 		case 9:
-			strOption[intIndex] = to_string(intIndex) + ") Back to previous menu";
+			strOption[intIndex] = " ";
+			switch (getMenuStatus())
+			{
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+			case 9:
+			case 10:
+				break;
+			case 2:
+			case 4:
+				strOption[intIndex] = to_string(intIndex) + ") Back to previous menu";
+				break;
+			default:
+				break;
+			}
 			break;
 		case 0:
 			strOption[intIndex] = to_string(intIndex) + ") Back to main menu";
@@ -555,8 +575,8 @@ bool myMenu::mnuActSelect()
 
 void myMenu::mnuInitChange(int intIndex)
 {
-	string strCapitalType = NULL;
-	string strLowercaseType = NULL;
+	string strCapitalType = to_string(NULL);
+	string strLowercaseType = to_string(NULL);
 	bool blIsCandidate = false;
 	switch (getMenuStatus())
 	{
@@ -724,7 +744,7 @@ bool myMenu::mnuShow(char chrType)
 
 bool myMenu::mnuShowStats()
 {
-	cout << pplList << endl;
+	cout << *pplList << endl;
 	return true;
 };
 
@@ -802,6 +822,11 @@ char myMenu::getCreateType()
 int myMenu::getSelection()
 {
 	return intMenuSelection;
+};
+
+int myMenu::getListSize()
+{
+	return pplList->getSize();
 };
 
 void myMenu::mnuInit()
@@ -918,14 +943,15 @@ void myMenu::mnuInit()
 void myMenu::mnuAct()
 {
 	chrCreatePerson = '\0';
-	strName = (string)NULL;
+	strName = to_string(NULL);
 	blActive = NULL;
-	chrType = NULL;
-	lngCSalary = NULL;
-	lngCSerial = NULL;
-	chrStatus = NULL;
+	chrType = '\0';
+	lngCSalary = -1;
+	lngCSerial = -1;
+	chrStatus = '\0';
 	blFits = NULL;
 	bool blPause = false;
+	string strPause = to_string(NULL);
 	switch (getMenuStatus())
 	{
 		case 0:
@@ -989,7 +1015,7 @@ void myMenu::mnuAct()
 	}
 	if (blPause)
 	{
-		cin.get();
+		system("pause");
 	}
 };
 
@@ -1003,10 +1029,11 @@ myMenu::myMenu()
 	}
 	intMenuStatus = 0;
 	intMenuSelection = 0;
-	this->mnuInit();
+	mnuInit();
 };
 
 myMenu::~myMenu()
 {
+	pplList->setLastInstance();
 	delete pplList;
 };

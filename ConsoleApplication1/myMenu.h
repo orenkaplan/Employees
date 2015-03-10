@@ -9,7 +9,6 @@
 class myMenu
 {
 private:
-	/* static */ People * pplList;
 	/* static */ std::string strOption[10];
 	/* static */ int intMenuStatus;
 	/* static */ int intMenuSelection;
@@ -21,7 +20,6 @@ private:
 	/* static */ long lngCSalary;
 	/* static */ char chrStatus;
 	/* static */ bool blFits;
-	void getData(bool blFromUser = false, bool blCandidate = false);
 	bool isExit(std::string strInput);
 	void mnuInitAdd(int intIndex);
 	bool mnuActAdd();
@@ -34,6 +32,8 @@ private:
 	bool mnuShowStats();
 
 public:
+	/* static */ People * pplList;
+	void getData(bool blFromUser = false, bool blCandidate = false);
 	long getSerial();
 	long getCSerial();
 	std::string getCName();
@@ -45,6 +45,7 @@ public:
 	int getMenuStatus();
 	char getCreateType();
 	int getSelection();
+	int getListSize();
 	void mnuAct();
 	void mnuInit();
 	myMenu();

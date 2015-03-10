@@ -42,7 +42,7 @@ void Person::setName(string strNewName)
 
 bool Person::isInitialized()
 {
-	return this->getSerial() != NULL && this->getName() != to_string(NULL) && this->isActive() != NULL;
+	return getSerial() != -1 && getName() != to_string(NULL) && isActive() != NULL;
 };
 
 void Person::show()
@@ -52,14 +52,14 @@ void Person::show()
 
 void Person::operator= (Person & prsB)
 {
-	this->setSerial(prsB.getSerial());
-	this->setActive(prsB.isActive());
-	this->setName(prsB.getName());
+	setSerial(prsB.getSerial());
+	setActive(prsB.isActive());
+	setName(prsB.getName());
 };
 
 bool Person::operator== (Person & prsB)
 {
-	return this->getSerial() == prsB.getSerial() && this->isActive() == prsB.isActive() && this->getName() == prsB.getName();
+	return getSerial() == prsB.getSerial() && isActive() == prsB.isActive() && getName() == prsB.getName();
 };
 
 
@@ -69,13 +69,16 @@ Person::Person()
 	lngSerial = new long;
 	strName = new string;
 	blActive = new bool;
-	this->setSerial(NULL);
-	this->setName(NULL);
-	this->setActive(NULL);
+	setSerial(-1);
+	setName(to_string(NULL));
+	setActive(NULL);
 };
 
 Person::Person(Person & prsB) 
 {
+	lngSerial = new long;
+	strName = new string;
+	blActive = new bool;
 	*this = prsB;
 };
 

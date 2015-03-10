@@ -13,21 +13,23 @@ class People
 {
 private:
 	static Person ** prsList;
-	Person ** prsTempList;
 	static long * lngSerialList;
 	static bool * blEmpty;
 	static int intSize;
 	static int intCount;
 	static int intLastTouched;
-	void remPerson(int intIndex);
-	void addPrs(Person **& prsTempList);
-	virtual void set(int intNewIndex);
+	bool blLastInstance = false;
+	void setLastTouched(int intNewIndex);
 
 public:
-	virtual void show();
-	virtual void show(char chrType);
-	virtual bool show(long lngExistingSerial);
+	static Person ** prsTempList;
+	void remPerson(int intIndex);
+	void addPrs();
+	void show();
+	void show(char chrType);
+	bool show(long lngExistingSerial);
 	void setLastTouched(long lngTouchedSerial);
+	void setLastInstance();
 	int getSize();
 	int getCount();
 	int getLastTouchedIndex();
@@ -53,9 +55,7 @@ public:
 	People(People & pplB);
 	~People();
 	int getIndex(long lngSerialToGet);
-	friend void addEmployee(Employee & empB);
-	friend void addCandidate(Candidate & cndB);
 	friend void remEmployee(Employee & empB);
 	friend void remCandidate(Candidate & cndB);
-	friend std::ostream & operator << (std::ostream & ostMyStream, const People & pplB);
+	friend std::ostream & operator<< (std::ostream & ostMyStream, const People & pplB);
 };
