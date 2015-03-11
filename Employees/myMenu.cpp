@@ -268,7 +268,7 @@ void myMenu::mnuInitAdd(int intIndex)
 			strLow = "candidate";
 			break;
 		default:
-			intIndex = -1;
+			intMenuSelection = -1;
 			strOption[intIndex] = "";
 			return;
 	}
@@ -471,6 +471,7 @@ void myMenu::mnuInitSelect(int intIndex)
 			strOption[intIndex] = to_string(intIndex) + ") Back to main menu";
 			break;
 		default:
+			intMenuSelection = -1;
 			strOption[intIndex] = "";
 			break;
 	}
@@ -687,6 +688,7 @@ void myMenu::mnuInitChange(int intIndex)
 		strOption[intIndex] = to_string(intIndex) + ") Back to main menu";
 		break;
 	default:
+		intMenuSelection = -1;
 		strOption[intIndex] = "";
 		break;
 	}
@@ -902,8 +904,9 @@ void myMenu::mnuInit()
 		}
 		if (strOption[i] == "")
 		{
-			cout << "Bad Index when building menu." << endl << "Restart and contact author." << endl;
-			break;
+			intMenuSelection = -1;
+			cout << "Bad Index when building menu.\nRestart and contact author." << endl;
+			continue;
 		}
 		if (i != 0)
 		{
