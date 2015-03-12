@@ -31,12 +31,12 @@ public:
 	virtual void terminate();
 	virtual bool isInitialized();
 	void operator= (Candidate & cndB);
-	Candidate();
-	Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat);
-	Candidate(Candidate & cndB);
+	Candidate(People & pplGet);
+	Candidate(People & pplGet, std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat);
+	Candidate(People & pplGet, Candidate & cndB);
 	virtual ~Candidate();
 	friend std::ostream & operator << (std::ostream & ostMyStream, Candidate & cndB);
-	friend bool employ(Candidate & cndFitsAs, Employee & empNewEmployee);
+	friend bool employ(People & pplGet, Candidate & cndFitsAs, Employee & empNewEmployee);
 	friend bool operator== (Candidate & cndA, Candidate & cndB);
 	friend bool operator== (Candidate & cndB, Person & prsB);
 	friend bool operator== (Person & prsB, Candidate & cndB);

@@ -29,8 +29,9 @@ public:
 	virtual bool isInitialized();
 	void operator= (Employee & empB);
 	Employee();
-	Employee(std::string strNewName, long lngNewSalary, char chrNewType, bool blIsActive);
-	Employee(Employee & empB);
+	Employee(People & pplGet);
+	Employee(People & pplGet, std::string strNewName, long lngNewSalary, char chrNewType, bool blIsActive);
+	Employee(People & pplGet, Employee & empB);
 	virtual ~Employee();
 	friend std::ostream & operator << (std::ostream & ostMyStream, Employee & empB);
 	friend bool operator== (Employee & empA, Employee & empB);

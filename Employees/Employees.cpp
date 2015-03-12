@@ -34,29 +34,29 @@ int main()
 			{
 				intMySize = mnuMyUI->getListSize();
 			}
-			mnuMyUI->pplList->prsTempList = new Person*[intMySize + 1];
+//			mnuMyUI->pplList->prsTempList = new Person*[intMySize + 1];
 			switch (mnuMyUI->getCreateType())
 			{
-			case 'e':
+/*			case 'e':
 				mnuMyUI->pplList->prsTempList[intMySize] = new Employee;
-				break;
+				break; */
 			case 'E':
 				mnuMyUI->getData(true);
-				mnuMyUI->pplList->prsTempList[intMySize] =
-					new Employee(mnuMyUI->getCName(), mnuMyUI->getCSalary(), mnuMyUI->getCType(), mnuMyUI->getCActive());
+/*				mnuMyUI->pplList->prsTempList[intMySize] =
+					new Employee(mnuMyUI->getCName(), mnuMyUI->getCSalary(), mnuMyUI->getCType(), mnuMyUI->getCActive()); */
 				break;
-			case 'c':
+/*			case 'c':
 				mnuMyUI->pplList->prsTempList[intMySize] = new Candidate;
-				break;
+				break; */
 			case 'C':
 				mnuMyUI->getData(true, true);
-				mnuMyUI->pplList->prsTempList[intMySize] =
-					new Candidate(mnuMyUI->getCName(), mnuMyUI->getCType(), mnuMyUI->getCActive(), mnuMyUI->getCFit(), mnuMyUI->getCStatus());
+/*				mnuMyUI->pplList->prsTempList[intMySize] =
+					new Candidate(mnuMyUI->getCName(), mnuMyUI->getCType(), mnuMyUI->getCActive(), mnuMyUI->getCFit(), mnuMyUI->getCStatus()); */
 				break;
 			default:
 				break;
 			}
-			if (intMySize > 0)
+/*			if (intMySize > 0)
 			{
 				for (int i = 0; i < intMySize; i++)
 				{
@@ -88,9 +88,12 @@ int main()
 				*mnuMyUI->pplList->prsList[i] = *mnuMyUI->pplList->prsTempList[i];
 				mnuMyUI->pplList->lngSerialList[i] = mnuMyUI->pplList->prsList[i]->getSerial();
 				mnuMyUI->pplList->blEmpty[i] = mnuMyUI->pplList->prsList[i]->isInitialized();
-			}
-			mnuMyUI->pplList->setLastTouched(intMySize -1);
-			mnuMyUI->pplList->addPrs();
+			}*/
+			mnuMyUI->pplList->addPrs(mnuMyUI->getCreateType(), intMySize,
+				mnuMyUI->getCName(), mnuMyUI->getCType(), mnuMyUI->getCActive(),
+				mnuMyUI->getCSalary(),
+				mnuMyUI->getCStatus(), mnuMyUI->getCFit());
+			mnuMyUI->pplList->setLastTouched(intMySize);
 		}
 		system("cls");
 		mnuMyUI->mnuInit();

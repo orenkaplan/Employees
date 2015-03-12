@@ -19,6 +19,13 @@ using namespace std;
 
 void myMenu::getData(bool blFromUser, bool blCandidate)
 {
+	strName = to_string(NULL);
+	blActive = NULL;
+	chrType = '\0';
+	lngCSerial = -1;
+	lngCSalary = -1;
+	chrStatus = '\0';
+	blFits = NULL;
 	if (blFromUser)
 	{
 		string strTemp = to_string(NULL);

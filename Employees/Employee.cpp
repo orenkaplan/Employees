@@ -39,7 +39,7 @@ string Employee::getString()
 
 void Employee::show()
 {
-	cout << *this << '\n';
+	cout << /* *this */ getString() << '\n';
 };
 
 long Employee::getSalary()
@@ -95,7 +95,7 @@ void Employee::terminate()
 
 bool Employee::isInitialized()
 {
-	return getSerial() != -1 && getName() != to_string(NULL) && isActive() != NULL
+	return getSerial() != -1 && getName() != to_string(NULL) /* && isActive() != NULL */
 		&& getType() != '\0' && getSalary() != -1;
 };
 
@@ -113,17 +113,24 @@ Employee::Employee()
 {
 	lngSalary = new long;
 	chrType = new char;
-	People pplGet;
+	setSerial(-1);
+	setSalary(-1);
+	setType('\0');
+}
+
+Employee::Employee(People & pplGet)
+{
+	lngSalary = new long;
+	chrType = new char;
 	setSerial(pplGet.getNewSerial());
 	setSalary(-1);
 	setType('\0');
 }
 
-Employee::Employee(std::string strNewName, long lngNewSalary, char chrNewType, bool blIsActive)
+Employee::Employee(People & pplGet, std::string strNewName, long lngNewSalary, char chrNewType, bool blIsActive)
 {
 	lngSalary = new long;
 	chrType = new char;
-	People pplGet;
 	setSerial(pplGet.getNewSerial());
 	setName(strNewName);
 	setSalary(lngNewSalary);
@@ -131,18 +138,17 @@ Employee::Employee(std::string strNewName, long lngNewSalary, char chrNewType, b
 	setActive(blIsActive);
 }
 
-Employee::Employee(Employee & empB)
+Employee::Employee(People & pplGet, Employee & empB)
 {
 	lngSalary = new long;
 	chrType = new char;
-	People pplGet;
 	*this = empB;
 	setSerial(pplGet.getNewSerial());
 };
 
 Employee::~Employee()
 {
-	remEmployee(*this);
+	remPerson(getIndex(getSerial()));
 	setSerial(-1);
 	setName(to_string(NULL));
 	setActive(NULL);

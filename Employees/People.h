@@ -18,13 +18,16 @@ private:
 	bool blLastInstance = false;
 
 public:
-	static Person ** prsList;
-	static Person ** prsTempList;
-	static long * lngSerialList;
-	static bool * blEmpty;
+//	Person * prsList[10];
+//	Person * prsTempList[10];
+	static  long * lngSerialList[10];
+	static  bool * blEmpty[10];
 	void setLastTouched(int intNewIndex);
-	void remPerson(int intIndex);
-	void addPrs();
+	friend void remPerson(int intIndex);
+	void addPrs(char chrCreateType, int intMySize,
+		std::string strName, char chrType, bool blActive,
+		long lngSalary = 0,
+		char chrStatus = '\n', bool blFits = false);
 	void show(char chrType = '\0');
 	bool show(long lngExistingSerial);
 	void setLastTouched(long lngTouchedSerial);
@@ -47,14 +50,11 @@ public:
 	void setCSalary(int intIndex, long lngNewSalary);
 	void setCStatus(int intIndex, char chrNewStatus);
 	void setCFit(int intIndex, bool blNewFit);
-	void remPerson(long lngExistingSerial);
 	void operator= (People & pplB);
 	bool operator== (People & pplB);
 	People();
 	People(People & pplB);
 	~People();
-	int getIndex(long lngSerialToGet);
-	friend void remEmployee(Employee & empB);
-	friend void remCandidate(Candidate & cndB);
+	friend int getIndex(long lngSerialToGet);
 	friend std::ostream & operator<< (std::ostream & ostMyStream, const People & pplB);
 };

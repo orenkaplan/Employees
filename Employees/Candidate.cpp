@@ -93,7 +93,7 @@ void Candidate::setSalary(long lngNewSalary)
 
 void Candidate::show()
 {
-	cout << *this << endl;
+	cout << /* *this */ getString() << endl;
 };
 
 char Candidate::getStatus()
@@ -157,9 +157,9 @@ void Candidate::terminate()
 
 bool Candidate::isInitialized()
 {
-	return getSerial() != -1 && getName() != to_string(NULL) && isActive() != NULL
-		&& getType() != '\0' && getSalary() != -1
-		&& getStatus() != '\0' && doesFit() != NULL;
+	return getSerial() != -1 && getName() != to_string(NULL) /* && isActive() != NULL */
+		&& getType() != '\0' /* && getSalary() != -1 */
+		&& getStatus() != '\0' /* && doesFit() != NULL */;
 };
 
 void Candidate::operator= (Candidate & cndB)
@@ -174,11 +174,10 @@ void Candidate::operator= (Candidate & cndB)
 };
 
 
-Candidate::Candidate()
+Candidate::Candidate(People & pplGet)
 {
 	chrType = new char;
 	blFits = new bool;
-	People pplGet;
 	setSerial(pplGet.getNewSerial());
 	setSalary(-1);
 	setType('\0');
@@ -186,11 +185,10 @@ Candidate::Candidate()
 	setStatus('\0');
 };
 
-Candidate::Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat)
+Candidate::Candidate(People & pplGet, std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat)
 {
 	intStatus = new int;
 	blFits = new bool;
-	People pplGet;
 	setSerial(pplGet.getNewSerial());
 	setName(strNewName);
 	setType(chrNewType);
@@ -199,18 +197,17 @@ Candidate::Candidate(std::string strNewName, char chrNewType, bool blIsActive, b
 	setStatus(chrNewStat);
 };
 
-Candidate::Candidate(Candidate & cndB)
+Candidate::Candidate(People & pplGet, Candidate & cndB)
 {
 	intStatus = new int;
 	blFits = new bool;
-	People pplGet;
 	*this = cndB;
 	setSerial(pplGet.getNewSerial());
 };
 
 Candidate::~Candidate()
 {
-	remCandidate(*this);
+	remPerson(getIndex(getSerial()));
 	setSerial(-1);
 	setName(to_string(NULL));
 	setActive(NULL);
@@ -227,15 +224,16 @@ ostream & operator << (ostream & ostMyStream, Candidate & cndB)
 	return ostMyStream;
 };
 
-bool employ(Candidate & cndFitsAs, Employee & empNewEmployee)
+bool employ(People & pplGet, Candidate & cndFitsAs, Employee & empNewEmployee)
 {
 	bool blRetVal = false;
 	if (cndFitsAs.doesFit() && cndFitsAs.isActive() && cndFitsAs.getStatus() == 'p' && cndFitsAs.getSalary() != 0)
 	{
-		Employee empTemp = Employee(cndFitsAs.getName(), cndFitsAs.getSalary(), cndFitsAs.getType(), cndFitsAs.isActive());
+		pplGet.addPrs('E', pplGet.getSize() + 1,
+			cndFitsAs.getName(), cndFitsAs.getType(), cndFitsAs.isActive(),
+			cndFitsAs.getSalary());
 		cndFitsAs.setSerial(cndFitsAs.getSerial());
-		remCandidate(cndFitsAs);
-//		addEmployee(empNewEmployee);
+		remPerson(getIndex(cndFitsAs.getSerial()));
 		blRetVal = true;
 	}
 	return blRetVal;
