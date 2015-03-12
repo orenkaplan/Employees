@@ -239,7 +239,7 @@ void myMenu::getData(bool blFromUser, bool blCandidate)
 	}
 	else
 	{
-		int intIndex = pplList->getIndex(getCSerial());
+		int intIndex = getIndex(getCSerial());
 		strName = pplList->getCName(intIndex);
 		blActive = pplList->getCActive(intIndex);
 		chrType = pplList->getCType(intIndex);
@@ -516,7 +516,7 @@ bool myMenu::mnuActSelect()
 				cout << "Deleting the following:" << endl;
 				blRetVal = pplList->show(getCSerial());
 				cout << endl << endl << "... ";
-				pplList->remPerson(getCSerial());
+				remPerson(getIndex(getCSerial()));
 				cout << "done." << endl;
 				break;
 			case 9: // Show selected Employee
@@ -708,22 +708,22 @@ bool myMenu::mnuActChange()
 	switch (getSelection())
 	{
 	case 1: // name
-		pplList->setCName(pplList->getIndex(getCSerial()), getCName());
+		pplList->setCName(getIndex(getCSerial()), getCName());
 		break;
 	case 2: //active
-		pplList->setCActive(pplList->getIndex(getCSerial()), getCActive());
+		pplList->setCActive(getIndex(getCSerial()), getCActive());
 		break;
 	case 3: // type
-		pplList->setCType(pplList->getIndex(getCSerial()), getCType());
+		pplList->setCType(getIndex(getCSerial()), getCType());
 		break;
 	case 4: // salary
-		pplList->setCSalary(pplList->getIndex(getCSerial()), getCSalary());
+		pplList->setCSalary(getIndex(getCSerial()), getCSalary());
 		break;
 	case 5: // status
-		pplList->setCStatus(pplList->getIndex(getCSerial()), getCStatus());
+		pplList->setCStatus(getIndex(getCSerial()), getCStatus());
 		break;
 	case 6: // fit
-		pplList->setCFit(pplList->getIndex(getCSerial()), getCFit());
+		pplList->setCFit(getIndex(getCSerial()), getCFit());
 		break;
 	case 9: // Back to previous menu
 		intMenuStatus = intMenuStatus / 2;
