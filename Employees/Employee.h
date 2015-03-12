@@ -12,9 +12,9 @@ class Employee:
 protected:
 	long * lngSalary;
 	char * chrType;
-	virtual std::string getString();
 
 public:
+	virtual std::string getString();
 	virtual void show();
 	virtual long getSalary();
 	virtual char getType();
@@ -32,7 +32,7 @@ public:
 	Employee(std::string strNewName, long lngNewSalary, char chrNewType, bool blIsActive);
 	Employee(Employee & empB);
 	virtual ~Employee();
-	friend std::ostream & operator << (std::ostream & ostMyStream, const Employee & empB);
+	friend std::ostream & operator << (std::ostream & ostMyStream, Employee & empB);
 	friend bool operator== (Employee & empA, Employee & empB);
 	friend bool operator== (Employee & empB, Person & prsB);
 	friend bool operator== (Person & prsB, Employee & empB);

@@ -25,7 +25,7 @@ string Employee::getString()
 		strRetVal = "Hourly ";
 		break;
 	default:
-		cout << "Bad candidate type.\nPlease start over and report to author.\n";
+		cout << "Bad employee type.\nPlease start over and report to author.\n";
 		return strRetVal;
 	}
 	strRetVal = strRetVal + "employee " + getName() + ", number " + to_string(getSerial()) + " is";
@@ -143,7 +143,7 @@ Employee::Employee(Employee & empB)
 Employee::~Employee()
 {
 	remEmployee(*this);
-	setSerial(NULL);
+	setSerial(-1);
 	setName(to_string(NULL));
 	setActive(NULL);
 	delete lngSalary;
@@ -151,9 +151,9 @@ Employee::~Employee()
 };
 
 
-ostream & operator << (ostream & ostMyStream, const Employee & empB)
+ostream & operator << (ostream & ostMyStream, Employee & empB)
 {
-	ostMyStream << const_cast<Employee&>(empB).getString();
+	ostMyStream << empB.getString();
 	return ostMyStream;
 };
 

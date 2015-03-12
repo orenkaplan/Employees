@@ -12,21 +12,20 @@ class Candidate;
 class People
 {
 private:
-	static Person ** prsList;
-	static long * lngSerialList;
-	static bool * blEmpty;
 	static int intSize;
 	static int intCount;
 	static int intLastTouched;
 	bool blLastInstance = false;
-	void setLastTouched(int intNewIndex);
 
 public:
+	static Person ** prsList;
 	static Person ** prsTempList;
+	static long * lngSerialList;
+	static bool * blEmpty;
+	void setLastTouched(int intNewIndex);
 	void remPerson(int intIndex);
 	void addPrs();
-	void show();
-	void show(char chrType);
+	void show(char chrType = '\0');
 	bool show(long lngExistingSerial);
 	void setLastTouched(long lngTouchedSerial);
 	void setLastInstance();

@@ -33,14 +33,13 @@ void People::remPerson(int intIndex)
 
 void People::addPrs()
 {
-	if (getSize() > 0)
+/* 	if (getSize() > 0)
 	{
 		for (int i = 0; i < getSize(); i++)
 		{
 			*prsTempList[i] = *prsList[i];
 		}
 	}
-	intSize++;
 	prsList = new Person*[getSize()];
 	lngSerialList = new long[getSize()];
 	blEmpty = new bool[getSize()];
@@ -58,8 +57,17 @@ void People::addPrs()
 		lngSerialList[i] = prsList[i]->getSerial();
 		blEmpty[i] = prsList[i]->isInitialized();
 	}
-	setLastTouched(getSize());
-	intCount++;
+	setLastTouched(getSize()); */
+	if (getSize() == -1 && intCount == -1)
+	{
+		intSize = 1;
+		intCount = 1;
+	}
+	else
+	{
+		intSize++;
+		intCount++;
+	}
 };
 
 void People::setLastTouched(int intNewIndex)
@@ -67,39 +75,79 @@ void People::setLastTouched(int intNewIndex)
 	intLastTouched = intNewIndex;
 };
 
-void People::show()
+void People::show(char chrType)
 {
-	for (int i = 0; i < intSize; i++)
+	string strOut;
+	string strType;
+	for (int i = 0; i < getSize(); i++)
 	{
-		if (!blEmpty[i])
+		strOut = "";
+		strType = "";
+		strType = typeid(prsList[i]).name();
+		transform(strType.begin(), strType.end(), strType.begin(), ::tolower);
+		if (dynamic_cast<Employee*>(prsList[i]))
 		{
-			prsList[i]->show();
+			strType = "employee";
+		}
+		else if (dynamic_cast<Candidate*>(prsList[i]))
+		{
+			strType = "candidate";
 		}
 		else
 		{
-			cout << "No person recorded." << endl;
+			cout << "Bad variable type.\nPlease start over and report to author.\n";
+			return;
 		}
-	}
-};
-
-void People::show(char chrType)
-{
-	string strType = "";
-	for (int i = 0; i < intSize; i++)
-	{
-		strType = typeid(prsList[i]).name();
-		transform(strType.begin(), strType.end(), strType.begin(), ::tolower);
 		if (!blEmpty[i])
 		{
-			if (chrType == strType.front())
+			if (chrType == strType.front() || chrType == '\0')
 			{
-				prsList[i]->show();
+				switch (getCType(i))
+				{
+				case 'g':
+					strOut = "Global ";
+					break;
+				case 't':
+					strOut = "Temporary ";
+					break;
+				case 'h':
+					strOut = "Hourly ";
+					break;
+				default:
+					cout << "Bad " + strType + " type.\nPlease start over and report to author.\n";
+					return;
+				}
+				strOut = strOut + strType + ' ' + getCName(i) + ", number " + to_string(getSerialSalary(i, true));
+				if (strType == "candidate")
+				{
+					if (getCFit(i))
+					{
+						strOut = strOut + " fits ";
+					}
+					else
+					{
+						strOut = strOut + " doesn't fit ";
+					}
+					strOut = strOut + " the position and";
+				}
+				strOut = strOut + " is";
+				if (!getCActive(i))
+				{
+					strOut = strOut + "n't";
+				}
+				strOut = strOut + " active";
+				if (strType == "candidate")
+				{
+					strOut = strOut + " in status " + getCStatus(i);
+				}
+				strOut = strOut + ".\n";
 			}
 		}
 		else
 		{
-			cout << "No " + strType + " recorded." << endl;
+			strOut = "No " + strType + " recorded.\n";
 		}
+		cout << strOut;
 	}
 };
 
@@ -141,8 +189,13 @@ bool People::isEmpty()
 
 long People::getNewSerial()
 {
-	long lngNewSerial = 0;
-	for (int i = 0; i < intSize; i++)
+	long lngNewSerial = 1;
+	int intListSize = 0;
+	if (getSize() > -1)
+	{
+		intListSize = getSize();
+	}
+	for (int i = 0; i < intListSize; i++)
 	{
 		if (lngNewSerial <= lngSerialList[i])
 		{
@@ -226,7 +279,7 @@ void People::setCFit(int intIndex, bool blNewFit)
 
 void People::remPerson(long lngExistingSerial)
 {
-	for (int i = 0; i < intSize; i++)
+	for (int i = 0; i < getSize(); i++)
 	{
 		if (prsList[i]->getSerial() == lngExistingSerial)
 		{
@@ -252,9 +305,12 @@ People::People()
 	prsList = new Person*[];
 	lngSerialList = new long[];
 	blEmpty = new bool[];
-	setLastTouched(-1);
-	intCount = -1;
-	intLastTouched = -1;
+	if (intSize != -1 && intCount != -1 && intLastTouched != -1)
+	{
+		setLastTouched(-1);
+		intCount = -1;
+		intSize = -1;
+	}
 };
 
 People::People(People & pplB)

@@ -26,7 +26,14 @@ int main()
 		}
 		if (mnuMyUI->getCreateType() != '\0')
 		{
-			intMySize = mnuMyUI->getListSize();
+			if (mnuMyUI->getListSize() == -1)
+			{
+				intMySize = 0;
+			}
+			else
+			{
+				intMySize = mnuMyUI->getListSize();
+			}
 			mnuMyUI->pplList->prsTempList = new Person*[intMySize + 1];
 			switch (mnuMyUI->getCreateType())
 			{
@@ -49,8 +56,41 @@ int main()
 			default:
 				break;
 			}
+			if (intMySize > 0)
+			{
+				for (int i = 0; i < intMySize; i++)
+				{
+					if (dynamic_cast<Employee *>(mnuMyUI->pplList->prsList[i]))
+					{
+						mnuMyUI->pplList->prsTempList[i] = new Employee;
+					}
+					else if (dynamic_cast<Candidate *>(mnuMyUI->pplList->prsList[i]))
+					{
+						mnuMyUI->pplList->prsTempList[i] = new Candidate;
+					}
+					*mnuMyUI->pplList->prsTempList[i] = *mnuMyUI->pplList->prsList[i];
+				}
+			}
 			intMySize++;
-			mnuMyUI->pplList->addPrs(); //move this function here because of the new declarations
+			mnuMyUI->pplList->prsList = new Person*[intMySize];
+			mnuMyUI->pplList->lngSerialList = new long[intMySize];
+			mnuMyUI->pplList->blEmpty = new bool[intMySize];
+			for (int i = 0; i < intMySize; i++)
+			{
+				if (dynamic_cast<Employee *>(mnuMyUI->pplList->prsTempList[i]))
+				{
+					mnuMyUI->pplList->prsList[i] = new Employee;
+				}
+				else if (dynamic_cast<Candidate *>(mnuMyUI->pplList->prsTempList[i]))
+				{
+					mnuMyUI->pplList->prsList[i] = new Candidate;
+				}
+				*mnuMyUI->pplList->prsList[i] = *mnuMyUI->pplList->prsTempList[i];
+				mnuMyUI->pplList->lngSerialList[i] = mnuMyUI->pplList->prsList[i]->getSerial();
+				mnuMyUI->pplList->blEmpty[i] = mnuMyUI->pplList->prsList[i]->isInitialized();
+			}
+			mnuMyUI->pplList->setLastTouched(intMySize -1);
+			mnuMyUI->pplList->addPrs();
 		}
 		system("cls");
 		mnuMyUI->mnuInit();

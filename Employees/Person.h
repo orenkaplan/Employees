@@ -20,6 +20,7 @@ public:
 	void setName(std::string strNewName);
 	virtual bool isInitialized();
 	virtual void show() = 0;
+	virtual std::string getString() = 0;
 	virtual long getSalary() = 0;
 	virtual char getType() = 0;
 	virtual char getStatus() = 0;
@@ -33,5 +34,5 @@ public:
 	Person();
 	Person(Person & prsB);
 	virtual ~Person();
-	friend std::ostream & operator << (std::ostream & ostMyStream, const Person & prsB);
+	friend std::ostream & operator << (std::ostream & ostMyStream, Person & prsB);
 };

@@ -90,7 +90,7 @@ Person::~Person()
 };
 
 
-ostream & operator << (ostream & ostMyStream, const Person & prsB)
+ostream & operator << (ostream & ostMyStream, Person & prsB)
 {
 	return ostMyStream; // Abstract class - not relevant
 };

@@ -13,7 +13,6 @@ class Candidate:
 private:
 	int * intStatus;
 	bool * blFits;
-	virtual std::string getString();
 	char chrStat(int intConvStat);
 	virtual long getSalary();
 	virtual char getType();
@@ -21,6 +20,7 @@ private:
 	void setSalary(long lngNewSalary);
 
 public:
+	virtual std::string getString();
 	virtual void show();
 	virtual char getStatus();
 	virtual bool doesFit();
@@ -35,7 +35,7 @@ public:
 	Candidate(std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat);
 	Candidate(Candidate & cndB);
 	virtual ~Candidate();
-	friend std::ostream & operator << (std::ostream & ostMyStream, const Candidate & cndB);
+	friend std::ostream & operator << (std::ostream & ostMyStream, Candidate & cndB);
 	friend bool employ(Candidate & cndFitsAs, Employee & empNewEmployee);
 	friend bool operator== (Candidate & cndA, Candidate & cndB);
 	friend bool operator== (Candidate & cndB, Person & prsB);

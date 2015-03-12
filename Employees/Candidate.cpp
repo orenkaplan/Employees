@@ -221,9 +221,9 @@ Candidate::~Candidate()
 };
 
 
-ostream & operator << (ostream & ostMyStream, const Candidate & cndB)
+ostream & operator << (ostream & ostMyStream, Candidate & cndB)
 {
-	ostMyStream << const_cast<Candidate&>(cndB).getString();
+	ostMyStream << cndB.getString();
 	return ostMyStream;
 };
 
