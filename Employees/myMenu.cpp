@@ -22,7 +22,7 @@ void myMenu::getData(bool blFromUser, bool blCandidate)
 	strName = to_string(NULL);
 	blActive = NULL;
 	chrType = '\0';
-	lngCSerial = -1;
+//	lngCSerial = -1;
 	lngCSalary = -1;
 	chrStatus = '\0';
 	blFits = NULL;
@@ -500,11 +500,11 @@ bool myMenu::mnuActSelect()
 			switch (getMenuStatus())
 			{
 			case 2: // Get selected Employee to copy
-				getData();
+//				getData();
 				chrCreatePerson = 'E';
 				break;
 			case 4: // Get selected Candidate to copy
-				getData(false, true);
+//				getData(false, true);
 				chrCreatePerson = 'C';
 				break;
 			case 5: // Go to Change Employee Menu

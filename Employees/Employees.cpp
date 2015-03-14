@@ -41,7 +41,14 @@ int main()
 				mnuMyUI->pplList->prsTempList[intMySize] = new Employee;
 				break; */
 			case 'E':
-				mnuMyUI->getData(true);
+				if (mnuMyUI->getMenuStatus() == 1) // Get initialization data for new Employee
+				{
+					mnuMyUI->getData(true);
+				}
+				else if (mnuMyUI->getMenuStatus() == 2) // Get selected Employee to copy
+				{
+					mnuMyUI->getData();
+				}
 /*				mnuMyUI->pplList->prsTempList[intMySize] =
 					new Employee(mnuMyUI->getCName(), mnuMyUI->getCSalary(), mnuMyUI->getCType(), mnuMyUI->getCActive()); */
 				break;
@@ -49,7 +56,14 @@ int main()
 				mnuMyUI->pplList->prsTempList[intMySize] = new Candidate;
 				break; */
 			case 'C':
-				mnuMyUI->getData(true, true);
+				if (mnuMyUI->getMenuStatus() == 3) // Get initialization data for new Candidate
+				{
+					mnuMyUI->getData(true, true);
+				}
+				else if (mnuMyUI->getMenuStatus() == 4) // Get selected Candidate to copy
+				{
+					mnuMyUI->getData(false, true);
+				}
 /*				mnuMyUI->pplList->prsTempList[intMySize] =
 					new Candidate(mnuMyUI->getCName(), mnuMyUI->getCType(), mnuMyUI->getCActive(), mnuMyUI->getCFit(), mnuMyUI->getCStatus()); */
 				break;

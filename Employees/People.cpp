@@ -381,7 +381,10 @@ People::~People()
 		{
 			for (int i = 0; i < getSize(); i++)
 			{
-				delete prsList[i];
+				if (!*blEmpty[i])
+				{
+					delete prsList[i];
+				}
 				delete lngSerialList[i];
 				delete blEmpty[i];
 			}
