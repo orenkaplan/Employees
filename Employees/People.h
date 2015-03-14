@@ -29,7 +29,7 @@ public:
 		long lngSalary = 0,
 		char chrStatus = '\n', bool blFits = false);
 	void show(char chrType = '\0');
-	bool show(long lngExistingSerial);
+	void show(long lngExistingSerial);
 	void setLastTouched(long lngTouchedSerial);
 	void setLastInstance();
 	int getSize();

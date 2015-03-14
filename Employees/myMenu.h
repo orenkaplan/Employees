@@ -29,6 +29,7 @@ private:
 	bool mnuActChange();
 	bool mnuShow();
 	bool mnuShow(char chrType);
+	bool mnuShow(long lngExistingSerial);
 	bool mnuShowStats();
 
 public:

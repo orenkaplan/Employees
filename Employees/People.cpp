@@ -211,10 +211,9 @@ void People::show(char chrType)
 	}
 };
 
-bool People::show(long lngExistingSerial)
+void People::show(long lngExistingSerial)
 {
 	prsList[getIndex(lngExistingSerial)]->show();
-	return true;
 };
 
 void People::setLastTouched(long lngTouchedSerial)

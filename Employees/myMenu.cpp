@@ -468,7 +468,10 @@ void myMenu::mnuInitSelect(int intIndex)
 				break;
 			case 2:
 			case 4:
-				strOption[intIndex] = to_string(intIndex) + ") Back to previous menu";
+				if (intIndex == 9)
+				{
+					strOption[intIndex] = to_string(intIndex) + ") Back to previous menu";
+				}
 				break;
 			default:
 				break;
@@ -508,20 +511,22 @@ bool myMenu::mnuActSelect()
 				chrCreatePerson = 'C';
 				break;
 			case 5: // Go to Change Employee Menu
+				intMenuStatus = 11;
+				break;
 			case 6: // Go to Change Candidate Menu
-				// go to change menu
+				intMenuStatus = 12;
 				break;
 			case 7: // Remove selected Employee
 			case 8: // Remove selected Candidate
 				cout << "Deleting the following:" << endl;
-				blRetVal = pplList->show(getCSerial());
+				blRetVal = mnuShow(getCSerial());
 				cout << endl << endl << "... ";
 				remPerson(getIndex(getCSerial()));
 				cout << "done." << endl;
 				break;
 			case 9: // Show selected Employee
 			case 10: // Show selected Candidate
-				blRetVal = pplList->show(getCSerial());
+				blRetVal = mnuShow(getCSerial());
 				break;
 			default:
 				break;
@@ -612,7 +617,7 @@ void myMenu::mnuInitChange(int intIndex)
 		strOption[intIndex] = "--------------------";
 		break;
 	case 3: //name
-		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " name (current: '" + getCName() + "'";
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " name (current: '" + getCName() + "')";
 		break;
 	case 4: //active
 		strOption[intIndex] = "Active";
@@ -620,7 +625,7 @@ void myMenu::mnuInitChange(int intIndex)
 		{
 			strOption[intIndex] = "Not " + strOption[intIndex];
 		}
-		strOption[intIndex] = to_string(intIndex - 2) + ") Change if " + strLowercaseType + " is active (currently: '" + strOption[intIndex] + "'";
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change if " + strLowercaseType + " is active (currently: '" + strOption[intIndex] + "')";
 		break;
 	case 5: //type
 		switch (getCType())
@@ -642,13 +647,13 @@ void myMenu::mnuInitChange(int intIndex)
 		{
 			break;
 		}
-		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " type (current: '" + strOption[intIndex] + "'";
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " type (current: '" + strOption[intIndex] + "')";
 		break;
 	case 6: //salary
-		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " salary (current: '" + to_string(getCSalary()) + "'";
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " salary (current: '" + to_string(getCSalary()) + "')";
 		break;
 	case 7: //status
-		switch (getCType())
+		switch (getCStatus())
 		{
 		case 'c':
 			strOption[intIndex] = strCapitalType;
@@ -663,7 +668,14 @@ void myMenu::mnuInitChange(int intIndex)
 			strOption[intIndex] = "Passed";
 			break;
 		default:
-			strOption[intIndex] = "";
+			if (blIsCandidate)
+			{
+				strOption[intIndex] = "";
+			}
+			else
+			{
+				strOption[intIndex] = "N/A";
+			}
 			break;
 		}
 		if (strOption[intIndex] == "")
@@ -748,6 +760,12 @@ bool myMenu::mnuShow(char chrType)
 {
 	system("cls");
 	pplList->show(chrType);
+	return true;
+};
+
+bool myMenu::mnuShow(long lngExistingSerial)
+{
+	pplList->show(lngExistingSerial);
 	return true;
 };
 
