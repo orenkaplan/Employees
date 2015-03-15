@@ -237,7 +237,7 @@ bool employ(People & pplGet, Candidate & cndFitsAs, Employee & empNewEmployee)
 			cndFitsAs.getName(), cndFitsAs.getType(), cndFitsAs.isActive(),
 			cndFitsAs.getSalary());
 		cndFitsAs.setSerial(cndFitsAs.getSerial());
-		remPerson(getIndex(cndFitsAs.getSerial()));
+		remPerson(getIndex(cndFitsAs.getSerial()), true);
 		blRetVal = true;
 	}
 	return blRetVal;

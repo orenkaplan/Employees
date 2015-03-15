@@ -24,13 +24,16 @@ int People::intSize = 0;
 int People::intCount = 0;
 int People::intLastTouched = 0;
 
-void remPerson(int intIndex)
+void remPerson(int intIndex, bool blDelete)
 {
 	*People::lngSerialList[intIndex] = -1;
 	*People::blEmpty[intIndex] = true;
 	People::intLastTouched = intIndex;
 	People::intCount--;
-	delete prsList[intIndex];
+	if (blDelete)
+	{
+		delete prsList[intIndex];
+	}
 };
 
 void People::addPrs(char chrCreateType, int intMySize,

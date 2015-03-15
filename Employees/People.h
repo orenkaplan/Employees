@@ -23,7 +23,7 @@ public:
 	static  long * lngSerialList[10];
 	static  bool * blEmpty[10];
 	void setLastTouched(int intNewIndex);
-	friend void remPerson(int intIndex);
+	friend void remPerson(int intIndex, bool blDelete = false);
 	void addPrs(char chrCreateType, int intMySize,
 		std::string strName, char chrType, bool blActive,
 		long lngSalary = 0,

@@ -522,7 +522,7 @@ bool myMenu::mnuActSelect()
 				cout << "Deleting the following:" << endl;
 				blRetVal = mnuShow(getCSerial());
 				cout << endl << endl << "... ";
-				remPerson(getIndex(getCSerial()));
+				remPerson(getIndex(getCSerial()), true);
 				cout << "done." << endl;
 				break;
 			case 9: // Show selected Employee
