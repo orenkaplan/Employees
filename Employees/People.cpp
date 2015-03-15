@@ -190,12 +190,28 @@ void People::show(char chrType)
 
 void People::show(long lngExistingSerial)
 {
-	prsList[getIndex(lngExistingSerial)]->show();
+	int intIndex = getIndex(lngExistingSerial);
+	if (intIndex != -1)
+	{
+		prsList[intIndex]->show();
+	}
+	else
+	{
+		cout << "No person recorded by that Serial Number.\nTry again.\n\n";
+	}
 };
 
 void People::setLastTouched(long lngTouchedSerial)
 {
-	setLastTouched(getIndex(lngTouchedSerial));
+	int intIndex = getIndex(lngTouchedSerial);
+	if (intIndex != -1)
+	{
+		setLastTouched(intIndex);
+	}
+	else
+	{
+		cout << "No person recorded by that Serial Number.\nTry again.\n\n";
+	}
 };
 
 void People::setLastInstance()

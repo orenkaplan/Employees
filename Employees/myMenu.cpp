@@ -241,12 +241,19 @@ void myMenu::getData(bool blFromUser, bool blCandidate)
 	else
 	{
 		int intIndex = getIndex(getCSerial());
-		strName = pplList->getCName(intIndex);
-		blActive = pplList->getCActive(intIndex);
-		chrType = pplList->getCType(intIndex);
-		lngCSalary = pplList->getSerialSalary(intIndex);
-		chrStatus = pplList->getCStatus(intIndex);
-		blFits = pplList->getCFit(intIndex);
+		if (intIndex == -1)
+		{
+			strName = pplList->getCName(intIndex);
+			blActive = pplList->getCActive(intIndex);
+			chrType = pplList->getCType(intIndex);
+			lngCSalary = pplList->getSerialSalary(intIndex);
+			chrStatus = pplList->getCStatus(intIndex);
+			blFits = pplList->getCFit(intIndex);
+		}
+		else
+		{
+			cout << "No person recorded by that Serial Number.\nRestart and report to author.\n\n";
+		}
 	}
 };
 
@@ -519,11 +526,20 @@ bool myMenu::mnuActSelect()
 				break;
 			case 7: // Remove selected Employee
 			case 8: // Remove selected Candidate
-				cout << "Deleting the following:" << endl;
-				blRetVal = mnuShow(getCSerial());
-				cout << endl << endl << "... ";
-				remPerson(getIndex(getCSerial()), true);
-				cout << "done." << endl;
+				int intIndex = getIndex(getCSerial());
+				if (intIndex != -1)
+				{
+					cout << "Deleting the following:" << endl;
+					blRetVal = mnuShow(getCSerial());
+					cout << endl << endl << "... ";
+					remPerson(intIndex, true);
+					cout << "done." << endl;
+				}
+				else
+				{
+					cout << "No person recorded by that Serial Number.\nTry again.\n\n";
+					blRetVal = true;
+				}
 				break;
 			case 9: // Show selected Employee
 			case 10: // Show selected Candidate
@@ -688,7 +704,7 @@ void myMenu::mnuInitChange(int intIndex)
 		{
 			break;
 		}
-		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " type (current: '" + strOption[intIndex] + "'";
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " type (current: '" + strOption[intIndex] + "')";
 		if (!blIsCandidate)
 		{
 			strOption[intIndex] = " ";
@@ -700,7 +716,7 @@ void myMenu::mnuInitChange(int intIndex)
 		{
 			strOption[intIndex] = "Doesn't Fit";
 		}
-		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " salary (current: '" + strOption[intIndex] + "'";
+		strOption[intIndex] = to_string(intIndex - 2) + ") Change " + strLowercaseType + " salary (current: '" + strOption[intIndex] + "')";
 		if (!blIsCandidate)
 		{
 			strOption[intIndex] = " ";
@@ -723,55 +739,64 @@ bool myMenu::mnuActChange()
 {
 	bool blRetVal = false;
 	int intIndex = getIndex(getCSerial());
-	int intSelection = getSelection();
-	if (intSelection > 0 || intSelection < 9) // don't get if exiting menu
+	if (intIndex != -1)
 	{
-		getData(true, getMenuStatus() == 12);
+		int intSelection = getSelection();
+		if (intSelection > 0 || intSelection < 9) // don't get if exiting menu
+		{
+			getData(true, getMenuStatus() == 12);
+		}
+		switch (intSelection)
+		{
+		case 1: // name
+			pplList->setCName(intIndex, getCName());
+			if (getCName() != "")
+			{
+				*pplList->blEmpty[intIndex] = false;
+			}
+			break;
+		case 2: //active
+			pplList->setCActive(intIndex, getCActive());
+			break;
+		case 3: // type
+			pplList->setCType(intIndex, getCType());
+			if (getCType() != '\0')
+			{
+				*pplList->blEmpty[intIndex] = false;
+			}
+			break;
+		case 4: // salary
+			pplList->setCSalary(intIndex, getCSalary());
+			if (getCSalary() != -1)
+			{
+				*pplList->blEmpty[intIndex] = false;
+			}
+			break;
+		case 5: // status
+			pplList->setCStatus(intIndex, getCStatus());
+			if (getCStatus() != '\0')
+			{
+				*pplList->blEmpty[intIndex] = false;
+			}
+			break;
+		case 6: // fit
+			pplList->setCFit(intIndex, getCFit());
+			break;
+		case 9: // Back to previous menu
+			intMenuStatus = intMenuStatus / 2;
+			break;
+		case 0: // Back to main menu
+			intMenuStatus = 0;
+			break;
+		default:
+			break;
+		}
+		pplList->setLastTouched(intIndex);
 	}
-	switch (intSelection)
+	else
 	{
-	case 1: // name
-		pplList->setCName(intIndex, getCName());
-		if (getCName() != "")
-		{
-			*pplList->blEmpty[intIndex] = false;
-		}
-		break;
-	case 2: //active
-		pplList->setCActive(intIndex, getCActive());
-		break;
-	case 3: // type
-		pplList->setCType(intIndex, getCType());
-		if (getCType() != '\0')
-		{
-			*pplList->blEmpty[intIndex] = false;
-		}
-		break;
-	case 4: // salary
-		pplList->setCSalary(intIndex, getCSalary());
-		if (getCSalary() != -1)
-		{
-			*pplList->blEmpty[intIndex] = false;
-		}
-		break;
-	case 5: // status
-		pplList->setCStatus(intIndex, getCStatus());
-		if (getCStatus() != '\0')
-		{
-			*pplList->blEmpty[intIndex] = false;
-		}
-		break;
-	case 6: // fit
-		pplList->setCFit(intIndex, getCFit());
-		break;
-	case 9: // Back to previous menu
-		intMenuStatus = intMenuStatus / 2;
-		break;
-	case 0: // Back to main menu
-		intMenuStatus = 0;
-		break;
-	default:
-		break;
+		cout << "No person recorded by that Serial Number.\nTry again.\n\n";
+		blRetVal = true;
 	}
 	return blRetVal;
 };
@@ -785,8 +810,13 @@ bool myMenu::mnuShow(char chrType)
 
 bool myMenu::mnuShow(long lngExistingSerial)
 {
+	int intIndex = getIndex(lngExistingSerial);
 	pplList->show(lngExistingSerial);
-	return true;
+	if (intIndex != -1)
+	{
+		pplList->setLastTouched(intIndex);
+	}
+	return intIndex != -1;
 };
 
 bool myMenu::mnuShowStats()
@@ -1051,6 +1081,7 @@ void myMenu::mnuAct()
 					break;
 				case 8: // Show Candidate
 					intMenuStatus = 10;
+					break;
 				case 9: // Show full HR list
 					blPause = mnuShow();
 					break;
