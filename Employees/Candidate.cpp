@@ -207,7 +207,11 @@ Candidate::Candidate(People & pplGet, Candidate & cndB)
 
 Candidate::~Candidate()
 {
-	remPerson(getIndex(getSerial()));
+	int intIndex = getIndex(getSerial());
+	if (intIndex != -1)
+	{
+		remPerson(intIndex);
+	}
 	setSerial(-1);
 	setName(to_string(NULL));
 	setActive(NULL);

@@ -148,7 +148,11 @@ Employee::Employee(People & pplGet, Employee & empB)
 
 Employee::~Employee()
 {
-	remPerson(getIndex(getSerial()));
+	int intIndex = getIndex(getSerial());
+	if (intIndex != -1)
+	{
+		remPerson(intIndex);
+	}
 	setSerial(-1);
 	setName(to_string(NULL));
 	setActive(NULL);

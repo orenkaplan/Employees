@@ -382,7 +382,7 @@ People::~People()
 			{
 				if (!*blEmpty[i])
 				{
-					delete prsList[i];
+					remPerson(i);
 				}
 				delete lngSerialList[i];
 				delete blEmpty[i];
