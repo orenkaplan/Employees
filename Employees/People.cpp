@@ -13,13 +13,11 @@
 
 using namespace std;
 
-// Initialize global and static variables
-// Person *People::prsList = NULL;
-// Person *People::prsTempList = NULL;
-Person * prsList[10];
-Person * prsTempList[10];
-long *People::lngSerialList[10] = {};
-bool *People::blEmpty[10] = {};
+
+// Initialize static variables
+Person * People::prsList[10] = {};
+long * People::lngSerialList[10] = {};
+bool * People::blEmpty[10] = {};
 int People::intSize = 0;
 int People::intCount = 0;
 int People::intLastTouched = 0;
@@ -30,9 +28,9 @@ void remPerson(int intIndex, bool blDelete)
 	*People::blEmpty[intIndex] = true;
 	People::intLastTouched = intIndex;
 	People::intCount--;
-	if (blDelete)
+	if (blDelete) // don't loop destructors
 	{
-		delete prsList[intIndex];
+		delete People::prsList[intIndex];
 	}
 };
 
@@ -41,83 +39,23 @@ void People::addPrs(char chrCreateType, int intMySize,
 	long lngSalary,
 	char chrStatus, bool blFits)
 {
-/* 	if (getSize() > 0)
-	{
-		for (int i = 0; i < getSize(); i++)
-		{
-			*prsTempList[i] = *prsList[i];
-		}
-	}
-	prsList = new Person*[getSize()];
-	lngSerialList = new long[getSize()];
-	blEmpty = new bool[getSize()];
-	for (int i = 0; i < getSize(); i++)
-	{
-		if (dynamic_cast<Employee *>(prsTempList[i]))
-		{
-			prsList[i] = new Employee;
-		}
-		else if (dynamic_cast<Candidate *>(prsTempList[i]))
-		{
-			prsList[i] = new Candidate;
-		}
-		*prsList[i] = *prsTempList[i];
-		lngSerialList[i] = prsList[i]->getSerial();
-		blEmpty[i] = prsList[i]->isInitialized();
-	}
-	setLastTouched(getSize()); */
-	//			mnuMyUI->pplList->prsTempList = new Person*[intMySize + 1];
 	switch (chrCreateType)
 	{
-	case 'e':
-		prsList[intMySize] = new Employee(*this);
-		break;
-	case 'E':
-//		mnuMyUI->getData(true);
-		prsList[intMySize] = new Employee(*this, strName, lngSalary, chrType, blActive);
-		break;
-	case 'c':
-		prsList[intMySize] = new Candidate(*this);
-		break;
-	case 'C':
-//		mnuMyUI->getData(true, true);
-		prsList[intMySize] = new Candidate(*this, strName, chrType, blActive, blFits, chrStatus);
-		break;
-	default:
-		break;
+		case 'e':
+			prsList[intMySize] = new Employee(*this);
+			break;
+		case 'E':
+			prsList[intMySize] = new Employee(*this, strName, lngSalary, chrType, blActive);
+			break;
+		case 'c':
+			prsList[intMySize] = new Candidate(*this);
+			break;
+		case 'C':
+			prsList[intMySize] = new Candidate(*this, strName, chrType, blActive, blFits, chrStatus);
+			break;
+		default:
+			break;
 	}
-/*	if (intMySize > 0)
-	{
-		for (int i = 0; i < intMySize; i++)
-		{
-			if (dynamic_cast<Employee *>(mnuMyUI->pplList->prsList[i]))
-			{
-				mnuMyUI->pplList->prsTempList[i] = new Employee;
-			}
-			else if (dynamic_cast<Candidate *>(mnuMyUI->pplList->prsList[i]))
-			{
-				mnuMyUI->pplList->prsTempList[i] = new Candidate;
-			}
-			*mnuMyUI->pplList->prsTempList[i] = *mnuMyUI->pplList->prsList[i];
-		}
-	}
-	intMySize++;
-	mnuMyUI->pplList->prsList = new Person*[intMySize];
-	mnuMyUI->pplList->lngSerialList = new long[intMySize];
-	mnuMyUI->pplList->blEmpty = new bool[intMySize];
-	for (int i = 0; i < intMySize; i++)
-	{
-		if (dynamic_cast<Employee *>(mnuMyUI->pplList->prsTempList[i]))
-		{
-			mnuMyUI->pplList->prsList[i] = new Employee;
-		}
-		else if (dynamic_cast<Candidate *>(mnuMyUI->pplList->prsTempList[i]))
-		{
-			mnuMyUI->pplList->prsList[i] = new Candidate;
-		}
-		*mnuMyUI->pplList->prsList[i] = *mnuMyUI->pplList->prsTempList[i];
-	}
-	mnuMyUI->pplList->setLastTouched(intMySize - 1); */
 	*lngSerialList[intMySize] = prsList[intMySize]->getSerial();
 	*blEmpty[intMySize] = !prsList[intMySize]->isInitialized();
 	if (getSize() == -1 && intCount == -1)
@@ -159,23 +97,23 @@ void People::show(char chrType)
 	}
 	for (int i = 0; i < getSize(); i++)
 	{
-		switch (chrType)
-		{
-		case 'e':
-			blShow = prsList[i]->getStatus() == '\0';
-			break;
-		case 'c':
-			blShow = prsList[i]->getStatus() != '\0';
-			break;
-		case '\0':
-			blShow = true;
-			break;
-		default:
-			cout << "Type Error.\nStart over and report to author.\n\n";
-			break;
-		}
 		if (!*blEmpty[i])
 		{
+			switch (chrType)
+			{
+				case 'e':
+					blShow = prsList[i]->getStatus() == '\0';
+					break;
+				case 'c':
+					blShow = prsList[i]->getStatus() != '\0';
+					break;
+				case '\0':
+					blShow = true;
+					break;
+				default:
+					cout << "Type Error.\nStart over and report to author.\n\n";
+					break;
+			}
 			if (blShow)
 			{
 				prsList[i]->show();
@@ -331,21 +269,17 @@ void People::setCFit(int intIndex, bool blNewFit)
 
 void People::operator= (People & pplB)
 {
-//	**prsTempList = **pplB.prsTempList;
+
 };
 
-bool People::operator== (People & pplB)
+bool People::operator== (const People & pplB)
 {
-//	return **prsTempList == **pplB.prsTempList;
 	return true;
 };
 
 
 People::People()
 {
-//	prsList = new Person*[]; null initiallization
-//	lngSerialList = new long[]; null initiallization
-//	blEmpty = new bool[]; null initiallization
 	for (int i = 0; i < 10; i++)
 	{
 		prsList[i] = nullptr;
@@ -360,9 +294,9 @@ People::People()
 	}
 };
 
-People::People(People & pplB)
+People::People(const People & pplB)
 {
-	*this = pplB;
+	*this = const_cast<People&>(pplB);
 };
 
 People::~People()
@@ -382,7 +316,6 @@ People::~People()
 			}
 		}
 		intSize = 0;
-//		delete[] prsList;
 	}
 };
 

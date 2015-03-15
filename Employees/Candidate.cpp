@@ -50,22 +50,22 @@ char Candidate::chrStat(int intConvStat)
 	char chrRetVal;
 	switch (intConvStat)
 	{
-		case -1:
+		case -1: // dummy
 			chrRetVal = 'd';
 			break;
-		case 0:
+		case 0:  // candidate
 			chrRetVal = 'c';
 			break;
-		case 1:
+		case 1:  // resume
 			chrRetVal = 'r';
 			break;
-		case 2:
+		case 2:  // interview
 			chrRetVal = 'i';
 			break;
-		case 3:
+		case 3:  // passed
 			chrRetVal = 'p';
 			break;
-		default:
+		default: // something is wrong
 			chrRetVal = '\0';
 	}
 	return chrRetVal;
@@ -93,7 +93,7 @@ void Candidate::setSalary(long lngNewSalary)
 
 void Candidate::show()
 {
-	cout << /* *this */ getString() << endl;
+	cout << getString() << endl;
 };
 
 char Candidate::getStatus()
@@ -125,20 +125,21 @@ int Candidate::intStat(char chrConvStat)
 	int intRetVal;
 	switch (chrConvStat)
 	{
-	case 'c':
-		intRetVal = 0;
-		break;
-	case 'r':
-		intRetVal = 1;
-		break;
-	case 'i':
-		intRetVal = 2;
-		break;
-	case 'p':
-		intRetVal = 3;
-		break;
-	default:
-		intRetVal = -1;
+		case 'c': // candidate
+			intRetVal = 0;
+			break;
+		case 'r': // resume
+			intRetVal = 1;
+			break;
+		case 'i': // interview
+			intRetVal = 2;
+			break;
+		case 'p': // passed
+			intRetVal = 3;
+			break;
+		default:  // something's wrong
+			intRetVal = -1;
+			break;
 	}
 	return intRetVal;
 };
@@ -157,9 +158,9 @@ void Candidate::terminate()
 
 bool Candidate::isInitialized()
 {
-	return getSerial() != -1 && getName() != to_string(NULL) /* && isActive() != NULL */
-		&& getType() != '\0' /* && getSalary() != -1 */
-		&& getStatus() != '\0' /* && doesFit() != NULL */;
+	return getSerial() != -1 && getName() != to_string(NULL)
+		&& getType() != '\0'
+		&& getStatus() != '\0';
 };
 
 void Candidate::operator= (Candidate & cndB)
@@ -174,22 +175,22 @@ void Candidate::operator= (Candidate & cndB)
 };
 
 
-Candidate::Candidate(People & pplGet)
+Candidate::Candidate(const People & pplGet)
 {
 	chrType = new char;
 	blFits = new bool;
-	setSerial(pplGet.getNewSerial());
+	setSerial(const_cast<People&>(pplGet).getNewSerial());
 	setSalary(-1);
 	setType('\0');
 	changeFits(NULL);
 	setStatus('\0');
 };
 
-Candidate::Candidate(People & pplGet, std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat)
+Candidate::Candidate(const People & pplGet, std::string strNewName, char chrNewType, bool blIsActive, bool blDoesFit, char chrNewStat)
 {
 	intStatus = new int;
 	blFits = new bool;
-	setSerial(pplGet.getNewSerial());
+	setSerial(const_cast<People&>(pplGet).getNewSerial());
 	setName(strNewName);
 	setType(chrNewType);
 	setActive(blIsActive);
@@ -197,12 +198,12 @@ Candidate::Candidate(People & pplGet, std::string strNewName, char chrNewType, b
 	setStatus(chrNewStat);
 };
 
-Candidate::Candidate(People & pplGet, Candidate & cndB)
+Candidate::Candidate(const People & pplGet, const Candidate & cndB)
 {
 	intStatus = new int;
 	blFits = new bool;
-	*this = cndB;
-	setSerial(pplGet.getNewSerial());
+	*this = const_cast<Candidate&>(cndB);
+	setSerial(const_cast<People&>(pplGet).getNewSerial());
 };
 
 Candidate::~Candidate()
@@ -222,9 +223,9 @@ Candidate::~Candidate()
 };
 
 
-ostream & operator << (ostream & ostMyStream, Candidate & cndB)
+ostream & operator << (ostream & ostMyStream, const Candidate & cndB)
 {
-	ostMyStream << cndB.getString();
+	ostMyStream << const_cast<Candidate&>(cndB).getString();
 	return ostMyStream;
 };
 
@@ -243,33 +244,39 @@ bool employ(People & pplGet, Candidate & cndFitsAs, Employee & empNewEmployee)
 	return blRetVal;
 };
 
-bool operator== (Candidate & cndA, Candidate & cndB)
+bool operator== (const Candidate & cndA, const Candidate & cndB)
 {
-	return cndA.getSerial() == cndB.getSerial() && cndA.isActive() == cndB.isActive() && cndA.getName() == cndB.getName()
-		&& cndA.getType() == cndB.getType() && cndA.getSalary() == cndB.getSalary()
-		&& cndA.doesFit() == cndB.doesFit() && cndA.getStatus() == cndB.getStatus();
+	return const_cast<Candidate&>(cndA).getSerial() == const_cast<Candidate&>(cndB).getSerial()
+		&& const_cast<Candidate&>(cndA).isActive() == const_cast<Candidate&>(cndB).isActive()
+		&& const_cast<Candidate&>(cndA).getName() == const_cast<Candidate&>(cndB).getName()
+		&& const_cast<Candidate&>(cndA).getType() == const_cast<Candidate&>(cndB).getType()
+		&& const_cast<Candidate&>(cndA).getSalary() == const_cast<Candidate&>(cndB).getSalary()
+		&& const_cast<Candidate&>(cndA).doesFit() == const_cast<Candidate&>(cndB).doesFit()
+		&& const_cast<Candidate&>(cndA).getStatus() == const_cast<Candidate&>(cndB).getStatus();
 };
 
-bool operator== (Candidate & cndB, Person & prsB)
+bool operator== (const Candidate & cndB, const Person & prsB)
 {
-	return cndB.getSerial() == prsB.getSerial() && cndB.isActive() == prsB.isActive() && cndB.getName() == prsB.getName();
+	return const_cast<Candidate&>(cndB).getSerial() == const_cast<Person&>(prsB).getSerial()
+		&& const_cast<Candidate&>(cndB).isActive() == const_cast<Person&>(prsB).isActive()
+		&& const_cast<Candidate&>(cndB).getName() == const_cast<Person&>(prsB).getName();
 };
 
-bool operator== (Person & prsB, Candidate & cndB)
+bool operator== (const Person & prsB, const Candidate & cndB)
 {
-	return cndB == prsB;
+	return const_cast<Candidate&>(cndB) == prsB;
 };
 
-bool operator== (Candidate & cndB, Employee & empB)
+bool operator== (const Candidate & cndB, const Employee & empB)
 {
-	return cndB.getSerial() == empB.getSerial() &&
-		cndB.isActive() == empB.isActive() &&
-		cndB.getName() == empB.getName() &&
-		cndB.getType() == empB.getType() &&
-		cndB.getSalary() == empB.getSalary();
+	return const_cast<Candidate&>(cndB).getSerial() == const_cast<Employee&>(empB).getSerial() &&
+		const_cast<Candidate&>(cndB).isActive() == const_cast<Employee&>(empB).isActive() &&
+		const_cast<Candidate&>(cndB).getName() == const_cast<Employee&>(empB).getName() &&
+		const_cast<Candidate&>(cndB).getType() == const_cast<Employee&>(empB).getType() &&
+		const_cast<Candidate&>(cndB).getSalary() == const_cast<Employee&>(empB).getSalary();
 };
 
-bool operator== (Employee & empB, Candidate & cndB)
+bool operator== (const Employee & empB, const Candidate & cndB)
 {
-	return cndB == empB;
+	return const_cast<Candidate&>(cndB) == const_cast<Employee&>(empB);
 };

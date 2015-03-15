@@ -30,9 +30,9 @@ public:
 	virtual void setStatus(char chrNewStatus) = 0;
 	virtual void changeFits(bool blValue) = 0;
 	virtual void operator= (Person & prsB);
-	virtual bool operator== (Person & prsB);
+	virtual bool operator== (const Person & prsB);
 	Person();
-	Person(Person & prsB);
+	Person(const Person & prsB);
 	virtual ~Person();
-	friend std::ostream & operator << (std::ostream & ostMyStream, Person & prsB);
+	friend std::ostream & operator << (std::ostream & ostMyStream, const Person & prsB);
 };

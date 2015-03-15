@@ -18,10 +18,9 @@ private:
 	bool blLastInstance = false;
 
 public:
-//	Person * prsList[10];
-//	Person * prsTempList[10];
-	static  long * lngSerialList[10];
-	static  bool * blEmpty[10];
+	static Person * prsList[10];
+	static long * lngSerialList[10];
+	static bool * blEmpty[10];
 	void setLastTouched(int intNewIndex);
 	friend void remPerson(int intIndex, bool blDelete = false);
 	void addPrs(char chrCreateType, int intMySize,
@@ -51,9 +50,9 @@ public:
 	void setCStatus(int intIndex, char chrNewStatus);
 	void setCFit(int intIndex, bool blNewFit);
 	void operator= (People & pplB);
-	bool operator== (People & pplB);
+	bool operator== (const People & pplB);
 	People();
-	People(People & pplB);
+	People(const People & pplB);
 	~People();
 	friend int getIndex(long lngSerialToGet);
 	friend std::ostream & operator<< (std::ostream & ostMyStream, const People & pplB);

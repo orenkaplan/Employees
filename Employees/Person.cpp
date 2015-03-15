@@ -57,11 +57,12 @@ void Person::operator= (Person & prsB)
 	setName(prsB.getName());
 };
 
-bool Person::operator== (Person & prsB)
+bool Person::operator== (const Person & prsB)
 {
-	return getSerial() == prsB.getSerial() && isActive() == prsB.isActive() && getName() == prsB.getName();
+	return getSerial() == const_cast<Person&>(prsB).getSerial()
+		&& isActive() == const_cast<Person&>(prsB).isActive()
+		&& getName() == const_cast<Person&>(prsB).getName();
 };
-
 
 
 Person::Person()
@@ -74,12 +75,12 @@ Person::Person()
 	setActive(NULL);
 };
 
-Person::Person(Person & prsB) 
+Person::Person(const Person & prsB) 
 {
 	lngSerial = new long;
 	strName = new string;
 	blActive = new bool;
-	*this = prsB;
+	*this = const_cast<Person&>(prsB);
 };
 
 Person::~Person()

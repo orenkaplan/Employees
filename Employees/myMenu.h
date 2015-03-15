@@ -4,22 +4,21 @@
 
 #include <string>
 
-// no static because only one instance
 
 class myMenu
 {
 private:
-	/* static */ std::string strOption[10];
-	/* static */ int intMenuStatus;
-	/* static */ int intMenuSelection;
-	/* static */ char chrCreatePerson;
-	/* static */ std::string strName;
-	/* static */ bool blActive;
-	/* static */ char chrType;
-	/* static */ long lngCSerial;
-	/* static */ long lngCSalary;
-	/* static */ char chrStatus;
-	/* static */ bool blFits;
+	std::string strOption[10];
+	int intMenuStatus;
+	int intMenuSelection;
+	char chrCreatePerson;
+	std::string strName;
+	bool blActive;
+	char chrType;
+	long lngCSerial;
+	long lngCSalary;
+	char chrStatus;
+	bool blFits;
 	bool isExit(std::string strInput);
 	void mnuInitAdd(int intIndex);
 	bool mnuActAdd();
@@ -32,7 +31,7 @@ private:
 	bool mnuShowStats();
 
 public:
-	/* static */ People * pplList;
+	People * pplList;
 	void getData(bool blFromUser = false, bool blCandidate = false);
 	long getSerial();
 	long getCSerial();

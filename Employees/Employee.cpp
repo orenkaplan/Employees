@@ -15,18 +15,18 @@ string Employee::getString()
 	string strRetVal = "";
 	switch (getType())
 	{
-	case 'g':
-		strRetVal = "Global ";
-		break;
-	case 't':
-		strRetVal = "Temporary ";
-		break;
-	case 'h':
-		strRetVal = "Hourly ";
-		break;
-	default:
-		cout << "Bad employee type.\nPlease start over and report to author.\n";
-		return strRetVal;
+		case 'g':
+			strRetVal = "Global ";
+			break;
+		case 't':
+			strRetVal = "Temporary ";
+			break;
+		case 'h':
+			strRetVal = "Hourly ";
+			break;
+		default:
+			cout << "Bad employee type.\nPlease start over and report to author.\n";
+			return strRetVal;
 	}
 	strRetVal = strRetVal + "employee " + getName() + ", number " + to_string(getSerial()) + " is";
 	if (!isActive())
@@ -39,7 +39,7 @@ string Employee::getString()
 
 void Employee::show()
 {
-	cout << /* *this */ getString() << '\n';
+	cout << getString() << '\n';
 };
 
 long Employee::getSalary()
@@ -65,7 +65,7 @@ bool Employee::doesFit()
 void Employee::setType(char chrNewType)
 {
 	*chrType = chrNewType;
-};;
+};
 
 void Employee::setSalary(long lngNewSalary)
 {
@@ -95,7 +95,7 @@ void Employee::terminate()
 
 bool Employee::isInitialized()
 {
-	return getSerial() != -1 && getName() != to_string(NULL) /* && isActive() != NULL */
+	return getSerial() != -1 && getName() != to_string(NULL)
 		&& getType() != '\0' && getSalary() != -1;
 };
 
@@ -118,32 +118,32 @@ Employee::Employee()
 	setType('\0');
 }
 
-Employee::Employee(People & pplGet)
+Employee::Employee(const People & pplGet)
 {
 	lngSalary = new long;
 	chrType = new char;
-	setSerial(pplGet.getNewSerial());
+	setSerial(const_cast<People&>(pplGet).getNewSerial());
 	setSalary(-1);
 	setType('\0');
 }
 
-Employee::Employee(People & pplGet, std::string strNewName, long lngNewSalary, char chrNewType, bool blIsActive)
+Employee::Employee(const People & pplGet, std::string strNewName, long lngNewSalary, char chrNewType, bool blIsActive)
 {
 	lngSalary = new long;
 	chrType = new char;
-	setSerial(pplGet.getNewSerial());
+	setSerial(const_cast<People&>(pplGet).getNewSerial());
 	setName(strNewName);
 	setSalary(lngNewSalary);
 	setType(chrNewType);
 	setActive(blIsActive);
 }
 
-Employee::Employee(People & pplGet, Employee & empB)
+Employee::Employee(const People & pplGet, const Employee & empB)
 {
 	lngSalary = new long;
 	chrType = new char;
-	*this = empB;
-	setSerial(pplGet.getNewSerial());
+	*this = const_cast<Employee&>(empB);
+	setSerial(const_cast<People&>(pplGet).getNewSerial());
 };
 
 Employee::~Employee()
@@ -161,24 +161,29 @@ Employee::~Employee()
 };
 
 
-ostream & operator << (ostream & ostMyStream, Employee & empB)
+ostream & operator << (ostream & ostMyStream, const Employee & empB)
 {
-	ostMyStream << empB.getString();
+	ostMyStream << const_cast<Employee&>(empB).getString();
 	return ostMyStream;
 };
 
-bool operator== (Employee & empA, Employee & empB)
+bool operator== (const Employee & empA, const Employee & empB)
 {
-	return empA.getSerial() == empB.getSerial() && empA.isActive() == empB.isActive() && empA.getName() == empB.getName()
-		&& empA.getType() == empB.getType() && empA.getSalary() == empB.getSalary();
+	return const_cast<Employee&>(empA).getSerial() == const_cast<Employee&>(empB).getSerial()
+		&& const_cast<Employee&>(empA).isActive() == const_cast<Employee&>(empB).isActive()
+		&& const_cast<Employee&>(empA).getName() == const_cast<Employee&>(empB).getName()
+		&& const_cast<Employee&>(empA).getType() == const_cast<Employee&>(empB).getType()
+		&& const_cast<Employee&>(empA).getSalary() == const_cast<Employee&>(empB).getSalary();
 };
 
-bool operator== (Employee & empB, Person & prsB)
+bool operator== (const Employee & empB, const Person & prsB)
 {
-	return empB.getSerial() == prsB.getSerial() && empB.isActive() == prsB.isActive() && empB.getName() == prsB.getName();
+	return const_cast<Employee&>(empB).getSerial() == const_cast<Person&>(prsB).getSerial()
+		&& const_cast<Employee&>(empB).isActive() == const_cast<Person&>(prsB).isActive()
+		&& const_cast<Employee&>(empB).getName() == const_cast<Person&>(prsB).getName();
 };
 
-bool operator== (Person & prsB, Employee & empB)
+bool operator== (const Person & prsB, const Employee & empB)
 {
-	return empB == prsB;
+	return const_cast<Employee&>(empB) == const_cast<Person&>(prsB);
 };
