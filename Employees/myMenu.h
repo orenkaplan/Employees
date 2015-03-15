@@ -27,8 +27,7 @@ private:
 	bool mnuActSelect();
 	void mnuInitChange(int intIndex);
 	bool mnuActChange();
-	bool mnuShow();
-	bool mnuShow(char chrType);
+	bool mnuShow(char chrType = '\0');
 	bool mnuShow(long lngExistingSerial);
 	bool mnuShowStats();
 

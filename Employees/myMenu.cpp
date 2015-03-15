@@ -460,22 +460,22 @@ void myMenu::mnuInitSelect(int intIndex)
 			strOption[intIndex] = " ";
 			switch (getMenuStatus())
 			{
-			case 5:
-			case 6:
-			case 7:
-			case 8:
-			case 9:
-			case 10:
-				break;
-			case 2:
-			case 4:
-				if (intIndex == 9)
-				{
-					strOption[intIndex] = to_string(intIndex) + ") Back to previous menu";
-				}
-				break;
-			default:
-				break;
+				case 5:  // Select Employee to Change Menu
+				case 6:  // Select Candidate to Change Menu
+				case 7:  // Select Employee to Remove Menu
+				case 8:  // Select Candidate to Remove Menu
+				case 9:  // Select Employee to Show Menu
+				case 10: // Select Candidate to Show Menu
+					break;
+				case 2:  // Select Employee to Copy Menu
+				case 4:  // Select Candidate to Copy Menu
+					if (intIndex == 9)
+					{
+						strOption[intIndex] = to_string(intIndex) + ") Back to previous menu";
+					}
+					break;
+				default:
+					break;
 			}
 			break;
 		case 0:
@@ -537,20 +537,20 @@ bool myMenu::mnuActSelect()
 	case 2:
 		switch (getMenuStatus())
 		{
-		case 2:
-		case 5:
-		case 7:
-		case 9:
-			blRetVal = mnuShow('e'); // Show employee list
-			break;
-		case 4:
-		case 6:
-		case 8:
-		case 10:
-			blRetVal = mnuShow('c'); // Show candidate list
-			break;
-		default:
-			break;
+			case 2:  // Select Employee to Copy Menu
+			case 5:  // Select Employee to Change Menu
+			case 7:  // Select Employee to Remove Menu
+			case 9:  // Select Employee to Show Menu
+				blRetVal = mnuShow('e'); // Show employee list
+				break;
+			case 4:  // Select Candidate to Copy Menu
+			case 6:  // Select Candidate to Change Menu
+			case 8:  // Select Candidate to Remove Menu
+			case 10: // Select Candidate to Show Menu
+				blRetVal = mnuShow('c'); // Show candidate list
+				break;
+			default:
+				break;
 		}
 		break;
 	case 3: // Show full HR list
@@ -774,13 +774,6 @@ bool myMenu::mnuActChange()
 		break;
 	}
 	return blRetVal;
-};
-
-bool myMenu::mnuShow()
-{
-	system("cls");
-	pplList->show();
-	return true;
 };
 
 bool myMenu::mnuShow(char chrType)

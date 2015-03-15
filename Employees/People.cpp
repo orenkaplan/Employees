@@ -139,78 +139,52 @@ void People::setLastTouched(int intNewIndex)
 
 void People::show(char chrType)
 {
-	string strOut;
-	string strType;
+	bool blShow = false;
+	string strType = "";
+	switch (chrType)
+	{
+		case 'e':
+			strType = "employee";
+			break;
+		case 'c':
+			strType = "candidate";
+			break;
+		case '\0':
+			strType = "person";
+			break;
+		default:
+			cout << "Type Error.\nStart over and report to author.\n\n";
+			return;
+			break;
+	}
 	for (int i = 0; i < getSize(); i++)
 	{
-/*		strOut = "";
-		strType = "";
-		strType = typeid(prsList[i]).name();
-		transform(strType.begin(), strType.end(), strType.begin(), ::tolower);
-		if (dynamic_cast<Employee*>(prsList[i]))
+		switch (chrType)
 		{
-			strType = "employee";
+		case 'e':
+			blShow = prsList[i]->getStatus() == '\0';
+			break;
+		case 'c':
+			blShow = prsList[i]->getStatus() != '\0';
+			break;
+		case '\0':
+			blShow = true;
+			break;
+		default:
+			cout << "Type Error.\nStart over and report to author.\n\n";
+			break;
 		}
-		else if (dynamic_cast<Candidate*>(prsList[i]))
-		{
-			strType = "candidate";
-		}
-		else
-		{
-			cout << "Bad variable type.\nPlease start over and report to author.\n";
-			return;
-		}*/
 		if (!*blEmpty[i])
 		{
-			prsList[i]->show();
-/*			if (chrType == strType.front() || chrType == '\0')
+			if (blShow)
 			{
-				switch (getCType(i))
-				{
-				case 'g':
-					strOut = "Global ";
-					break;
-				case 't':
-					strOut = "Temporary ";
-					break;
-				case 'h':
-					strOut = "Hourly ";
-					break;
-				default:
-					cout << "Bad " + strType + " type.\nPlease start over and report to author.\n";
-					return;
-				}
-				strOut = strOut + strType + ' ' + getCName(i) + ", number " + to_string(getSerialSalary(i, true));
-				if (strType == "candidate")
-				{
-					if (getCFit(i))
-					{
-						strOut = strOut + " fits ";
-					}
-					else
-					{
-						strOut = strOut + " doesn't fit ";
-					}
-					strOut = strOut + " the position and";
-				}
-				strOut = strOut + " is";
-				if (!getCActive(i))
-				{
-					strOut = strOut + "n't";
-				}
-				strOut = strOut + " active";
-				if (strType == "candidate")
-				{
-					strOut = strOut + " in status " + getCStatus(i);
-				}
-				strOut = strOut + ".\n";
-			}*/
+				prsList[i]->show();
+			}
 		}
 		else
 		{
 			cout << "No " + strType + " recorded.\n";
 		}
-//		cout << strOut;
 	}
 };
 
