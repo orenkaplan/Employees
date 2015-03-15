@@ -723,11 +723,12 @@ bool myMenu::mnuActChange()
 {
 	bool blRetVal = false;
 	int intIndex = getIndex(getCSerial());
-	if (getSelection() < 9)
+	int intSelection = getSelection();
+	if (intSelection > 0 || intSelection < 9) // don't get if exiting menu
 	{
 		getData(true, getMenuStatus() == 12);
 	}
-	switch (getSelection())
+	switch (intSelection)
 	{
 	case 1: // name
 		pplList->setCName(intIndex, getCName());
