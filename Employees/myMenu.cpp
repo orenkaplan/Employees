@@ -142,11 +142,12 @@ void myMenu::getData(bool blFromUser, bool blCandidate)
 		{
 			switch (intGetSelection)
 			{
-			case 4: // salary
+			case 4: // Get salary
 				blCandidate = false;
 				break;
-			case 5: // status
-			case 6: // fits
+			case 5: // Get status
+			case 6: // Get fits
+			case 9: // Back to main menu
 				blCandidate = true;
 				break;
 			default:
@@ -722,7 +723,10 @@ bool myMenu::mnuActChange()
 {
 	bool blRetVal = false;
 	int intIndex = getIndex(getCSerial());
-	getData(true, getMenuStatus() == 12);
+	if (getSelection() < 9)
+	{
+		getData(true, getMenuStatus() == 12);
+	}
 	switch (getSelection())
 	{
 	case 1: // name
